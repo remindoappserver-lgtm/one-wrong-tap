@@ -1,8 +1,8 @@
-```javascript
 /* =========================================================
    ONE WRONG TAP
    VERSION 2.1
-   MOBILE TOUCH FIX
+
+   Android touch-fixed edition
 ========================================================= */
 
 
@@ -10,72 +10,141 @@
    ELEMENTS
 ========================================================= */
 
-const scoreEl = document.getElementById("score");
-const bestEl = document.getElementById("best");
-const levelEl = document.getElementById("level");
-const coinsEl = document.getElementById("coins");
-const streakEl = document.getElementById("streak");
-const challengeTextEl = document.getElementById("challengeText");
-const challengeProgressEl = document.getElementById("challengeProgress");
+const scoreEl =
+    document.getElementById("score");
 
-const startScreen = document.getElementById("startScreen");
-const gameOverScreen = document.getElementById("gameOverScreen");
-const gameArea = document.getElementById("gameArea");
-const countdownEl = document.getElementById("countdown");
-const flashEl = document.getElementById("flash");
+const bestEl =
+    document.getElementById("best");
 
-const startBtn = document.getElementById("startBtn");
-const restartBtn = document.getElementById("restartBtn");
-const continueBtn = document.getElementById("continueBtn");
-const soundBtn = document.getElementById("soundBtn");
+const levelEl =
+    document.getElementById("level");
 
-const finalScoreEl = document.getElementById("finalScore");
-const recordTextEl = document.getElementById("recordText");
-const resultBadgeEl = document.getElementById("resultBadge");
-const earnedCoinsEl = document.getElementById("earnedCoins");
+const coinsEl =
+    document.getElementById("coins");
 
-const shopBtn = document.getElementById("shopBtn");
-const achievementsBtn = document.getElementById("achievementsBtn");
-const statsBtn = document.getElementById("statsBtn");
+const streakEl =
+    document.getElementById("streak");
 
-const modal = document.getElementById("modal");
-const modalContent = document.getElementById("modalContent");
-const closeModalBtn = document.getElementById("closeModalBtn");
+const challengeTextEl =
+    document.getElementById("challengeText");
+
+const challengeProgressEl =
+    document.getElementById("challengeProgress");
+
+
+const startScreen =
+    document.getElementById("startScreen");
+
+const gameOverScreen =
+    document.getElementById("gameOverScreen");
+
+const gameArea =
+    document.getElementById("gameArea");
+
+const countdownEl =
+    document.getElementById("countdown");
+
+const flashEl =
+    document.getElementById("flash");
+
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const restartBtn =
+    document.getElementById("restartBtn");
+
+const continueBtn =
+    document.getElementById("continueBtn");
+
+const soundBtn =
+    document.getElementById("soundBtn");
+
+
+const finalScoreEl =
+    document.getElementById("finalScore");
+
+const recordTextEl =
+    document.getElementById("recordText");
+
+const resultBadgeEl =
+    document.getElementById("resultBadge");
+
+const earnedCoinsEl =
+    document.getElementById("earnedCoins");
+
+
+const shopBtn =
+    document.getElementById("shopBtn");
+
+const achievementsBtn =
+    document.getElementById("achievementsBtn");
+
+const statsBtn =
+    document.getElementById("statsBtn");
+
+
+const modal =
+    document.getElementById("modal");
+
+const modalContent =
+    document.getElementById("modalContent");
+
+const closeModalBtn =
+    document.getElementById("closeModalBtn");
 
 
 /* =========================================================
-   STORAGE
+   STORAGE KEY
 ========================================================= */
 
-const STORAGE_KEY = "oneWrongTapV2";
+const STORAGE_KEY =
+    "oneWrongTapV2";
 
 
 /* =========================================================
-   DATA
+   GAME DATA
 ========================================================= */
 
-let data = JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || "null"
-);
+let data =
+    JSON.parse(
+        localStorage.getItem(
+            STORAGE_KEY
+        ) ||
+        "null"
+    );
 
+
+/* =========================================================
+   DEFAULT DATA
+========================================================= */
 
 if (!data) {
 
     data = {
 
         coins: 0,
+
         best: 0,
+
         totalGames: 0,
+
         totalTaps: 0,
+
         totalWins: 0,
+
         totalCoinsEarned: 0,
 
         streak: 0,
+
         lastPlayedDate: "",
 
         dailyChallengeDate: "",
+
         dailyChallengeTarget: 50,
+
         dailyChallengeBest: 0,
+
         dailyChallengeComplete: false,
 
         ownedThemes: [
@@ -112,18 +181,22 @@ function saveData() {
 ========================================================= */
 
 let score = 0;
+
 let level = 1;
 
 let gameRunning = false;
 
+let continued = false;
+
+let continueUsed = false;
+
 let boardRows = 4;
+
 let boardCols = 4;
 
 let dangerIndex = -1;
 
 let currentGameCoins = 0;
-
-let continueUsed = false;
 
 let audioContext = null;
 
@@ -137,49 +210,73 @@ const themes = {
     classic: {
 
         name: "Classic",
+
         price: 0,
+
         safe: "#ededed",
+
         danger: "#e53935",
+
         background: "#090909"
 
     },
 
+
     gold: {
 
         name: "Gold",
+
         price: 250,
+
         safe: "#f6d365",
+
         danger: "#e53935",
+
         background: "#17120a"
 
     },
 
+
     neon: {
 
         name: "Neon",
+
         price: 500,
+
         safe: "#00e5ff",
+
         danger: "#ff1744",
+
         background: "#050014"
 
     },
 
+
     ice: {
 
         name: "Ice",
+
         price: 750,
+
         safe: "#d8f3ff",
+
         danger: "#ff4567",
+
         background: "#07121a"
 
     },
 
+
     fire: {
 
         name: "Fire",
+
         price: 1000,
+
         safe: "#ffb300",
+
         danger: "#ff1744",
+
         background: "#170600"
 
     }
@@ -195,77 +292,145 @@ const achievements = [
 
     {
         id: "first_game",
+
         icon: "🎮",
+
         name: "First Game",
+
         description: "Play your first game.",
+
         reward: 25,
-        check: () => data.totalGames >= 1
+
+        check: () =>
+            data.totalGames >= 1
     },
+
 
     {
         id: "score_10",
+
         icon: "⭐",
+
         name: "Getting Started",
+
         description: "Reach 10 points.",
+
         reward: 25,
-        check: () => data.best >= 10
+
+        check: () =>
+            data.best >= 10
     },
+
 
     {
         id: "score_50",
+
         icon: "🔥",
+
         name: "On Fire",
+
         description: "Reach 50 points.",
+
         reward: 75,
-        check: () => data.best >= 50
+
+        check: () =>
+            data.best >= 50
     },
+
 
     {
         id: "score_100",
+
         icon: "💯",
+
         name: "Century",
+
         description: "Reach 100 points.",
+
         reward: 150,
-        check: () => data.best >= 100
+
+        check: () =>
+            data.best >= 100
     },
+
 
     {
         id: "score_250",
+
         icon: "👑",
+
         name: "Elite",
+
         description: "Reach 250 points.",
+
         reward: 500,
-        check: () => data.best >= 250
+
+        check: () =>
+            data.best >= 250
     },
+
 
     {
         id: "games_10",
+
         icon: "🎯",
+
         name: "Dedicated",
+
         description: "Play 10 games.",
+
         reward: 100,
-        check: () => data.totalGames >= 10
+
+        check: () =>
+            data.totalGames >= 10
     },
+
 
     {
         id: "streak_3",
+
         icon: "🔥",
+
         name: "Three Day Fire",
+
         description: "Reach a 3 day streak.",
+
         reward: 100,
-        check: () => data.streak >= 3
+
+        check: () =>
+            data.streak >= 3
     },
+
 
     {
         id: "streak_7",
+
         icon: "🏆",
+
         name: "Weekly Warrior",
+
         description: "Reach a 7 day streak.",
+
         reward: 300,
-        check: () => data.streak >= 7
+
+        check: () =>
+            data.streak >= 7
     }
 
 ];
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+prepareDailyChallenge();
+
+applyTheme();
+
+updateUI();
+
+checkAchievements();
 
 
 /* =========================================================
@@ -274,14 +439,19 @@ const achievements = [
 
 function todayString() {
 
-    const date = new Date();
+    const date =
+        new Date();
 
     return (
         date.getFullYear() +
         "-" +
-        String(date.getMonth() + 1).padStart(2, "0") +
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0") +
         "-" +
-        String(date.getDate()).padStart(2, "0")
+        String(
+            date.getDate()
+        ).padStart(2, "0")
     );
 
 }
@@ -293,23 +463,38 @@ function todayString() {
 
 function prepareDailyChallenge() {
 
-    const today = todayString();
+    const today =
+        todayString();
 
-    if (data.dailyChallengeDate !== today) {
 
-        data.dailyChallengeDate = today;
+    if (
+        data.dailyChallengeDate !==
+        today
+    ) {
+
+        data.dailyChallengeDate =
+            today;
+
 
         data.dailyChallengeTarget =
             50 +
-            Math.floor(Math.random() * 3) * 25;
+            Math.floor(
+                Math.random() * 3
+            ) * 25;
 
-        data.dailyChallengeBest = 0;
 
-        data.dailyChallengeComplete = false;
+        data.dailyChallengeBest =
+            0;
+
+
+        data.dailyChallengeComplete =
+            false;
+
 
         saveData();
 
     }
+
 
     updateDailyUI();
 
@@ -317,49 +502,79 @@ function prepareDailyChallenge() {
 
 
 /* =========================================================
-   STREAK
+   DAILY STREAK
 ========================================================= */
 
 function updateStreak() {
 
-    const today = todayString();
+    const today =
+        todayString();
 
-    if (data.lastPlayedDate === today) {
+
+    if (
+        data.lastPlayedDate ===
+        today
+    ) {
 
         return;
 
     }
 
-    if (!data.lastPlayedDate) {
 
-        data.streak = 1;
+    if (
+        !data.lastPlayedDate
+    ) {
 
-    } else {
+        data.streak =
+            1;
+
+    }
+
+    else {
 
         const previous =
-            new Date(data.lastPlayedDate);
+            new Date(
+                data.lastPlayedDate
+            );
+
 
         const current =
-            new Date(today);
+            new Date(
+                today
+            );
+
 
         const difference =
             Math.round(
-                (current - previous) / 86400000
+                (
+                    current -
+                    previous
+                ) /
+                86400000
             );
 
-        if (difference === 1) {
+
+        if (
+            difference === 1
+        ) {
 
             data.streak++;
 
-        } else {
+        }
 
-            data.streak = 1;
+        else {
+
+            data.streak =
+                1;
 
         }
 
     }
 
-    data.lastPlayedDate = today;
+
+    data.lastPlayedDate =
+        today;
+
 
     saveData();
 
@@ -372,13 +587,17 @@ function updateStreak() {
 
 function updateDailyUI() {
 
-    if (!streakEl) return;
-
     streakEl.textContent =
-        `${data.streak} DAY${data.streak === 1 ? "" : "S"}`;
+        `${data.streak} DAY${
+            data.streak === 1
+                ? ""
+                : "S"
+        }`;
+
 
     challengeTextEl.textContent =
         `Reach ${data.dailyChallengeTarget} points`;
+
 
     const progress =
         Math.min(
@@ -386,10 +605,14 @@ function updateDailyUI() {
             data.dailyChallengeTarget
         );
 
+
     challengeProgressEl.textContent =
         `${progress} / ${data.dailyChallengeTarget}`;
 
-    if (data.dailyChallengeComplete) {
+
+    if (
+        data.dailyChallengeComplete
+    ) {
 
         challengeProgressEl.textContent =
             "✓ COMPLETE";
@@ -400,18 +623,28 @@ function updateDailyUI() {
 
 
 /* =========================================================
-   AUDIO
+   SOUND
 ========================================================= */
 
 function ensureAudio() {
 
-    if (!data.soundOn) return;
+    if (
+        !data.soundOn
+    ) {
 
-    if (!audioContext) {
+        return;
+
+    }
+
+
+    if (
+        !audioContext
+    ) {
 
         const AudioCtx =
             window.AudioContext ||
             window.webkitAudioContext;
+
 
         if (AudioCtx) {
 
@@ -422,9 +655,11 @@ function ensureAudio() {
 
     }
 
+
     if (
         audioContext &&
-        audioContext.state === "suspended"
+        audioContext.state ===
+            "suspended"
     ) {
 
         audioContext.resume();
@@ -441,55 +676,73 @@ function beep(
     volume = 0.035
 ) {
 
-    if (!data.soundOn) return;
+    if (
+        !data.soundOn
+    ) {
+
+        return;
+
+    }
+
 
     ensureAudio();
 
-    if (!audioContext) return;
 
-    try {
+    if (
+        !audioContext
+    ) {
 
-        const oscillator =
-            audioContext.createOscillator();
-
-        const gain =
-            audioContext.createGain();
-
-        oscillator.type = type;
-
-        oscillator.frequency.value =
-            frequency;
-
-        gain.gain.setValueAtTime(
-            volume,
-            audioContext.currentTime
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            audioContext.currentTime + duration
-        );
-
-        oscillator.connect(gain);
-
-        gain.connect(
-            audioContext.destination
-        );
-
-        oscillator.start();
-
-        oscillator.stop(
-            audioContext.currentTime + duration
-        );
-
-    } catch (error) {
-
-        console.log(
-            "Audio error:",
-            error
-        );
+        return;
 
     }
+
+
+    const oscillator =
+        audioContext.createOscillator();
+
+
+    const gain =
+        audioContext.createGain();
+
+
+    oscillator.type =
+        type;
+
+
+    oscillator.frequency.value =
+        frequency;
+
+
+    gain.gain.setValueAtTime(
+        volume,
+        audioContext.currentTime
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime +
+        duration
+    );
+
+
+    oscillator.connect(
+        gain
+    );
+
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    oscillator.start();
+
+
+    oscillator.stop(
+        audioContext.currentTime +
+        duration
+    );
 
 }
 
@@ -498,32 +751,33 @@ function beep(
    SOUND BUTTON
 ========================================================= */
 
-if (soundBtn) {
+soundBtn.addEventListener(
+    "click",
+    () => {
 
-    soundBtn.addEventListener(
-        "click",
-        () => {
+        data.soundOn =
+            !data.soundOn;
 
-            data.soundOn =
-                !data.soundOn;
 
-            saveData();
+        saveData();
 
-            updateUI();
 
-            if (data.soundOn) {
+        updateUI();
 
-                beep(
-                    620,
-                    0.08
-                );
 
-            }
+        if (
+            data.soundOn
+        ) {
+
+            beep(
+                620,
+                0.08
+            );
 
         }
-    );
 
-}
+    }
+);
 
 
 /* =========================================================
@@ -532,63 +786,29 @@ if (soundBtn) {
 
 function updateUI() {
 
-    if (coinsEl)
-        coinsEl.textContent = data.coins;
+    coinsEl.textContent =
+        data.coins;
 
-    if (bestEl)
-        bestEl.textContent = data.best;
 
-    if (scoreEl)
-        scoreEl.textContent = score;
+    bestEl.textContent =
+        data.best;
 
-    if (levelEl)
-        levelEl.textContent = level;
 
-    if (soundBtn)
-        soundBtn.textContent =
-            data.soundOn ? "🔊" : "🔇";
+    scoreEl.textContent =
+        score;
+
+
+    levelEl.textContent =
+        level;
+
+
+    soundBtn.textContent =
+        data.soundOn
+            ? "🔊"
+            : "🔇";
+
 
     updateDailyUI();
-
-}
-
-
-/* =========================================================
-   START BUTTON
-========================================================= */
-
-if (startBtn) {
-
-    startBtn.addEventListener(
-        "click",
-        function () {
-
-            ensureAudio();
-
-            startGame();
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   RESTART BUTTON
-========================================================= */
-
-if (restartBtn) {
-
-    restartBtn.addEventListener(
-        "click",
-        function () {
-
-            ensureAudio();
-
-            startGame();
-
-        }
-    );
 
 }
 
@@ -597,34 +817,85 @@ if (restartBtn) {
    START GAME
 ========================================================= */
 
+startBtn.addEventListener(
+    "click",
+    () => {
+
+        ensureAudio();
+
+        startGame();
+
+    }
+);
+
+
+restartBtn.addEventListener(
+    "click",
+    () => {
+
+        ensureAudio();
+
+        startGame();
+
+    }
+);
+
+
 function startGame() {
 
     updateStreak();
 
-    score = 0;
 
-    level = 1;
+    score =
+        0;
 
-    currentGameCoins = 0;
 
-    continueUsed = false;
+    level =
+        1;
+
+
+    currentGameCoins =
+        0;
+
+
+    continueUsed =
+        false;
+
+
+    continued =
+        false;
+
 
     data.totalGames++;
 
+
     saveData();
+
 
     updateUI();
 
-    startScreen.classList.add("hidden");
 
-    gameOverScreen.classList.add("hidden");
+    startScreen.classList.add(
+        "hidden"
+    );
 
-    gameArea.classList.remove("hidden");
+
+    gameOverScreen.classList.add(
+        "hidden"
+    );
+
+
+    gameArea.classList.remove(
+        "hidden"
+    );
+
 
     beginCountdown(
-        function () {
+        () => {
 
-            gameRunning = true;
+            gameRunning =
+                true;
+
 
             buildBoard();
 
@@ -640,34 +911,54 @@ function startGame() {
 
 function beginCountdown(done) {
 
-    countdownEl.classList.remove("hidden");
+    countdownEl.classList.remove(
+        "hidden"
+    );
 
-    let n = 3;
 
-    countdownEl.textContent = n;
+    let n =
+        3;
 
-    beep(440, 0.08);
+
+    countdownEl.textContent =
+        n;
+
+
+    beep(
+        440,
+        0.08
+    );
+
 
     const timer =
         setInterval(
-            function () {
+            () => {
 
                 n--;
 
-                if (n > 0) {
+
+                if (
+                    n > 0
+                ) {
 
                     countdownEl.textContent =
                         n;
 
+
                     beep(
-                        440 + (3 - n) * 70,
+                        440 +
+                        (3 - n) *
+                        70,
                         0.08
                     );
 
-                } else {
+                }
+
+                else {
 
                     countdownEl.textContent =
                         "GO!";
+
 
                     beep(
                         800,
@@ -676,12 +967,14 @@ function beginCountdown(done) {
                         0.025
                     );
 
+
                     setTimeout(
-                        function () {
+                        () => {
 
                             countdownEl.classList.add(
                                 "hidden"
                             );
+
 
                             done();
 
@@ -689,7 +982,10 @@ function beginCountdown(done) {
                         350
                     );
 
-                    clearInterval(timer);
+
+                    clearInterval(
+                        timer
+                    );
 
                 }
 
@@ -706,20 +1002,50 @@ function beginCountdown(done) {
 
 function getBoardSize() {
 
-    if (score < 10)
+    if (
+        score < 10
+    ) {
+
         return [4, 4];
 
-    if (score < 25)
+    }
+
+
+    if (
+        score < 25
+    ) {
+
         return [4, 5];
 
-    if (score < 50)
+    }
+
+
+    if (
+        score < 50
+    ) {
+
         return [5, 5];
 
-    if (score < 90)
+    }
+
+
+    if (
+        score < 90
+    ) {
+
         return [5, 6];
 
-    if (score < 150)
+    }
+
+
+    if (
+        score < 150
+    ) {
+
         return [6, 6];
+
+    }
+
 
     return [6, 7];
 
@@ -732,43 +1058,65 @@ function getBoardSize() {
 
 function getLevel() {
 
-    return Math.floor(score / 10) + 1;
+    return (
+        Math.floor(
+            score / 10
+        ) + 1
+    );
 
 }
 
 
 /* =========================================================
    BUILD BOARD
-   MOBILE-SAFE VERSION
 ========================================================= */
 
 function buildBoard() {
 
-    if (!gameRunning) return;
+    if (
+        !gameRunning
+    ) {
+
+        return;
+
+    }
+
 
     [
         boardRows,
         boardCols
-    ] = getBoardSize();
+    ] =
+        getBoardSize();
 
-    level = getLevel();
+
+    level =
+        getLevel();
+
 
     updateUI();
+
 
     gameArea.style.gridTemplateColumns =
         `repeat(${boardCols}, 1fr)`;
 
+
     gameArea.style.gridTemplateRows =
         `repeat(${boardRows}, 1fr)`;
 
-    gameArea.innerHTML = "";
+
+    gameArea.innerHTML =
+        "";
+
 
     const total =
-        boardRows * boardCols;
+        boardRows *
+        boardCols;
+
 
     dangerIndex =
         Math.floor(
-            Math.random() * total
+            Math.random() *
+            total
         );
 
 
@@ -779,45 +1127,63 @@ function buildBoard() {
     ) {
 
         const tile =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
-        tile.type = "button";
-
-        tile.className = "tile";
-
-        tile.setAttribute(
-            "aria-label",
-            i === dangerIndex
-                ? "danger"
-                : "safe"
-        );
+        tile.type =
+            "button";
 
 
-        if (i === dangerIndex) {
+        tile.className =
+            "tile";
 
-            tile.classList.add("danger");
+
+        if (
+            i ===
+            dangerIndex
+        ) {
+
+            tile.classList.add(
+                "danger"
+            );
 
         }
 
 
         /*
-         =================================================
-         IMPORTANT MOBILE FIX
-         =================================================
+         =====================================================
+         ANDROID / MOBILE TOUCH FIX
 
-         Use pointerdown instead of relying only on click.
+         pointerdown works with:
+         - Android touch
+         - iPhone touch
+         - mouse
+         - stylus
 
-         This works much more reliably inside Android
-         WebView / Capacitor applications.
-         =================================================
+         We no longer use touchstart.preventDefault(),
+         which could block the click event in Android WebView.
+         =====================================================
         */
 
         tile.addEventListener(
             "pointerdown",
-            function (event) {
+            event => {
+
+                if (
+                    event.pointerType ===
+                    "mouse" &&
+                    event.button !== 0
+                ) {
+
+                    return;
+
+                }
+
 
                 event.preventDefault();
+
 
                 handleTile(
                     tile,
@@ -826,31 +1192,15 @@ function buildBoard() {
 
             },
             {
+                once: true,
                 passive: false
             }
         );
 
 
-        /*
-         =================================================
-         FALLBACK FOR OLDER DEVICES
-         =================================================
-        */
-
-        tile.addEventListener(
-            "touchstart",
-            function (event) {
-
-                event.preventDefault();
-
-            },
-            {
-                passive: false
-            }
+        gameArea.appendChild(
+            tile
         );
-
-
-        gameArea.appendChild(tile);
 
     }
 
@@ -869,30 +1219,50 @@ function handleTile(
     index
 ) {
 
-    if (!gameRunning) return;
-
-    /*
-     Prevent the same tile from being counted twice
-     by pointer/touch events.
-    */
-
-    if (tile.dataset.used === "true") {
+    if (
+        !gameRunning
+    ) {
 
         return;
 
     }
 
-    tile.dataset.used = "true";
+
+    /*
+     =====================================================
+     PREVENT DOUBLE INPUT
+
+     This is especially useful on mobile devices.
+     =====================================================
+    */
+
+    if (
+        tile.dataset.clicked ===
+        "true"
+    ) {
+
+        return;
+
+    }
+
+
+    tile.dataset.clicked =
+        "true";
 
 
     data.totalTaps++;
 
 
-    /* =====================================================
-       WRONG TILE
-    ===================================================== */
+    /*
+     =====================================================
+     RED TILE
+=====================================================
+    */
 
-    if (index === dangerIndex) {
+    if (
+        index ===
+        dangerIndex
+    ) {
 
         saveData();
 
@@ -903,22 +1273,38 @@ function handleTile(
     }
 
 
-    /* =====================================================
-       SAFE TILE
-    ===================================================== */
+    /*
+     =====================================================
+     SAFE TILE
+=========================================================
+    */
 
-    tile.classList.add("safe-hit");
+    tile.classList.add(
+        "safe-hit"
+    );
+
 
     score++;
 
-    level = getLevel();
+
+    level =
+        getLevel();
+
+
+    /*
+     =====================================================
+     COINS
+=========================================================
+    */
 
     currentGameCoins++;
 
 
-    /* =====================================================
-       DAILY CHALLENGE
-    ===================================================== */
+    /*
+     =====================================================
+     DAILY CHALLENGE
+=========================================================
+    */
 
     if (
         score >
@@ -936,14 +1322,20 @@ function handleTile(
         data.dailyChallengeTarget
     ) {
 
-        if (!data.dailyChallengeComplete) {
+        if (
+            !data.dailyChallengeComplete
+        ) {
 
             data.dailyChallengeComplete =
                 true;
 
-            data.coins += 100;
 
-            data.totalCoinsEarned += 100;
+            data.coins +=
+                100;
+
+
+            data.totalCoinsEarned +=
+                100;
 
         }
 
@@ -952,18 +1344,22 @@ function handleTile(
 
     saveData();
 
+
     updateUI();
 
 
-    /* =====================================================
-       FLASH
-    ===================================================== */
+    /*
+     =====================================================
+     FLASH
+=========================================================
+    */
 
     flashEl.className =
         "flash good";
 
+
     setTimeout(
-        function () {
+        () => {
 
             flashEl.className =
                 "flash";
@@ -973,32 +1369,37 @@ function handleTile(
     );
 
 
-    /* =====================================================
-       SOUND
-    ===================================================== */
+    /*
+     =====================================================
+     SOUND
+=========================================================
+    */
 
     beep(
         420 +
-        Math.min(score, 80) * 4,
+        Math.min(
+            score,
+            80
+        ) *
+        4,
         0.045,
         "sine",
         0.025
     );
 
 
-    /* =====================================================
-       NEXT BOARD
-    ===================================================== */
+    /*
+     =====================================================
+     NEXT BOARD
+=========================================================
+    */
 
     setTimeout(
-        function () {
-
-            buildBoard();
-
-        },
+        buildBoard,
         Math.max(
             70,
-            170 - level * 5
+            170 -
+            level * 5
         )
     );
 
@@ -1011,45 +1412,65 @@ function handleTile(
 
 function endGame() {
 
-    gameRunning = false;
+    gameRunning =
+        false;
 
 
-    /* =====================================================
-       COINS
-    ===================================================== */
+    /*
+     =====================================================
+     COINS
+=========================================================
+    */
 
     const gameBonus =
-        Math.floor(score / 10);
+        Math.floor(
+            score / 10
+        );
+
 
     const earned =
         currentGameCoins +
         gameBonus;
 
-    data.coins += earned;
 
-    data.totalCoinsEarned += earned;
+    data.coins +=
+        earned;
+
+
+    data.totalCoinsEarned +=
+        earned;
+
 
     earnedCoinsEl.textContent =
         `+${earned}`;
 
 
-    /* =====================================================
-       HIGH SCORE
-    ===================================================== */
+    /*
+     =====================================================
+     HIGH SCORE
+=========================================================
+    */
 
     const newRecord =
-        score > data.best;
+        score >
+        data.best;
 
-    if (newRecord) {
 
-        data.best = score;
+    if (
+        newRecord
+    ) {
+
+        data.best =
+            score;
 
     }
 
 
-    /* =====================================================
-       DAILY CHALLENGE
-    ===================================================== */
+    /*
+     =====================================================
+     DAILY CHALLENGE
+=========================================================
+    */
 
     if (
         score >
@@ -1075,14 +1496,18 @@ function endGame() {
 
     saveData();
 
+
     checkAchievements();
+
 
     updateUI();
 
 
-    /* =====================================================
-       SOUND
-    ===================================================== */
+    /*
+     =====================================================
+     GAME OVER SOUND
+=========================================================
+    */
 
     beep(
         120,
@@ -1092,15 +1517,18 @@ function endGame() {
     );
 
 
-    /* =====================================================
-       FLASH
-    ===================================================== */
+    /*
+     =====================================================
+     FLASH
+=========================================================
+    */
 
     flashEl.className =
         "flash bad";
 
+
     setTimeout(
-        function () {
+        () => {
 
             flashEl.className =
                 "flash";
@@ -1110,9 +1538,11 @@ function endGame() {
     );
 
 
-    /* =====================================================
-       RESULT
-    ===================================================== */
+    /*
+     =====================================================
+     RESULT
+=========================================================
+    */
 
     finalScoreEl.textContent =
         score;
@@ -1126,19 +1556,25 @@ function endGame() {
         resultBadgeEl.textContent =
             "NEW RECORD!";
 
+
         recordTextEl.textContent =
             "You beat your best score. 🏆";
 
-    } else {
+    }
+
+    else {
 
         resultBadgeEl.textContent =
             "GAME OVER";
 
+
         const difference =
             Math.max(
                 0,
-                data.best - score
+                data.best -
+                score
             );
+
 
         recordTextEl.textContent =
             difference === 0
@@ -1152,17 +1588,23 @@ function endGame() {
     }
 
 
-    /* =====================================================
-       CONTINUE
-    ===================================================== */
+    /*
+     =====================================================
+     CONTINUE
+=========================================================
+    */
 
-    if (continueUsed) {
+    if (
+        continueUsed
+    ) {
 
         continueBtn.classList.add(
             "hidden"
         );
 
-    } else {
+    }
+
+    else {
 
         continueBtn.classList.remove(
             "hidden"
@@ -1176,12 +1618,15 @@ function endGame() {
     );
 
 
-    /* =====================================================
-       AD HOOK
-    ===================================================== */
+    /*
+     =====================================================
+     INTERSTITIAL AD
+=========================================================
+    */
 
     if (
-        data.totalGames % 4 === 0
+        data.totalGames % 4 ===
+        0
     ) {
 
         showInterstitialAd();
@@ -1195,59 +1640,69 @@ function endGame() {
    REWARDED AD
 ========================================================= */
 
-if (continueBtn) {
+continueBtn.addEventListener(
+    "click",
+    () => {
 
-    continueBtn.addEventListener(
-        "click",
-        function () {
+        if (
+            continueUsed
+        ) {
 
-            if (continueUsed) return;
-
-            continueBtn.disabled = true;
-
-            continueBtn.textContent =
-                "LOADING AD...";
-
-
-            showRewardedAd(
-                function () {
-
-                    continueUsed = true;
-
-                    continueBtn.disabled =
-                        false;
-
-                    continueBtn.classList.add(
-                        "hidden"
-                    );
-
-                    gameOverScreen.classList.add(
-                        "hidden"
-                    );
-
-
-                    beginCountdown(
-                        function () {
-
-                            gameRunning =
-                                true;
-
-                            buildBoard();
-
-                        }
-                    );
-
-                }
-            );
+            return;
 
         }
-    );
 
-}
+
+        continueBtn.disabled =
+            true;
+
+
+        continueBtn.textContent =
+            "LOADING AD...";
+
+
+        showRewardedAd(
+            () => {
+
+                continueUsed =
+                    true;
+
+
+                continueBtn.disabled =
+                    false;
+
+
+                continueBtn.classList.add(
+                    "hidden"
+                );
+
+
+                gameOverScreen.classList.add(
+                    "hidden"
+                );
+
+
+                beginCountdown(
+                    () => {
+
+                        gameRunning =
+                            true;
+
+
+                        buildBoard();
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
 
 
 /* =========================================================
-   REWARDED AD DEMO
+   REWARDED AD FUNCTION
 ========================================================= */
 
 function showRewardedAd(
@@ -1255,11 +1710,16 @@ function showRewardedAd(
 ) {
 
     /*
-     REAL AD SDK WILL GO HERE LATER.
+     =====================================================
+     DEMO MODE
+
+     Replace this function later with the actual
+     advertising SDK.
+     =====================================================
     */
 
     setTimeout(
-        function () {
+        () => {
 
             rewardCallback();
 
@@ -1271,10 +1731,18 @@ function showRewardedAd(
 
 
 /* =========================================================
-   INTERSTITIAL AD DEMO
+   INTERSTITIAL AD
 ========================================================= */
 
 function showInterstitialAd() {
+
+    /*
+     =====================================================
+     DEMO PLACEHOLDER
+
+     Real advertising SDK can be connected here.
+     =====================================================
+    */
 
     console.log(
         "Interstitial ad opportunity."
@@ -1290,7 +1758,7 @@ function showInterstitialAd() {
 function checkAchievements() {
 
     achievements.forEach(
-        function (achievement) {
+        achievement => {
 
             if (
                 data.achievements[
@@ -1309,10 +1777,13 @@ function checkAchievements() {
 
                 data.achievements[
                     achievement.id
-                ] = true;
+                ] =
+                    true;
+
 
                 data.coins +=
                     achievement.reward;
+
 
                 data.totalCoinsEarned +=
                     achievement.reward;
@@ -1332,14 +1803,10 @@ function checkAchievements() {
    SHOP
 ========================================================= */
 
-if (shopBtn) {
-
-    shopBtn.addEventListener(
-        "click",
-        openShop
-    );
-
-}
+shopBtn.addEventListener(
+    "click",
+    openShop
+);
 
 
 function openShop() {
@@ -1350,11 +1817,7 @@ function openShop() {
             🎨 THEMES
         </h2>
 
-        <p style="
-            color:#888;
-            font-size:11px;
-            margin-top:-10px;
-        ">
+        <p style="color:#888;font-size:11px;margin-top:-10px;">
             Use your coins to unlock new looks.
         </p>
 
@@ -1362,15 +1825,21 @@ function openShop() {
 
 
     Object.keys(themes).forEach(
-        function (id) {
+        id => {
 
-            const theme = themes[id];
+            const theme =
+                themes[id];
+
 
             const owned =
-                data.ownedThemes.includes(id);
+                data.ownedThemes.includes(
+                    id
+                );
+
 
             const active =
-                data.activeTheme === id;
+                data.activeTheme ===
+                id;
 
 
             html += `
@@ -1382,10 +1851,14 @@ function openShop() {
                         <div
                             class="theme-preview"
                             style="
-                                background:${theme.safe};
-                                border:4px solid ${theme.danger};
+                                background:
+                                ${theme.safe};
+                                border:
+                                4px solid
+                                ${theme.danger};
                             "
                         ></div>
+
 
                         <div>
 
@@ -1394,13 +1867,11 @@ function openShop() {
                             </div>
 
                             <div class="theme-price">
-
                                 ${
                                     owned
                                         ? "UNLOCKED"
                                         : `🪙 ${theme.price}`
                                 }
-
                             </div>
 
                         </div>
@@ -1410,11 +1881,14 @@ function openShop() {
 
                     <button
                         class="shop-action ${
-                            active || owned
+                            active ||
+                            owned
                                 ? "owned"
                                 : ""
                         }"
-                        onclick="shopAction('${id}')"
+                        onclick="
+                            shopAction('${id}')
+                        "
                     >
 
                         ${
@@ -1437,23 +1911,27 @@ function openShop() {
 
     html += `
 
-        <div style="
-            margin-top:18px;
-            padding:14px;
-            background:#181818;
-            border-radius:12px;
-            text-align:center;
-        ">
+        <div
+            style="
+                margin-top:18px;
+                padding:14px;
+                background:#181818;
+                border-radius:12px;
+                text-align:center;
+            "
+        >
 
             <strong>
                 🪙 ${data.coins} COINS
             </strong>
 
-            <p style="
-                color:#777;
-                font-size:10px;
-                margin-bottom:0;
-            ">
+            <p
+                style="
+                    color:#777;
+                    font-size:10px;
+                    margin-bottom:0;
+                "
+            >
                 Earn coins by playing.
             </p>
 
@@ -1462,7 +1940,9 @@ function openShop() {
     `;
 
 
-    openModal(html);
+    openModal(
+        html
+    );
 
 }
 
@@ -1477,17 +1957,25 @@ window.shopAction =
         const theme =
             themes[id];
 
+
         if (
-            data.ownedThemes.includes(id)
+            data.ownedThemes.includes(
+                id
+            )
         ) {
 
-            data.activeTheme = id;
+            data.activeTheme =
+                id;
+
 
             applyTheme();
 
+
             saveData();
 
+
             openShop();
+
 
             return;
 
@@ -1503,6 +1991,7 @@ window.shopAction =
                 "You don't have enough coins yet."
             );
 
+
             return;
 
         }
@@ -1511,15 +2000,24 @@ window.shopAction =
         data.coins -=
             theme.price;
 
-        data.ownedThemes.push(id);
 
-        data.activeTheme = id;
+        data.ownedThemes.push(
+            id
+        );
+
+
+        data.activeTheme =
+            id;
+
 
         saveData();
 
+
         applyTheme();
 
+
         updateUI();
+
 
         openShop();
 
@@ -1543,6 +2041,7 @@ function applyTheme() {
         "--safe",
         theme.safe
     );
+
 
     document.documentElement.style.setProperty(
         "--red",
@@ -1570,14 +2069,10 @@ function applyTheme() {
    ACHIEVEMENTS MENU
 ========================================================= */
 
-if (achievementsBtn) {
-
-    achievementsBtn.addEventListener(
-        "click",
-        openAchievements
-    );
-
-}
+achievementsBtn.addEventListener(
+    "click",
+    openAchievements
+);
 
 
 function openAchievements() {
@@ -1592,7 +2087,7 @@ function openAchievements() {
 
 
     achievements.forEach(
-        function (achievement) {
+        achievement => {
 
             const unlocked =
                 !!data.achievements[
@@ -1602,13 +2097,18 @@ function openAchievements() {
 
             html += `
 
-                <div class="achievement ${
-                    unlocked ? "" : "locked"
-                }">
+                <div
+                    class="achievement ${
+                        unlocked
+                            ? ""
+                            : "locked"
+                    }"
+                >
 
                     <div class="achievement-icon">
                         ${achievement.icon}
                     </div>
+
 
                     <div>
 
@@ -1635,7 +2135,9 @@ function openAchievements() {
     );
 
 
-    openModal(html);
+    openModal(
+        html
+    );
 
 }
 
@@ -1644,14 +2146,10 @@ function openAchievements() {
    STATS
 ========================================================= */
 
-if (statsBtn) {
-
-    statsBtn.addEventListener(
-        "click",
-        openStats
-    );
-
-}
+statsBtn.addEventListener(
+    "click",
+    openStats
+);
 
 
 function openStats() {
@@ -1662,44 +2160,91 @@ function openStats() {
             📊 YOUR STATS
         </h2>
 
-        <div class="stat-row">
-            <span>Best Score</span>
-            <strong>${data.best}</strong>
-        </div>
 
         <div class="stat-row">
-            <span>Games Played</span>
-            <strong>${data.totalGames}</strong>
+
+            <span>
+                Best Score
+            </span>
+
+            <strong>
+                ${data.best}
+            </strong>
+
         </div>
 
-        <div class="stat-row">
-            <span>Safe Taps</span>
-            <strong>${data.totalTaps}</strong>
-        </div>
 
         <div class="stat-row">
-            <span>Current Streak</span>
-            <strong>${data.streak} days</strong>
+
+            <span>
+                Games Played
+            </span>
+
+            <strong>
+                ${data.totalGames}
+            </strong>
+
         </div>
 
-        <div class="stat-row">
-            <span>Total Coins Earned</span>
-            <strong>🪙 ${data.totalCoinsEarned}</strong>
-        </div>
 
         <div class="stat-row">
-            <span>Themes Unlocked</span>
+
+            <span>
+                Safe Taps
+            </span>
+
+            <strong>
+                ${data.totalTaps}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <span>
+                Current Streak
+            </span>
+
+            <strong>
+                ${data.streak} days
+            </strong>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <span>
+                Total Coins Earned
+            </span>
+
+            <strong>
+                🪙 ${data.totalCoinsEarned}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <span>
+                Themes Unlocked
+            </span>
+
             <strong>
                 ${data.ownedThemes.length}
-                /
-                ${Object.keys(themes).length}
+                / ${Object.keys(themes).length}
             </strong>
+
         </div>
 
     `;
 
 
-    openModal(html);
+    openModal(
+        html
+    );
 
 }
 
@@ -1708,10 +2253,13 @@ function openStats() {
    MODAL
 ========================================================= */
 
-function openModal(html) {
+function openModal(
+    html
+) {
 
     modalContent.innerHTML =
         html;
+
 
     modal.classList.remove(
         "hidden"
@@ -1729,83 +2277,49 @@ function closeModal() {
 }
 
 
-if (closeModalBtn) {
-
-    closeModalBtn.addEventListener(
-        "click",
-        closeModal
-    );
-
-}
+closeModalBtn.addEventListener(
+    "click",
+    closeModal
+);
 
 
-if (modal) {
+modal.addEventListener(
+    "click",
+    event => {
 
-    modal.addEventListener(
-        "click",
-        function (event) {
+        if (
+            event.target ===
+            modal
+        ) {
 
-            if (
-                event.target === modal
-            ) {
-
-                closeModal();
-
-            }
+            closeModal();
 
         }
-    );
 
-}
+    }
+);
 
 
 /* =========================================================
-   MOBILE TOUCH PROTECTION
+   IMPORTANT:
+   NO MOBILE TOUCH BLOCKING CODE HERE.
+
+   We intentionally do NOT use:
+
+   touchstart + preventDefault()
+   touchmove + preventDefault()
+
+   because those can interfere with Android WebView
+   pointer/click events.
 ========================================================= */
-
-if (gameArea) {
-
-    gameArea.addEventListener(
-        "touchmove",
-        function (event) {
-
-            if (gameRunning) {
-
-                event.preventDefault();
-
-            }
-
-        },
-        {
-            passive: false
-        }
-    );
-
-
-    gameArea.addEventListener(
-        "contextmenu",
-        function (event) {
-
-            event.preventDefault();
-
-        }
-    );
-
-}
 
 
 /* =========================================================
-   INITIALIZE
+   FINAL SAVE
 ========================================================= */
 
-prepareDailyChallenge();
-
-applyTheme();
+saveData();
 
 updateUI();
 
-checkAchievements();
-
-saveData();
-```
-
+applyTheme();

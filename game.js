@@ -1,6 +1,8 @@
 /* =========================================================
    ONE WRONG TAP
-   Version 1.0
+   VERSION 2.0
+
+   Monetization-ready edition
 ========================================================= */
 
 
@@ -16,6 +18,18 @@ const bestEl =
 
 const levelEl =
     document.getElementById("level");
+
+const coinsEl =
+    document.getElementById("coins");
+
+const streakEl =
+    document.getElementById("streak");
+
+const challengeTextEl =
+    document.getElementById("challengeText");
+
+const challengeProgressEl =
+    document.getElementById("challengeProgress");
 
 
 const startScreen =
@@ -56,16 +70,110 @@ const recordTextEl =
 const resultBadgeEl =
     document.getElementById("resultBadge");
 
+const earnedCoinsEl =
+    document.getElementById("earnedCoins");
+
+
+const shopBtn =
+    document.getElementById("shopBtn");
+
+const achievementsBtn =
+    document.getElementById("achievementsBtn");
+
+const statsBtn =
+    document.getElementById("statsBtn");
+
+
+const modal =
+    document.getElementById("modal");
+
+const modalContent =
+    document.getElementById("modalContent");
+
+const closeModalBtn =
+    document.getElementById("closeModalBtn");
+
 
 /* =========================================================
-   STORAGE
+   STORAGE KEYS
 ========================================================= */
 
-const BEST_KEY =
-    "oneWrongTapBestV1";
+const STORAGE_KEY =
+    "oneWrongTapV2";
 
-const SOUND_KEY =
-    "oneWrongTapSoundV1";
+
+/* =========================================================
+   GAME DATA
+========================================================= */
+
+let data =
+    JSON.parse(
+        localStorage.getItem(
+            STORAGE_KEY
+        ) ||
+        "null"
+    );
+
+
+/* =========================================================
+   DEFAULT DATA
+========================================================= */
+
+if (!data) {
+
+    data = {
+
+        coins: 0,
+
+        best: 0,
+
+        totalGames: 0,
+
+        totalTaps: 0,
+
+        totalWins: 0,
+
+        totalCoinsEarned: 0,
+
+        streak: 0,
+
+        lastPlayedDate: "",
+
+        dailyChallengeDate: "",
+
+        dailyChallengeTarget: 50,
+
+        dailyChallengeBest: 0,
+
+        dailyChallengeComplete: false,
+
+        ownedThemes: [
+            "classic"
+        ],
+
+        activeTheme: "classic",
+
+        achievements: {},
+
+        soundOn: true
+
+    };
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function saveData() {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+    );
+
+}
 
 
 /* =========================================================
@@ -80,11 +188,7 @@ let gameRunning = false;
 
 let continued = false;
 
-let soundOn =
-    localStorage.getItem(SOUND_KEY) !== "off";
-
-let audioContext = null;
-
+let continueUsed = false;
 
 let boardRows = 4;
 
@@ -92,37 +196,533 @@ let boardCols = 4;
 
 let dangerIndex = -1;
 
+let currentGameCoins = 0;
 
-let best =
-    Number(
-        localStorage.getItem(BEST_KEY) || 0
-    );
+let audioContext = null;
 
 
 /* =========================================================
-   INITIAL DISPLAY
+   THEMES
 ========================================================= */
 
-bestEl.textContent =
-    best;
+const themes = {
 
-updateSoundButton();
+    classic: {
 
-updateStats();
+        name:
+            "Classic",
+
+        price:
+            0,
+
+        safe:
+            "#ededed",
+
+        danger:
+            "#e53935",
+
+        background:
+            "#090909"
+
+    },
+
+
+    gold: {
+
+        name:
+            "Gold",
+
+        price:
+            250,
+
+        safe:
+            "#f6d365",
+
+        danger:
+            "#e53935",
+
+        background:
+            "#17120a"
+
+    },
+
+
+    neon: {
+
+        name:
+            "Neon",
+
+        price:
+            500,
+
+        safe:
+            "#00e5ff",
+
+        danger:
+            "#ff1744",
+
+        background:
+            "#050014"
+
+    },
+
+
+    ice: {
+
+        name:
+            "Ice",
+
+        price:
+            750,
+
+        safe:
+            "#d8f3ff",
+
+        danger:
+            "#ff4567",
+
+        background:
+            "#07121a"
+
+    },
+
+
+    fire: {
+
+        name:
+            "Fire",
+
+        price:
+            1000,
+
+        safe:
+            "#ffb300",
+
+        danger:
+            "#ff1744",
+
+        background:
+            "#170600"
+
+    }
+
+};
 
 
 /* =========================================================
-   AUDIO
+   ACHIEVEMENTS
+========================================================= */
+
+const achievements = [
+
+    {
+        id:
+            "first_game",
+
+        icon:
+            "🎮",
+
+        name:
+            "First Game",
+
+        description:
+            "Play your first game.",
+
+        reward:
+            25,
+
+        check:
+            () =>
+                data.totalGames >= 1
+
+    },
+
+
+    {
+        id:
+            "score_10",
+
+        icon:
+            "⭐",
+
+        name:
+            "Getting Started",
+
+        description:
+            "Reach 10 points.",
+
+        reward:
+            25,
+
+        check:
+            () =>
+                data.best >= 10
+
+    },
+
+
+    {
+        id:
+            "score_50",
+
+        icon:
+            "🔥",
+
+        name:
+            "On Fire",
+
+        description:
+            "Reach 50 points.",
+
+        reward:
+            75,
+
+        check:
+            () =>
+                data.best >= 50
+
+    },
+
+
+    {
+        id:
+            "score_100",
+
+        icon:
+            "💯",
+
+        name:
+            "Century",
+
+        description:
+            "Reach 100 points.",
+
+        reward:
+            150,
+
+        check:
+            () =>
+                data.best >= 100
+
+    },
+
+
+    {
+        id:
+            "score_250",
+
+        icon:
+            "👑",
+
+        name:
+            "Elite",
+
+        description:
+            "Reach 250 points.",
+
+        reward:
+            500,
+
+        check:
+            () =>
+                data.best >= 250
+
+    },
+
+
+    {
+        id:
+            "games_10",
+
+        icon:
+            "🎯",
+
+        name:
+            "Dedicated",
+
+        description:
+            "Play 10 games.",
+
+        reward:
+            100,
+
+        check:
+            () =>
+                data.totalGames >= 10
+
+    },
+
+
+    {
+        id:
+            "streak_3",
+
+        icon:
+            "🔥",
+
+        name:
+            "Three Day Fire",
+
+        description:
+            "Reach a 3 day streak.",
+
+        reward:
+            100,
+
+        check:
+            () =>
+                data.streak >= 3
+
+    },
+
+
+    {
+        id:
+            "streak_7",
+
+        icon:
+            "🏆",
+
+        name:
+            "Weekly Warrior",
+
+        description:
+            "Reach a 7 day streak.",
+
+        reward:
+            300,
+
+        check:
+            () =>
+                data.streak >= 7
+
+    }
+
+];
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+prepareDailyChallenge();
+
+applyTheme();
+
+updateUI();
+
+checkAchievements();
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function todayString() {
+
+    const date =
+        new Date();
+
+    return (
+        date.getFullYear() +
+        "-" +
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0") +
+        "-" +
+        String(
+            date.getDate()
+        ).padStart(2, "0")
+    );
+
+}
+
+
+/* =========================================================
+   PREPARE DAILY CHALLENGE
+========================================================= */
+
+function prepareDailyChallenge() {
+
+    const today =
+        todayString();
+
+
+    if (
+        data.dailyChallengeDate !==
+        today
+    ) {
+
+        data.dailyChallengeDate =
+            today;
+
+
+        data.dailyChallengeTarget =
+            50 +
+            Math.floor(
+                Math.random() *
+                3
+            ) *
+            25;
+
+
+        data.dailyChallengeBest =
+            0;
+
+
+        data.dailyChallengeComplete =
+            false;
+
+
+        saveData();
+
+    }
+
+
+    updateDailyUI();
+
+}
+
+
+/* =========================================================
+   DAILY STREAK
+========================================================= */
+
+function updateStreak() {
+
+    const today =
+        todayString();
+
+
+    if (
+        data.lastPlayedDate ===
+        today
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !data.lastPlayedDate
+    ) {
+
+        data.streak =
+            1;
+
+    }
+
+    else {
+
+        const previous =
+            new Date(
+                data.lastPlayedDate
+            );
+
+
+        const current =
+            new Date(
+                today
+            );
+
+
+        const difference =
+            Math.round(
+                (
+                    current -
+                    previous
+                ) /
+                86400000
+            );
+
+
+        if (
+            difference === 1
+        ) {
+
+            data.streak++;
+
+        }
+
+        else {
+
+            data.streak =
+                1;
+
+        }
+
+    }
+
+
+    data.lastPlayedDate =
+        today;
+
+
+    saveData();
+
+}
+
+
+/* =========================================================
+   DAILY UI
+========================================================= */
+
+function updateDailyUI() {
+
+    streakEl.textContent =
+        `${data.streak} DAY${
+            data.streak === 1
+                ? ""
+                : "S"
+        }`;
+
+
+    challengeTextEl.textContent =
+        `Reach ${data.dailyChallengeTarget} points`;
+
+
+    const progress =
+        Math.min(
+            data.dailyChallengeBest,
+            data.dailyChallengeTarget
+        );
+
+
+    challengeProgressEl.textContent =
+        `${progress} / ${data.dailyChallengeTarget}`;
+
+
+    if (
+        data.dailyChallengeComplete
+    ) {
+
+        challengeProgressEl.textContent =
+            "✓ COMPLETE";
+
+    }
+
+}
+
+
+/* =========================================================
+   SOUND
 ========================================================= */
 
 function ensureAudio() {
 
-    if (!soundOn) {
+    if (
+        !data.soundOn
+    ) {
+
         return;
+
     }
 
 
-    if (!audioContext) {
+    if (
+        !audioContext
+    ) {
 
         const AudioCtx =
             window.AudioContext ||
@@ -141,7 +741,8 @@ function ensureAudio() {
 
     if (
         audioContext &&
-        audioContext.state === "suspended"
+        audioContext.state ===
+            "suspended"
     ) {
 
         audioContext.resume();
@@ -151,10 +752,6 @@ function ensureAudio() {
 }
 
 
-/* =========================================================
-   BEEP
-========================================================= */
-
 function beep(
     frequency,
     duration,
@@ -162,21 +759,30 @@ function beep(
     volume = 0.035
 ) {
 
-    if (!soundOn) {
+    if (
+        !data.soundOn
+    ) {
+
         return;
+
     }
 
 
     ensureAudio();
 
 
-    if (!audioContext) {
+    if (
+        !audioContext
+    ) {
+
         return;
+
     }
 
 
     const oscillator =
         audioContext.createOscillator();
+
 
     const gain =
         audioContext.createGain();
@@ -184,6 +790,7 @@ function beep(
 
     oscillator.type =
         type;
+
 
     oscillator.frequency.value =
         frequency;
@@ -197,11 +804,15 @@ function beep(
 
     gain.gain.exponentialRampToValueAtTime(
         0.001,
-        audioContext.currentTime + duration
+        audioContext.currentTime +
+        duration
     );
 
 
-    oscillator.connect(gain);
+    oscillator.connect(
+        gain
+    );
+
 
     gain.connect(
         audioContext.destination
@@ -209,6 +820,7 @@ function beep(
 
 
     oscillator.start();
+
 
     oscillator.stop(
         audioContext.currentTime +
@@ -222,44 +834,23 @@ function beep(
    SOUND BUTTON
 ========================================================= */
 
-function updateSoundButton() {
-
-    soundBtn.textContent =
-        soundOn
-            ? "🔊"
-            : "🔇";
-
-
-    soundBtn.setAttribute(
-        "aria-label",
-        soundOn
-            ? "Mute sound"
-            : "Turn sound on"
-    );
-
-}
-
-
 soundBtn.addEventListener(
     "click",
     () => {
 
-        soundOn =
-            !soundOn;
+        data.soundOn =
+            !data.soundOn;
 
 
-        localStorage.setItem(
-            SOUND_KEY,
-            soundOn
-                ? "on"
-                : "off"
-        );
+        saveData();
 
 
-        updateSoundButton();
+        updateUI();
 
 
-        if (soundOn) {
+        if (
+            data.soundOn
+        ) {
 
             beep(
                 620,
@@ -273,7 +864,40 @@ soundBtn.addEventListener(
 
 
 /* =========================================================
-   START BUTTON
+   UPDATE UI
+========================================================= */
+
+function updateUI() {
+
+    coinsEl.textContent =
+        data.coins;
+
+
+    bestEl.textContent =
+        data.best;
+
+
+    scoreEl.textContent =
+        score;
+
+
+    levelEl.textContent =
+        level;
+
+
+    soundBtn.textContent =
+        data.soundOn
+            ? "🔊"
+            : "🔇";
+
+
+    updateDailyUI();
+
+}
+
+
+/* =========================================================
+   START GAME
 ========================================================= */
 
 startBtn.addEventListener(
@@ -288,10 +912,6 @@ startBtn.addEventListener(
 );
 
 
-/* =========================================================
-   RESTART BUTTON
-========================================================= */
-
 restartBtn.addEventListener(
     "click",
     () => {
@@ -304,79 +924,10 @@ restartBtn.addEventListener(
 );
 
 
-/* =========================================================
-   CONTINUE BUTTON
-========================================================= */
-
-continueBtn.addEventListener(
-    "click",
-    () => {
-
-        /*
-         =====================================================
-         VERSION 1.0
-
-         This simulates a rewarded advertisement.
-
-         Later we can connect a real ad network such as
-         Google AdMob when the game becomes a mobile app.
-         =====================================================
-        */
-
-
-        continueBtn.disabled =
-            true;
-
-
-        continueBtn.textContent =
-            "CONTINUING...";
-
-
-        setTimeout(
-            () => {
-
-                continueBtn.disabled =
-                    false;
-
-
-                continueBtn.textContent =
-                    "WATCH AD & CONTINUE";
-
-
-                continued =
-                    true;
-
-
-                gameOverScreen.classList.add(
-                    "hidden"
-                );
-
-
-                beginCountdown(
-                    () => {
-
-                        gameRunning =
-                            true;
-
-
-                        buildBoard();
-
-                    }
-                );
-
-            },
-            650
-        );
-
-    }
-);
-
-
-/* =========================================================
-   START GAME
-========================================================= */
-
 function startGame() {
+
+    updateStreak();
+
 
     score =
         0;
@@ -386,11 +937,25 @@ function startGame() {
         1;
 
 
+    currentGameCoins =
+        0;
+
+
+    continueUsed =
+        false;
+
+
     continued =
         false;
 
 
-    updateStats();
+    data.totalGames++;
+
+
+    saveData();
+
+
+    updateUI();
 
 
     startScreen.classList.add(
@@ -455,7 +1020,9 @@ function beginCountdown(done) {
                 n--;
 
 
-                if (n > 0) {
+                if (
+                    n > 0
+                ) {
 
                     countdownEl.textContent =
                         n;
@@ -463,12 +1030,12 @@ function beginCountdown(done) {
 
                     beep(
                         440 +
-                        (3 - n) * 70,
+                        (3 - n) *
+                        70,
                         .08
                     );
 
                 }
-
 
                 else {
 
@@ -518,58 +1085,45 @@ function beginCountdown(done) {
 
 function getBoardSize() {
 
-    /*
-     =====================================================
-     SCORE 0 - 9
-     4 x 4
-
-     SCORE 10 - 24
-     4 x 5
-
-     SCORE 25 - 49
-     5 x 5
-
-     SCORE 50 - 89
-     5 x 6
-
-     SCORE 90 - 149
-     6 x 6
-
-     SCORE 150+
-     6 x 7
-     =====================================================
-    */
-
-
-    if (score < 10) {
+    if (
+        score < 10
+    ) {
 
         return [4, 4];
 
     }
 
 
-    if (score < 25) {
+    if (
+        score < 25
+    ) {
 
         return [4, 5];
 
     }
 
 
-    if (score < 50) {
+    if (
+        score < 50
+    ) {
 
         return [5, 5];
 
     }
 
 
-    if (score < 90) {
+    if (
+        score < 90
+    ) {
 
         return [5, 6];
 
     }
 
 
-    if (score < 150) {
+    if (
+        score < 150
+    ) {
 
         return [6, 6];
 
@@ -602,8 +1156,12 @@ function getLevel() {
 
 function buildBoard() {
 
-    if (!gameRunning) {
+    if (
+        !gameRunning
+    ) {
+
         return;
+
     }
 
 
@@ -618,15 +1176,21 @@ function buildBoard() {
         getLevel();
 
 
-    updateStats();
+    updateUI();
 
 
     gameArea.style.gridTemplateColumns =
-        `repeat(${boardCols}, 1fr)`;
+        `repeat(
+            ${boardCols},
+            1fr
+        )`;
 
 
     gameArea.style.gridTemplateRows =
-        `repeat(${boardRows}, 1fr)`;
+        `repeat(
+            ${boardRows},
+            1fr
+        )`;
 
 
     gameArea.innerHTML =
@@ -638,24 +1202,12 @@ function buildBoard() {
         boardCols;
 
 
-    /*
-     =====================================================
-     RANDOM RED TILE
-     =====================================================
-    */
-
     dangerIndex =
         Math.floor(
             Math.random() *
             total
         );
 
-
-    /*
-     =====================================================
-     CREATE TILES
-     =====================================================
-    */
 
     for (
         let i = 0;
@@ -711,6 +1263,9 @@ function buildBoard() {
 
     }
 
+
+    applyTheme();
+
 }
 
 
@@ -723,14 +1278,21 @@ function handleTile(
     index
 ) {
 
-    if (!gameRunning) {
+    if (
+        !gameRunning
+    ) {
+
         return;
+
     }
+
+
+    data.totalTaps++;
 
 
     /*
      =====================================================
-     PLAYER HIT RED
+     RED TILE
      =====================================================
     */
 
@@ -738,6 +1300,8 @@ function handleTile(
         index ===
         dangerIndex
     ) {
+
+        saveData();
 
         endGame();
 
@@ -764,12 +1328,69 @@ function handleTile(
         getLevel();
 
 
-    updateStats();
+    /*
+     =====================================================
+     COINS
+
+     Every safe tap earns 1 coin.
+     Bonus coins are added at game end.
+     =====================================================
+    */
+
+    currentGameCoins++;
 
 
     /*
      =====================================================
-     GOOD FLASH
+     DAILY CHALLENGE
+     =====================================================
+    */
+
+    if (
+        score >
+        data.dailyChallengeBest
+    ) {
+
+        data.dailyChallengeBest =
+            score;
+
+    }
+
+
+    if (
+        data.dailyChallengeBest >=
+        data.dailyChallengeTarget
+    ) {
+
+        if (
+            !data.dailyChallengeComplete
+        ) {
+
+            data.dailyChallengeComplete =
+                true;
+
+
+            data.coins +=
+                100;
+
+
+            data.totalCoinsEarned +=
+                100;
+
+        }
+
+    }
+
+
+    saveData();
+
+
+    updateUI();
+
+
+    /*
+     =====================================================
+     FLASH
      =====================================================
     */
 
@@ -796,7 +1417,10 @@ function handleTile(
 
     beep(
         420 +
-        Math.min(score, 80) *
+        Math.min(
+            score,
+            80
+        ) *
         4,
         .045,
         "sine",
@@ -834,6 +1458,93 @@ function endGame() {
 
     /*
      =====================================================
+     COINS
+     =====================================================
+    */
+
+    const gameBonus =
+        Math.floor(
+            score / 10
+        );
+
+
+    const earned =
+        currentGameCoins +
+        gameBonus;
+
+
+    data.coins +=
+        earned;
+
+
+    data.totalCoinsEarned +=
+        earned;
+
+
+    earnedCoinsEl.textContent =
+        `+${earned}`;
+
+
+    /*
+     =====================================================
+     HIGH SCORE
+     =====================================================
+    */
+
+    const newRecord =
+        score >
+        data.best;
+
+
+    if (
+        newRecord
+    ) {
+
+        data.best =
+            score;
+
+    }
+
+
+    /*
+     =====================================================
+     DAILY CHALLENGE
+     =====================================================
+    */
+
+    if (
+        score >
+        data.dailyChallengeBest
+    ) {
+
+        data.dailyChallengeBest =
+            score;
+
+    }
+
+
+    if (
+        data.dailyChallengeBest >=
+        data.dailyChallengeTarget
+    ) {
+
+        data.dailyChallengeComplete =
+            true;
+
+    }
+
+
+    saveData();
+
+
+    checkAchievements();
+
+
+    updateUI();
+
+
+    /*
+     =====================================================
      GAME OVER SOUND
      =====================================================
     */
@@ -848,7 +1559,7 @@ function endGame() {
 
     /*
      =====================================================
-     RED FLASH
+     FLASH
      =====================================================
     */
 
@@ -869,40 +1580,13 @@ function endGame() {
 
     /*
      =====================================================
-     CHECK HIGH SCORE
+     RESULT
      =====================================================
     */
-
-    const newRecord =
-        score > best;
-
-
-    if (newRecord) {
-
-        best =
-            score;
-
-
-        localStorage.setItem(
-            BEST_KEY,
-            String(best)
-        );
-
-    }
-
-
-    updateStats();
-
 
     finalScoreEl.textContent =
         score;
 
-
-    /*
-     =====================================================
-     RESULT MESSAGE
-     =====================================================
-    */
 
     if (
         newRecord &&
@@ -927,80 +1611,768 @@ function endGame() {
         const difference =
             Math.max(
                 0,
-                best - score
+                data.best -
+                score
             );
 
 
-        if (
+        recordTextEl.textContent =
             difference === 0
-        ) {
-
-            recordTextEl.textContent =
-                "That is your best score!";
-
-        }
-
-        else {
-
-            recordTextEl.textContent =
-                `${difference} point${
+                ? "That is your best score!"
+                : `${difference} point${
                     difference === 1
                         ? ""
                         : "s"
-                } away from your record.`;
-
-        }
+                  } away from your record.`;
 
     }
 
 
     /*
      =====================================================
-     SHOW GAME OVER
+     CONTINUE
+
+     Only one continue per game.
      =====================================================
     */
 
-    continueBtn.classList.remove(
-        "hidden"
-    );
+    if (
+        continueUsed
+    ) {
+
+        continueBtn.classList.add(
+            "hidden"
+        );
+
+    }
+
+    else {
+
+        continueBtn.classList.remove(
+            "hidden"
+        );
+
+    }
 
 
     gameOverScreen.classList.remove(
         "hidden"
     );
 
+
+    /*
+     =====================================================
+     INTERSTITIAL AD HOOK
+
+     We don't interrupt every game.
+
+     =====================================================
+    */
+
+    if (
+        data.totalGames % 4 ===
+        0
+    ) {
+
+        showInterstitialAd();
+
+    }
+
 }
 
 
 /* =========================================================
-   UPDATE STATS
+   REWARDED AD
 ========================================================= */
 
-function updateStats() {
+continueBtn.addEventListener(
+    "click",
+    () => {
 
-    scoreEl.textContent =
-        score;
+        if (
+            continueUsed
+        ) {
+
+            return;
+
+        }
 
 
-    bestEl.textContent =
-        best;
+        continueBtn.disabled =
+            true;
 
 
-    levelEl.textContent =
-        level;
+        continueBtn.textContent =
+            "LOADING AD...";
+
+
+        /*
+         =====================================================
+         REAL AD CONNECTION POINT
+
+         When H5 Games Ads / another ad provider is connected,
+         the ad should be shown here.
+
+         The player should only receive the reward after
+         the provider confirms the rewarded ad was completed.
+         =====================================================
+        */
+
+        showRewardedAd(
+            () => {
+
+                continueUsed =
+                    true;
+
+
+                continueBtn.disabled =
+                    false;
+
+
+                continueBtn.classList.add(
+                    "hidden"
+                );
+
+
+                gameOverScreen.classList.add(
+                    "hidden"
+                );
+
+
+                beginCountdown(
+                    () => {
+
+                        gameRunning =
+                            true;
+
+
+                        buildBoard();
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   REWARDED AD FUNCTION
+========================================================= */
+
+function showRewardedAd(
+    rewardCallback
+) {
+
+    /*
+     =====================================================
+     DEMO MODE
+
+     There is currently no advertising SDK connected.
+
+     We simulate the ad so the game can be tested.
+
+     Later this function will contain the real ad provider.
+     =====================================================
+    */
+
+    setTimeout(
+        () => {
+
+            rewardCallback();
+
+        },
+        1000
+    );
 
 }
 
 
 /* =========================================================
-   PREVENT MOBILE SCROLLING
+   INTERSTITIAL AD
+========================================================= */
+
+function showInterstitialAd() {
+
+    /*
+     =====================================================
+     DEMO PLACEHOLDER
+
+     Real H5 Games Ads can be connected here.
+
+     We deliberately do NOT show an ad during gameplay.
+     =====================================================
+    */
+
+    console.log(
+        "Interstitial ad opportunity."
+    );
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+function checkAchievements() {
+
+    achievements.forEach(
+        achievement => {
+
+            if (
+                data.achievements[
+                    achievement.id
+                ]
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                achievement.check()
+            ) {
+
+                data.achievements[
+                    achievement.id
+                ] =
+                    true;
+
+
+                data.coins +=
+                    achievement.reward;
+
+
+                data.totalCoinsEarned +=
+                    achievement.reward;
+
+            }
+
+        }
+    );
+
+
+    saveData();
+
+}
+
+
+/* =========================================================
+   SHOP
+========================================================= */
+
+shopBtn.addEventListener(
+    "click",
+    openShop
+);
+
+
+function openShop() {
+
+    let html = `
+
+        <h2 class="modal-title">
+            🎨 THEMES
+        </h2>
+
+        <p style="color:#888;font-size:11px;margin-top:-10px;">
+            Use your coins to unlock new looks.
+        </p>
+
+    `;
+
+
+    Object.keys(themes).forEach(
+        id => {
+
+            const theme =
+                themes[id];
+
+
+            const owned =
+                data.ownedThemes.includes(
+                    id
+                );
+
+
+            const active =
+                data.activeTheme ===
+                id;
+
+
+            html += `
+
+                <div class="shop-item">
+
+                    <div class="shop-info">
+
+                        <div
+                            class="theme-preview"
+                            style="
+                                background:
+                                ${theme.safe};
+                                border:
+                                4px solid
+                                ${theme.danger};
+                            "
+                        ></div>
+
+
+                        <div>
+
+                            <div class="theme-name">
+                                ${theme.name}
+                            </div>
+
+                            <div class="theme-price">
+                                ${
+                                    owned
+                                        ? "UNLOCKED"
+                                        : `🪙 ${theme.price}`
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="shop-action ${
+                            active ||
+                            owned
+                                ? "owned"
+                                : ""
+                        }"
+                        onclick="
+                            shopAction('${id}')
+                        "
+                    >
+
+                        ${
+                            active
+                                ? "ACTIVE"
+                                : owned
+                                    ? "USE"
+                                    : "BUY"
+                        }
+
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+        <div
+            style="
+                margin-top:18px;
+                padding:14px;
+                background:#181818;
+                border-radius:12px;
+                text-align:center;
+            "
+        >
+
+            <strong>
+                🪙 ${data.coins} COINS
+            </strong>
+
+            <p
+                style="
+                    color:#777;
+                    font-size:10px;
+                    margin-bottom:0;
+                "
+            >
+                Earn coins by playing.
+            </p>
+
+        </div>
+
+    `;
+
+
+    openModal(
+        html
+    );
+
+}
+
+
+/* =========================================================
+   SHOP ACTION
+========================================================= */
+
+window.shopAction =
+    function(id) {
+
+        const theme =
+            themes[id];
+
+
+        if (
+            data.ownedThemes.includes(
+                id
+            )
+        ) {
+
+            data.activeTheme =
+                id;
+
+
+            applyTheme();
+
+
+            saveData();
+
+
+            openShop();
+
+
+            return;
+
+        }
+
+
+        if (
+            data.coins <
+            theme.price
+        ) {
+
+            alert(
+                "You don't have enough coins yet."
+            );
+
+
+            return;
+
+        }
+
+
+        data.coins -=
+            theme.price;
+
+
+        data.ownedThemes.push(
+            id
+        );
+
+
+        data.activeTheme =
+            id;
+
+
+        saveData();
+
+
+        applyTheme();
+
+
+        updateUI();
+
+
+        openShop();
+
+    };
+
+
+/* =========================================================
+   APPLY THEME
+========================================================= */
+
+function applyTheme() {
+
+    const theme =
+        themes[
+            data.activeTheme
+        ] ||
+        themes.classic;
+
+
+    document.documentElement.style.setProperty(
+        "--safe",
+        theme.safe
+    );
+
+
+    document.documentElement.style.setProperty(
+        "--red",
+        theme.danger
+    );
+
+
+    const card =
+        document.querySelector(
+            ".game-card"
+        );
+
+
+    if (card) {
+
+        card.style.background =
+            theme.background;
+
+    }
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENTS MENU
+========================================================= */
+
+achievementsBtn.addEventListener(
+    "click",
+    openAchievements
+);
+
+
+function openAchievements() {
+
+    let html = `
+
+        <h2 class="modal-title">
+            🏆 ACHIEVEMENTS
+        </h2>
+
+    `;
+
+
+    achievements.forEach(
+        achievement => {
+
+            const unlocked =
+                !!data.achievements[
+                    achievement.id
+                ];
+
+
+            html += `
+
+                <div
+                    class="achievement ${
+                        unlocked
+                            ? ""
+                            : "locked"
+                    }"
+                >
+
+                    <div class="achievement-icon">
+                        ${achievement.icon}
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            ${achievement.name}
+                        </strong>
+
+                        <small>
+                            ${achievement.description}
+                        </small>
+
+                        <small>
+                            Reward: 🪙
+                            ${achievement.reward}
+                        </small>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    openModal(
+        html
+    );
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+statsBtn.addEventListener(
+    "click",
+    openStats
+);
+
+
+function openStats() {
+
+    const html = `
+
+        <h2 class="modal-title">
+            📊 YOUR STATS
+        </h2>
+
+
+        <div class="stat-row">
+
+            <span>
+                Best Score
+            </span>
+
+            <strong>
+                ${data.best}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <span>
+                Games Played
+            </span>
+
+            <strong>
+                ${data.totalGames}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <span>
+                Safe Taps
+            </span>
+
+            <strong>
+                ${data.totalTaps}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <span>
+                Current Streak
+            </span>
+
+            <strong>
+                ${data.streak} days
+            </strong>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <span>
+                Total Coins Earned
+            </span>
+
+            <strong>
+                🪙 ${data.totalCoinsEarned}
+            </strong>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <span>
+                Themes Unlocked
+            </span>
+
+            <strong>
+                ${data.ownedThemes.length}
+                / ${Object.keys(themes).length}
+            </strong>
+
+        </div>
+
+    `;
+
+
+    openModal(
+        html
+    );
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(
+    html
+) {
+
+    modalContent.innerHTML =
+        html;
+
+
+    modal.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+function closeModal() {
+
+    modal.classList.add(
+        "hidden"
+    );
+
+}
+
+
+closeModalBtn.addEventListener(
+    "click",
+    closeModal
+);
+
+
+modal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            modal
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   MOBILE TOUCH PROTECTION
 ========================================================= */
 
 gameArea.addEventListener(
     "touchstart",
-    (event) => {
+    event => {
 
-        if (gameRunning) {
+        if (
+            gameRunning
+        ) {
 
             event.preventDefault();
 
@@ -1015,9 +2387,11 @@ gameArea.addEventListener(
 
 gameArea.addEventListener(
     "touchmove",
-    (event) => {
+    event => {
 
-        if (gameRunning) {
+        if (
+            gameRunning
+        ) {
 
             event.preventDefault();
 
@@ -1031,7 +2405,11 @@ gameArea.addEventListener(
 
 
 /* =========================================================
-   INITIALIZE
+   FINAL SAVE
 ========================================================= */
 
-updateStats();
+saveData();
+
+updateUI();
+
+applyTheme();

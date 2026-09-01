@@ -1,17 +1,15 @@
 /* =========================================================
    ONE WRONG TAP
-   Version 1.0
+   VERSION 2.0
 ========================================================= */
 
-
-/* =========================================================
-   GLOBAL
-========================================================= */
 
 * {
+
     box-sizing: border-box;
 
     -webkit-tap-highlight-color: transparent;
+
 }
 
 
@@ -46,9 +44,11 @@ body {
         Helvetica,
         sans-serif;
 
-    background: var(--black);
+    background:
+        var(--black);
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
 }
 
@@ -72,23 +72,27 @@ button {
 
 
 /* =========================================================
-   MAIN APP
+   APP
 ========================================================= */
 
 .app {
 
-    width: min(100%, 620px);
+    width:
+        min(100%, 620px);
 
-    min-height: 100vh;
+    min-height:
+        100vh;
 
     padding:
         18px
         16px
         22px;
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
 }
 
@@ -99,52 +103,119 @@ button {
 
 .topbar {
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    align-items: center;
+    align-items:
+        center;
 
-    margin-bottom: 18px;
+    margin-bottom:
+        18px;
 
 }
 
 
 .logo {
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    letter-spacing: 1.5px;
+    letter-spacing:
+        1.5px;
 
-    font-size: 20px;
+    font-size:
+        20px;
 
 }
 
 
 .logo span {
 
-    color: var(--yellow);
+    color:
+        var(--yellow);
+
+}
+
+
+.top-actions {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+}
+
+
+.coin-display {
+
+    height:
+        42px;
+
+    padding:
+        0
+        12px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    background:
+        #1c1c1c;
+
+    border:
+        1px solid
+        #343434;
+
+    border-radius:
+        12px;
+
+}
+
+
+.coin-display strong {
+
+    color:
+        var(--yellow);
 
 }
 
 
 .icon-btn {
 
-    width: 42px;
+    width:
+        42px;
 
-    height: 42px;
+    height:
+        42px;
 
     border:
         1px solid
         #343434;
 
-    border-radius: 12px;
+    border-radius:
+        12px;
 
-    background: #1c1c1c;
+    background:
+        #1c1c1c;
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
 }
 
@@ -155,59 +226,188 @@ button {
 
 .stats {
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 10px;
+    gap:
+        10px;
 
-    margin-bottom: 12px;
+    margin-bottom:
+        10px;
 
 }
 
 
 .stat {
 
-    background: var(--panel);
+    background:
+        var(--panel);
 
     border:
         1px solid
         #2b2b2b;
 
-    border-radius: 14px;
+    border-radius:
+        14px;
 
     padding:
         11px
         8px;
 
-    text-align: center;
+    text-align:
+        center;
 
 }
 
 
 .stat small {
 
-    display: block;
+    display:
+        block;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
-    font-size: 10px;
+    font-size:
+        10px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    letter-spacing: 1px;
+    letter-spacing:
+        1px;
 
-    margin-bottom: 4px;
+    margin-bottom:
+        4px;
 
 }
 
 
 .stat strong {
 
-    font-size: 22px;
+    font-size:
+        22px;
 
-    line-height: 1;
+}
+
+
+/* =========================================================
+   DAILY PANEL
+========================================================= */
+
+.daily-panel {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        12px;
+
+    margin-bottom:
+        12px;
+
+    background:
+        #181818;
+
+    border:
+        1px solid
+        #2b2b2b;
+
+    border-radius:
+        14px;
+
+}
+
+
+.daily-title {
+
+    color:
+        var(--yellow);
+
+    font-size:
+        10px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        1px;
+
+    margin-bottom:
+        4px;
+
+}
+
+
+.daily-panel > div > strong {
+
+    font-size:
+        17px;
+
+}
+
+
+.daily-challenge {
+
+    text-align:
+        right;
+
+}
+
+
+.daily-challenge small {
+
+    display:
+        block;
+
+    color:
+        #777777;
+
+    font-size:
+        8px;
+
+    margin-bottom:
+        3px;
+
+}
+
+
+.daily-challenge strong {
+
+    display:
+        block;
+
+    font-size:
+        11px;
+
+}
+
+
+.daily-challenge span {
+
+    display:
+        block;
+
+    color:
+        var(--yellow);
+
+    font-size:
+        10px;
+
+    margin-top:
+        3px;
 
 }
 
@@ -218,21 +418,29 @@ button {
 
 .game-card {
 
-    position: relative;
+    position:
+        relative;
 
-    width: 100%;
+    width:
+        100%;
 
-    aspect-ratio: 1 / 1.08;
+    aspect-ratio:
+        1 / 1.08;
 
-    min-height: 430px;
+    min-height:
+        430px;
 
-    max-height: 690px;
+    max-height:
+        690px;
 
-    overflow: hidden;
+    overflow:
+        hidden;
 
-    border-radius: 22px;
+    border-radius:
+        22px;
 
-    background: #090909;
+    background:
+        #090909;
 
     border:
         1px solid
@@ -240,7 +448,7 @@ button {
 
     box-shadow:
         0 18px 60px
-        rgba(0, 0, 0, .35);
+        rgba(0,0,0,.35);
 
 }
 
@@ -251,53 +459,74 @@ button {
 
 .game-area {
 
-    position: absolute;
+    position:
+        absolute;
 
-    inset: 0;
+    inset:
+        0;
 
-    display: grid;
+    display:
+        grid;
 
-    gap: 8px;
+    gap:
+        8px;
 
-    padding: 10px;
+    padding:
+        10px;
 
-    touch-action: manipulation;
+    touch-action:
+        manipulation;
 
 }
 
 
 /* =========================================================
-   TILES
+   TILE
 ========================================================= */
 
 .tile {
 
-    border: 0;
+    border:
+        0;
 
-    border-radius: 12px;
+    border-radius:
+        12px;
 
-    min-width: 0;
+    min-width:
+        0;
 
-    min-height: 0;
+    min-height:
+        0;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    background: var(--safe);
+    background:
+        var(--safe);
 
     box-shadow:
-        inset 0 -3px 0
-        rgba(0, 0, 0, .12);
+        inset
+        0 -3px 0
+        rgba(0,0,0,.12);
 
     transition:
-        transform .08s ease,
-        filter .08s ease;
+        transform .08s ease;
 
 }
 
 
 .tile:active {
 
-    transform: scale(.94);
+    transform:
+        scale(.94);
+
+}
+
+
+.tile.danger {
+
+    background:
+        var(--red);
 
 }
 
@@ -312,37 +541,38 @@ button {
 }
 
 
-.tile.danger {
-
-    background:
-        var(--red);
-
-}
-
-
 /* =========================================================
-   OVERLAYS
+   OVERLAY
 ========================================================= */
 
 .overlay {
 
-    position: absolute;
+    position:
+        absolute;
 
-    inset: 0;
+    inset:
+        0;
 
-    z-index: 5;
+    z-index:
+        5;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    text-align: center;
+    text-align:
+        center;
 
-    padding: 30px;
+    padding:
+        30px;
 
     background:
         radial-gradient(
@@ -356,26 +586,28 @@ button {
 
 .hidden {
 
-    display: none !important;
+    display:
+        none !important;
 
 }
 
 
-/* =========================================================
-   START ICON
-========================================================= */
-
 .hero-icon {
 
-    width: 70px;
+    width:
+        70px;
 
-    height: 70px;
+    height:
+        70px;
 
-    display: grid;
+    display:
+        grid;
 
-    place-items: center;
+    place-items:
+        center;
 
-    border-radius: 20px;
+    border-radius:
+        20px;
 
     background:
         var(--yellow);
@@ -383,20 +615,14 @@ button {
     color:
         #111111;
 
-    font-size: 34px;
+    font-size:
+        34px;
 
-    margin-bottom: 18px;
-
-    box-shadow:
-        0 10px 30px
-        rgba(252, 194, 36, .18);
+    margin-bottom:
+        18px;
 
 }
 
-
-/* =========================================================
-   HEADINGS
-========================================================= */
 
 .overlay h1 {
 
@@ -408,50 +634,43 @@ button {
         );
 
     margin:
-        0
-        0
-        12px;
-
-    letter-spacing: 1px;
+        0 0 12px;
 
 }
 
 
 .overlay h2 {
 
-    font-size: 82px;
+    font-size:
+        82px;
 
     margin:
-        4px
-        0
-        0;
+        4px 0 0;
 
-    line-height: .9;
+    line-height:
+        .9;
 
 }
 
 
-/* =========================================================
-   TEXT
-========================================================= */
-
 .overlay p {
 
-    color: #bcbcbc;
+    color:
+        #bcbcbc;
 
-    line-height: 1.55;
+    line-height:
+        1.55;
 
     margin:
-        0
-        0
-        24px;
+        0 0 20px;
 
 }
 
 
 .overlay p b {
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
 }
 
@@ -462,12 +681,10 @@ button {
         12px !important;
 
     color:
-        #777 !important;
+        #777777 !important;
 
-    margin:
-        16px
-        0
-        0 !important;
+    margin-top:
+        16px !important;
 
 }
 
@@ -484,9 +701,11 @@ button {
             310px
         );
 
-    border: 0;
+    border:
+        0;
 
-    border-radius: 13px;
+    border-radius:
+        13px;
 
     padding:
         15px
@@ -498,25 +717,14 @@ button {
     color:
         #111111;
 
-    font-size: 15px;
+    font-size:
+        15px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    letter-spacing: .5px;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 8px 20px
-        rgba(252, 194, 36, .13);
-
-}
-
-
-.main-btn:active {
-
-    transform:
-        translateY(1px);
+    cursor:
+        pointer;
 
 }
 
@@ -529,13 +737,88 @@ button {
     color:
         #ffffff;
 
-    margin-bottom: 10px;
+    margin-bottom:
+        10px;
 
     border:
         1px solid
         #444444;
 
-    box-shadow: none;
+}
+
+
+.main-btn:disabled {
+
+    opacity:
+        .5;
+
+    cursor:
+        not-allowed;
+
+}
+
+
+/* =========================================================
+   EARNED COINS
+========================================================= */
+
+.earned-box {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        7px;
+
+    margin:
+        0 0 18px;
+
+    padding:
+        8px
+        14px;
+
+    background:
+        #181818;
+
+    border:
+        1px solid
+        #303030;
+
+    border-radius:
+        10px;
+
+}
+
+
+.earned-box span {
+
+    font-size:
+        20px;
+
+}
+
+
+.earned-box strong {
+
+    color:
+        var(--yellow);
+
+    font-size:
+        18px;
+
+}
+
+
+.earned-box small {
+
+    color:
+        #777777;
+
+    font-size:
+        9px;
 
 }
 
@@ -549,13 +832,17 @@ button {
     color:
         var(--yellow);
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    letter-spacing: 2px;
+    letter-spacing:
+        2px;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    margin-bottom: 12px;
+    margin-bottom:
+        12px;
 
 }
 
@@ -566,41 +853,53 @@ button {
 
 .countdown {
 
-    position: absolute;
+    position:
+        absolute;
 
-    inset: 0;
+    inset:
+        0;
 
-    z-index: 10;
+    z-index:
+        10;
 
-    display: grid;
+    display:
+        grid;
 
-    place-items: center;
+    place-items:
+        center;
 
-    font-size: 110px;
+    font-size:
+        110px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
     background:
-        rgba(0, 0, 0, .35);
+        rgba(0,0,0,.35);
 
 }
 
 
 /* =========================================================
-   FLASH EFFECT
+   FLASH
 ========================================================= */
 
 .flash {
 
-    position: absolute;
+    position:
+        absolute;
 
-    inset: 0;
+    inset:
+        0;
 
-    pointer-events: none;
+    pointer-events:
+        none;
 
-    z-index: 20;
+    z-index:
+        20;
 
-    opacity: 0;
+    opacity:
+        0;
 
 }
 
@@ -608,7 +907,12 @@ button {
 .flash.bad {
 
     background:
-        rgba(229, 57, 53, .32);
+        rgba(
+            229,
+            57,
+            53,
+            .32
+        );
 
     animation:
         flash
@@ -621,7 +925,12 @@ button {
 .flash.good {
 
     background:
-        rgba(252, 194, 36, .12);
+        rgba(
+            252,
+            194,
+            36,
+            .12
+        );
 
     animation:
         flash
@@ -632,19 +941,488 @@ button {
 
 
 /* =========================================================
+   MENU
+========================================================= */
+
+.menu-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        8px;
+
+    margin-top:
+        12px;
+
+}
+
+
+.menu-btn {
+
+    border:
+        1px solid
+        #292929;
+
+    border-radius:
+        13px;
+
+    background:
+        #181818;
+
+    color:
+        #ffffff;
+
+    padding:
+        12px 5px;
+
+    cursor:
+        pointer;
+
+}
+
+
+.menu-btn span {
+
+    display:
+        block;
+
+    font-size:
+        20px;
+
+    margin-bottom:
+        5px;
+
+}
+
+
+.menu-btn strong {
+
+    display:
+        block;
+
+    font-size:
+        9px;
+
+}
+
+
+.menu-btn small {
+
+    display:
+        block;
+
+    color:
+        #777777;
+
+    font-size:
+        8px;
+
+    margin-top:
+        3px;
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        100;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        18px;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .78
+        );
+
+}
+
+
+.modal-box {
+
+    position:
+        relative;
+
+    width:
+        min(
+            100%,
+            500px
+        );
+
+    max-height:
+        85vh;
+
+    overflow:
+        auto;
+
+    padding:
+        25px;
+
+    border-radius:
+        20px;
+
+    background:
+        #202020;
+
+    border:
+        1px solid
+        #383838;
+
+}
+
+
+.close-btn {
+
+    position:
+        absolute;
+
+    top:
+        10px;
+
+    right:
+        12px;
+
+    width:
+        34px;
+
+    height:
+        34px;
+
+    border:
+        0;
+
+    border-radius:
+        50%;
+
+    background:
+        #333333;
+
+    color:
+        #ffffff;
+
+    font-size:
+        22px;
+
+    cursor:
+        pointer;
+
+}
+
+
+/* =========================================================
+   MODAL CONTENT
+========================================================= */
+
+.modal-title {
+
+    margin:
+        0 0 18px;
+
+    font-size:
+        22px;
+
+}
+
+
+.shop-item {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+    padding:
+        13px;
+
+    margin-bottom:
+        8px;
+
+    border:
+        1px solid
+        #333333;
+
+    border-radius:
+        12px;
+
+    background:
+        #181818;
+
+}
+
+
+.shop-info {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+}
+
+
+.theme-preview {
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    border-radius:
+        10px;
+
+}
+
+
+.theme-name {
+
+    font-weight:
+        900;
+
+    font-size:
+        13px;
+
+}
+
+
+.theme-price {
+
+    color:
+        var(--yellow);
+
+    font-size:
+        10px;
+
+    margin-top:
+        3px;
+
+}
+
+
+.shop-action {
+
+    border:
+        0;
+
+    border-radius:
+        8px;
+
+    padding:
+        8px
+        11px;
+
+    background:
+        var(--yellow);
+
+    color:
+        #111111;
+
+    font-size:
+        10px;
+
+    font-weight:
+        900;
+
+    cursor:
+        pointer;
+
+}
+
+
+.shop-action.owned {
+
+    background:
+        #333333;
+
+    color:
+        #ffffff;
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+.achievement {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        12px;
+
+    margin-bottom:
+        8px;
+
+    border-radius:
+        12px;
+
+    background:
+        #181818;
+
+    border:
+        1px solid
+        #303030;
+
+}
+
+
+.achievement-icon {
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        12px;
+
+    background:
+        #292929;
+
+    font-size:
+        20px;
+
+}
+
+
+.achievement.locked {
+
+    opacity:
+        .45;
+
+}
+
+
+.achievement strong {
+
+    display:
+        block;
+
+    font-size:
+        12px;
+
+}
+
+
+.achievement small {
+
+    color:
+        #777777;
+
+    font-size:
+        9px;
+
+}
+
+
+/* =========================================================
+   STATS MODAL
+========================================================= */
+
+.stat-row {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    padding:
+        12px 0;
+
+    border-bottom:
+        1px solid
+        #303030;
+
+}
+
+
+.stat-row span {
+
+    color:
+        #999999;
+
+}
+
+
+.stat-row strong {
+
+    color:
+        var(--yellow);
+
+}
+
+
+/* =========================================================
    INSTRUCTIONS
 ========================================================= */
 
 .instructions {
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 8px;
+    gap:
+        8px;
 
-    margin-top: 12px;
+    margin-top:
+        12px;
 
 }
 
@@ -658,35 +1436,42 @@ button {
         1px solid
         #272727;
 
-    border-radius: 12px;
+    border-radius:
+        12px;
 
     padding:
-        10px
-        7px;
+        10px 7px;
 
-    text-align: center;
+    text-align:
+        center;
 
 }
 
 
 .instructions span {
 
-    display: inline-grid;
+    display:
+        inline-grid;
 
-    place-items: center;
+    place-items:
+        center;
 
-    width: 9px;
+    width:
+        9px;
 
-    height: 9px;
+    height:
+        9px;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
-    margin-right: 4px;
+    margin-right:
+        4px;
 
 }
 
 
-.instructions .safe-dot {
+.safe-dot {
 
     background:
         #ededed;
@@ -694,7 +1479,7 @@ button {
 }
 
 
-.instructions .danger-dot {
+.danger-dot {
 
     background:
         var(--red);
@@ -702,11 +1487,13 @@ button {
 }
 
 
-.instructions .score-dot {
+.score-dot {
 
-    width: 18px;
+    width:
+        18px !important;
 
-    height: 18px;
+    height:
+        18px !important;
 
     background:
         var(--yellow);
@@ -714,31 +1501,36 @@ button {
     color:
         #111111;
 
-    font-size: 11px;
+    font-size:
+        11px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
 }
 
 
 .instructions b {
 
-    font-size: 10px;
-
-    letter-spacing: .5px;
+    font-size:
+        10px;
 
 }
 
 
 .instructions small {
 
-    display: block;
+    display:
+        block;
 
-    margin-top: 4px;
+    margin-top:
+        4px;
 
-    color: #777777;
+    color:
+        #777777;
 
-    font-size: 9px;
+    font-size:
+        9px;
 
 }
 
@@ -749,21 +1541,26 @@ button {
 
 footer {
 
-    margin-top: auto;
+    margin-top:
+        auto;
 
-    padding-top: 18px;
+    padding-top:
+        18px;
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 8px;
+    gap:
+        8px;
 
-    color: #666666;
+    color:
+        #666666;
 
-    font-size: 10px;
-
-    letter-spacing: .4px;
+    font-size:
+        10px;
 
 }
 
@@ -779,7 +1576,8 @@ footer {
         transform:
             scale(.93);
 
-        opacity: .65;
+        opacity:
+            .65;
 
     }
 
@@ -790,13 +1588,15 @@ footer {
 
     0% {
 
-        opacity: 1;
+        opacity:
+            1;
 
     }
 
     100% {
 
-        opacity: 0;
+        opacity:
+            0;
 
     }
 
@@ -807,7 +1607,9 @@ footer {
    MOBILE
 ========================================================= */
 
-@media (max-width: 480px) {
+@media (
+    max-width: 480px
+) {
 
     .app {
 
@@ -821,46 +1623,62 @@ footer {
 
     .game-card {
 
-        min-height: 400px;
+        min-height:
+            400px;
 
-        border-radius: 18px;
+        border-radius:
+            18px;
 
     }
 
 
     .game-area {
 
-        gap: 6px;
+        gap:
+            6px;
 
-        padding: 8px;
+        padding:
+            8px;
 
     }
 
 
     .tile {
 
-        border-radius: 9px;
+        border-radius:
+            9px;
 
     }
 
 
     .overlay {
 
-        padding: 22px;
+        padding:
+            22px;
 
     }
 
 
     .overlay h1 {
 
-        font-size: 29px;
+        font-size:
+            29px;
 
     }
 
 
     .overlay h2 {
 
-        font-size: 68px;
+        font-size:
+            68px;
+
+    }
+
+
+    .daily-panel {
+
+        padding:
+            10px;
 
     }
 

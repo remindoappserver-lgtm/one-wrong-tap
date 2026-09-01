@@ -1241,32 +1241,22 @@ function buildBoard() {
         }
 
 
-        tile.addEventListener(
-            "click",
-            () => {
+       tile.addEventListener(
+    "pointerdown",
+    (event) => {
 
-                handleTile(
-                    tile,
-                    i
-                );
+        event.preventDefault();
 
-            },
-            {
-                once: true
-            }
+        handleTile(
+            tile,
+            i
         );
 
-
-        gameArea.appendChild(
-            tile
-        );
-
+    },
+    {
+        once: true
     }
-
-
-    applyTheme();
-
-}
+);
 
 
 /* =========================================================

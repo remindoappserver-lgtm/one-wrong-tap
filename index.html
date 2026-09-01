@@ -1,483 +1,484 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
 
-    <meta
-        name="theme-color"
-        content="#111111"
-    >
+<meta
+    name="theme-color"
+    content="#111111"
+>
 
-    <title>ONE WRONG TAP</title>
+<title>ONE WRONG TAP</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+```
 
 </head>
-
 
 <body>
 
 <main class="app">
 
+```
+<!-- =====================================================
+     TOP BAR
+====================================================== -->
 
-    <!-- =====================================================
-         TOP BAR
-    ====================================================== -->
+<header class="topbar">
 
-    <header class="topbar">
-
-        <div class="logo">
-            ONE WRONG <span>TAP</span>
-        </div>
-
-
-        <div class="top-actions">
-
-            <div class="coin-display">
-
-                <span>🪙</span>
-
-                <strong id="coins">
-                    0
-                </strong>
-
-            </div>
+    <div class="logo">
+        ONE WRONG <span>TAP</span>
+    </div>
 
 
-            <button
-                id="soundBtn"
-                class="icon-btn"
-                type="button"
-            >
-                🔊
-            </button>
+    <div class="top-actions">
 
-        </div>
+        <div class="coin-display">
 
-    </header>
+            <span>🪙</span>
 
-
-    <!-- =====================================================
-         STATS
-    ====================================================== -->
-
-    <section class="stats">
-
-        <div class="stat">
-
-            <small>
-                SCORE
-            </small>
-
-            <strong id="score">
+            <strong id="coins">
                 0
             </strong>
 
         </div>
 
 
-        <div class="stat">
-
-            <small>
-                BEST
-            </small>
-
-            <strong id="best">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="stat">
-
-            <small>
-                LEVEL
-            </small>
-
-            <strong id="level">
-                1
-            </strong>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         DAILY PANEL
-    ====================================================== -->
-
-    <section class="daily-panel">
-
-        <div>
-
-            <div class="daily-title">
-                🔥 DAILY STREAK
-            </div>
-
-            <strong id="streak">
-                0 DAYS
-            </strong>
-
-        </div>
-
-
-        <div class="daily-challenge">
-
-            <small>
-                TODAY'S CHALLENGE
-            </small>
-
-            <strong id="challengeText">
-                Reach 50 points
-            </strong>
-
-            <span id="challengeProgress">
-                0 / 50
-            </span>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         GAME CARD
-    ====================================================== -->
-
-    <section class="game-card">
-
-
-        <!-- =================================================
-             START SCREEN
-        ================================================== -->
-
-        <div
-            id="startScreen"
-            class="overlay"
-        >
-
-            <div class="hero-icon">
-                ⚡
-            </div>
-
-
-            <h1>
-                ONE WRONG TAP
-            </h1>
-
-
-            <p>
-                Tap every safe tile.<br>
-                <b>Do NOT tap red.</b>
-            </p>
-
-
-            <button
-                id="startBtn"
-                class="main-btn"
-                type="button"
-            >
-                START GAME
-            </button>
-
-
-            <p class="hint">
-                The game gets faster as you score.
-            </p>
-
-        </div>
-
-
-        <!-- =================================================
-             GAME OVER SCREEN
-        ================================================== -->
-
-        <div
-            id="gameOverScreen"
-            class="overlay hidden"
-        >
-
-            <div
-                id="resultBadge"
-                class="result-badge"
-            >
-                GAME OVER
-            </div>
-
-
-            <h2 id="finalScore">
-                0
-            </h2>
-
-
-            <p id="recordText">
-                Score
-            </p>
-
-
-            <div class="earned-box">
-
-                <span>
-                    🪙
-                </span>
-
-                <strong id="earnedCoins">
-                    +0
-                </strong>
-
-                <small>
-                    COINS
-                </small>
-
-            </div>
-
-
-            <button
-                id="continueBtn"
-                class="main-btn secondary"
-                type="button"
-            >
-                📺 WATCH AD &amp; CONTINUE
-            </button>
-
-
-            <button
-                id="restartBtn"
-                class="main-btn"
-                type="button"
-            >
-                PLAY AGAIN
-            </button>
-
-        </div>
-
-
-        <!-- =================================================
-             GAME AREA
-        ================================================== -->
-
-        <div
-            id="gameArea"
-            class="game-area hidden"
-        >
-        </div>
-
-
-        <!-- =================================================
-             COUNTDOWN
-        ================================================== -->
-
-        <div
-            id="countdown"
-            class="countdown hidden"
-        >
-            3
-        </div>
-
-
-        <!-- =================================================
-             FLASH
-        ================================================== -->
-
-        <div
-            id="flash"
-            class="flash"
-        >
-        </div>
-
-
-    </section>
-
-
-    <!-- =====================================================
-         MENU BUTTONS
-    ====================================================== -->
-
-    <section class="menu-grid">
-
         <button
-            id="shopBtn"
-            class="menu-btn"
+            id="soundBtn"
+            class="icon-btn"
             type="button"
         >
-
-            <span>
-                🎨
-            </span>
-
-            <strong>
-                THEMES
-            </strong>
-
-            <small>
-                Shop
-            </small>
-
+            🔊
         </button>
 
+    </div>
 
-        <button
-            id="achievementsBtn"
-            class="menu-btn"
-            type="button"
-        >
-
-            <span>
-                🏆
-            </span>
-
-            <strong>
-                ACHIEVEMENTS
-            </strong>
-
-            <small>
-                Awards
-            </small>
-
-        </button>
+</header>
 
 
-        <button
-            id="statsBtn"
-            class="menu-btn"
-            type="button"
-        >
+<!-- =====================================================
+     STATS
+====================================================== -->
 
-            <span>
-                📊
-            </span>
+<section class="stats">
 
-            <strong>
-                STATS
-            </strong>
+    <div class="stat">
 
-            <small>
-                Progress
-            </small>
+        <small>
+            SCORE
+        </small>
 
-        </button>
-
-    </section>
-
-
-    <!-- =====================================================
-         MODAL
-    ====================================================== -->
-
-    <div
-        id="modal"
-        class="modal hidden"
-    >
-
-        <div class="modal-box">
-
-            <button
-                id="closeModalBtn"
-                class="close-btn"
-                type="button"
-            >
-                ×
-            </button>
-
-
-            <div id="modalContent">
-            </div>
-
-        </div>
+        <strong id="score">
+            0
+        </strong>
 
     </div>
 
 
-    <!-- =====================================================
-         INSTRUCTIONS
-    ====================================================== -->
+    <div class="stat">
 
-    <section class="instructions">
+        <small>
+            BEST
+        </small>
 
-        <div>
+        <strong id="best">
+            0
+        </strong>
 
-            <span class="safe-dot"></span>
+    </div>
 
-            <b>
-                SAFE
-            </b>
 
-            <small>
-                Tap it
-            </small>
+    <div class="stat">
 
+        <small>
+            LEVEL
+        </small>
+
+        <strong id="level">
+            1
+        </strong>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     DAILY PANEL
+====================================================== -->
+
+<section class="daily-panel">
+
+    <div>
+
+        <div class="daily-title">
+            🔥 DAILY STREAK
+        </div>
+
+        <strong id="streak">
+            0 DAYS
+        </strong>
+
+    </div>
+
+
+    <div class="daily-challenge">
+
+        <small>
+            TODAY'S CHALLENGE
+        </small>
+
+        <strong id="challengeText">
+            Reach 50 points
+        </strong>
+
+        <span id="challengeProgress">
+            0 / 50
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GAME CARD
+====================================================== -->
+
+<section class="game-card">
+
+
+    <!-- =================================================
+         START SCREEN
+    ================================================== -->
+
+    <div
+        id="startScreen"
+        class="overlay"
+    >
+
+        <div class="hero-icon">
+            ⚡
         </div>
 
 
-        <div>
+        <h1>
+            ONE WRONG TAP
+        </h1>
 
-            <span class="danger-dot"></span>
 
-            <b>
-                RED
-            </b>
+        <p>
+            Tap every safe tile.<br>
+            <b>Do NOT tap red.</b>
+        </p>
 
-            <small>
-                Don't tap
-            </small>
 
+        <button
+            id="startBtn"
+            class="main-btn"
+            type="button"
+        >
+            START GAME
+        </button>
+
+
+        <p class="hint">
+            The game gets faster as you score.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         GAME OVER SCREEN
+    ================================================== -->
+
+    <div
+        id="gameOverScreen"
+        class="overlay hidden"
+    >
+
+        <div
+            id="resultBadge"
+            class="result-badge"
+        >
+            GAME OVER
         </div>
 
 
-        <div>
+        <h2 id="finalScore">
+            0
+        </h2>
 
-            <span class="score-dot">
-                +
+
+        <p id="recordText">
+            Score
+        </p>
+
+
+        <div class="earned-box">
+
+            <span>
+                🪙
             </span>
 
-            <b>
-                POINT
-            </b>
+            <strong id="earnedCoins">
+                +0
+            </strong>
 
             <small>
-                Keep going
+                COINS
             </small>
 
         </div>
 
-    </section>
+
+        <button
+            id="continueBtn"
+            class="main-btn secondary"
+            type="button"
+        >
+            📺 WATCH AD &amp; CONTINUE
+        </button>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
+        <button
+            id="restartBtn"
+            class="main-btn"
+            type="button"
+        >
+            PLAY AGAIN
+        </button>
 
-    <footer>
+    </div>
+
+
+    <!-- =================================================
+         GAME AREA
+    ================================================== -->
+
+    <div
+        id="gameArea"
+        class="game-area hidden"
+    >
+    </div>
+
+
+    <!-- =================================================
+         COUNTDOWN
+    ================================================== -->
+
+    <div
+        id="countdown"
+        class="countdown hidden"
+    >
+        3
+    </div>
+
+
+    <!-- =================================================
+         FLASH
+    ================================================== -->
+
+    <div
+        id="flash"
+        class="flash"
+    >
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     MENU BUTTONS
+====================================================== -->
+
+<section class="menu-grid">
+
+    <button
+        id="shopBtn"
+        class="menu-btn"
+        type="button"
+    >
 
         <span>
-            ONE WRONG TAP
+            🎨
         </span>
+
+        <strong>
+            THEMES
+        </strong>
+
+        <small>
+            Shop
+        </small>
+
+    </button>
+
+
+    <button
+        id="achievementsBtn"
+        class="menu-btn"
+        type="button"
+    >
 
         <span>
-            •
+            🏆
         </span>
+
+        <strong>
+            ACHIEVEMENTS
+        </strong>
+
+        <small>
+            Awards
+        </small>
+
+    </button>
+
+
+    <button
+        id="statsBtn"
+        class="menu-btn"
+        type="button"
+    >
 
         <span>
-            Version 2.0
+            📊
         </span>
 
-    </footer>
+        <strong>
+            STATS
+        </strong>
 
+        <small>
+            Progress
+        </small>
+
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     MODAL
+====================================================== -->
+
+<div
+    id="modal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <button
+            id="closeModalBtn"
+            class="close-btn"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <div id="modalContent">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     INSTRUCTIONS
+====================================================== -->
+
+<section class="instructions">
+
+    <div>
+
+        <span class="safe-dot"></span>
+
+        <b>
+            SAFE
+        </b>
+
+        <small>
+            Tap it
+        </small>
+
+    </div>
+
+
+    <div>
+
+        <span class="danger-dot"></span>
+
+        <b>
+            RED
+        </b>
+
+        <small>
+            Don't tap
+        </small>
+
+    </div>
+
+
+    <div>
+
+        <span class="score-dot">
+            +
+        </span>
+
+        <b>
+            POINT
+        </b>
+
+        <small>
+            Keep going
+        </small>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <span>
+        ONE WRONG TAP
+    </span>
+
+    <span>
+        •
+    </span>
+
+    <span>
+        Version 2.0
+    </span>
+
+</footer>
+```
 
 </main>
-
 
 <script src="game.js"></script>
 

@@ -1,0 +1,929 @@
+/* =====================================================
+   ONE WRONG TAP — STYLE.CSS
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at center, #222 0%, #111 45%, #050505 100%);
+    color: white;
+    touch-action: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game {
+    width: 100%;
+    height: 100%;
+    max-width: 900px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* =====================================================
+   START / GAME OVER SCREEN
+===================================================== */
+
+.screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    background:
+        radial-gradient(circle at center, #202020 0%, #101010 50%, #050505 100%);
+    z-index: 20;
+}
+
+.screen.hidden {
+    display: none;
+}
+
+.logo {
+    font-size: clamp(42px, 11vw, 82px);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -3px;
+}
+
+.logo .yellow {
+    color: #fcc224;
+}
+
+.tagline {
+    margin-top: 18px;
+    font-size: clamp(14px, 3.5vw, 20px);
+    color: #aaa;
+    letter-spacing: 1px;
+}
+
+.best-label {
+    margin-top: 35px;
+    font-size: 13px;
+    color: #777;
+    letter-spacing: 2px;
+}
+
+.best-score {
+    margin-top: 4px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fcc224;
+}
+
+.start-button {
+    margin-top: 35px;
+    width: min(300px, 80vw);
+    height: 60px;
+    border: none;
+    border-radius: 14px;
+    background: #fcc224;
+    color: #111;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(252, 194, 36, 0.25);
+}
+
+.start-button:active {
+    transform: scale(0.96);
+}
+
+/* =====================================================
+   PERFECT TAP
+===================================================== */
+
+.perfect-tap {
+    position: absolute;
+    pointer-events: none;
+    z-index: 17;
+
+    color: #fcc224;
+
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    opacity: 0;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.65);
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 0 15px rgba(252, 194, 36, 0.55),
+        0 0 30px rgba(252, 194, 36, 0.25);
+}
+
+.perfect-tap.show {
+    animation:
+        perfectTapPop 0.55s ease-out forwards;
+}
+
+@keyframes perfectTapPop {
+
+    0% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            scale(0.65);
+    }
+
+    25% {
+        opacity: 1;
+        transform:
+            translate(-50%, -50%)
+            scale(1.15);
+    }
+
+    45% {
+        opacity: 1;
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            translateY(-35px)
+            scale(1.05);
+    }
+
+}
+
+/* =====================================================
+   HUD
+===================================================== */
+
+.hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 85px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    padding: 8px 18px;
+    z-index: 5;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.65),
+        rgba(0,0,0,0)
+    );
+}
+
+.hud-item {
+    text-align: center;
+}
+
+.hud-label {
+    font-size: 10px;
+    color: #777;
+    letter-spacing: 2px;
+}
+
+.hud-value {
+    margin-top: 2px;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+#timeValue {
+    color: #fcc224;
+}
+
+#streakValue {
+    color: #fcc224;
+}
+
+/* =====================================================
+   COMBO INDICATOR
+===================================================== */
+
+.combo {
+    position: absolute;
+    top: 72px;
+    left: 50%;
+
+    transform:
+        translateX(-50%)
+        scale(0.85);
+
+    padding: 5px 12px;
+
+    border: 1px solid rgba(252, 194, 36, 0.35);
+    border-radius: 20px;
+
+    background: rgba(252, 194, 36, 0.08);
+
+    color: #fcc224;
+
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 9;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.combo.active {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        scale(1);
+}
+
+.combo.bump {
+    animation:
+        comboBump 0.35s ease-out;
+}
+
+@keyframes comboBump {
+
+    0% {
+        transform:
+            translateX(-50%)
+            scale(1);
+    }
+
+    45% {
+        transform:
+            translateX(-50%)
+            scale(1.18);
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            scale(1);
+    }
+
+}
+
+/* =====================================================
+   COMBO LOST WARNING
+===================================================== */
+
+.combo-lost {
+    position: absolute;
+
+    top: 105px;
+    left: 50%;
+
+    transform:
+        translateX(-50%)
+        scale(0.7);
+
+    color: #ff3b3b;
+
+    font-size: 17px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    pointer-events: none;
+
+    z-index: 13;
+
+    opacity: 0;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 0 18px rgba(255, 59, 59, 0.45);
+}
+
+.combo-lost.show {
+    animation:
+        comboLostPop 0.65s ease-out;
+}
+
+@keyframes comboLostPop {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(-50%)
+            scale(0.7);
+    }
+
+    25% {
+        opacity: 1;
+
+        transform:
+            translateX(-50%)
+            scale(1.15);
+    }
+
+    45% {
+        opacity: 1;
+
+        transform:
+            translateX(-50%)
+            scale(1);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translateX(-50%)
+            scale(1.05);
+    }
+
+}
+
+/* =====================================================
+   PLAY AREA
+===================================================== */
+
+.play-area {
+    position: absolute;
+    top: 85px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+/* =====================================================
+   TARGET
+===================================================== */
+
+.target {
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    border: none;
+
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition:
+        transform 0.08s ease,
+        opacity 0.12s ease,
+        box-shadow 0.2s ease;
+
+    touch-action: none;
+
+    animation:
+        targetAppear 0.18s ease-out,
+        targetFloat 2.8s ease-in-out infinite;
+
+    will-change: transform;
+}
+
+.target.correct {
+    background: #fcc224;
+    color: #111;
+
+    animation:
+        targetAppear 0.18s ease-out,
+        targetFloat 2.8s ease-in-out infinite,
+        correctPulse 1.8s ease-in-out infinite;
+
+    box-shadow:
+        0 0 20px rgba(252, 194, 36, 0.30);
+}
+
+.target.wrong {
+    background: #f4f4f4;
+    color: #111;
+
+    box-shadow:
+        0 0 18px rgba(255, 255, 255, 0.10);
+}
+
+.target.wrong.deceptive {
+    animation:
+        targetAppear 0.18s ease-out,
+        targetFloat 2.8s ease-in-out infinite,
+        deceptiveGlow 0.8s ease-out 0.05s 1;
+}
+
+@keyframes deceptiveGlow {
+
+    0% {
+        box-shadow:
+            0 0 0 rgba(252, 194, 36, 0);
+    }
+
+    30% {
+        box-shadow:
+            0 0 18px rgba(252, 194, 36, 0.16);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 rgba(252, 194, 36, 0);
+    }
+
+}
+.target:active {
+    transform: scale(0.94);
+}
+
+/* =====================================================
+   TARGET ANIMATIONS
+===================================================== */
+
+@keyframes targetAppear {
+
+    from {
+        opacity: 0;
+        transform: scale(0.65);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+@keyframes targetFloat {
+
+    0% {
+        margin-top: 0;
+        margin-left: 0;
+    }
+
+    25% {
+        margin-top: -5px;
+        margin-left: 4px;
+    }
+
+    50% {
+        margin-top: 2px;
+        margin-left: -4px;
+    }
+
+    75% {
+        margin-top: 5px;
+        margin-left: 3px;
+    }
+
+    100% {
+        margin-top: 0;
+        margin-left: 0;
+    }
+
+}
+
+@keyframes correctPulse {
+
+    0% {
+        box-shadow:
+            0 0 20px rgba(252, 194, 36, 0.30);
+    }
+
+    50% {
+        box-shadow:
+            0 0 38px rgba(252, 194, 36, 0.48);
+    }
+
+    100% {
+        box-shadow:
+            0 0 20px rgba(252, 194, 36, 0.30);
+    }
+
+}
+
+/* =====================================================
+   STREAK INTENSITY
+===================================================== */
+
+.target.correct.streak-low {
+    box-shadow:
+        0 0 24px rgba(252, 194, 36, 0.34);
+}
+
+.target.correct.streak-medium {
+    box-shadow:
+        0 0 30px rgba(252, 194, 36, 0.40);
+}
+
+.target.correct.streak-high {
+    box-shadow:
+        0 0 40px rgba(252, 194, 36, 0.52);
+}
+
+.target.correct.streak-extreme {
+    box-shadow:
+        0 0 52px rgba(252, 194, 36, 0.68);
+}
+
+/* =====================================================
+   TAP FEEDBACK
+===================================================== */
+
+.target.tapped {
+    animation:
+        targetTap 0.13s ease-out forwards !important;
+}
+
+@keyframes targetTap {
+
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    55% {
+        transform: scale(0.72);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: scale(1.12);
+        opacity: 0;
+    }
+
+}
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+.countdown {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: clamp(80px, 25vw, 180px);
+    font-weight: 900;
+
+    color: #fcc224;
+
+    z-index: 15;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 0 40px rgba(252, 194, 36, 0.35);
+}
+
+.countdown.hidden {
+    display: none;
+}
+
+.countdown.pop {
+    animation:
+        countdownPop 0.55s ease-out;
+}
+
+@keyframes countdownPop {
+
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    40% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+/* =====================================================
+   STREAK MESSAGE
+===================================================== */
+
+.streak-message {
+    position: absolute;
+
+    top: 105px;
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    color: #fcc224;
+
+    font-size: 16px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    pointer-events: none;
+
+    z-index: 10;
+
+    opacity: 0;
+}
+
+.streak-message.show {
+    animation:
+        streakPop 0.75s ease-out;
+}
+
+@keyframes streakPop {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(-50%)
+            scale(0.6);
+    }
+
+    25% {
+        opacity: 1;
+
+        transform:
+            translateX(-50%)
+            scale(1.15);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translateX(-50%)
+            scale(1);
+    }
+
+}
+
+/* =====================================================
+   RED FLASH
+===================================================== */
+
+.red-flash {
+    position: absolute;
+    inset: 0;
+
+    background:
+        rgba(255, 0, 0, 0.18);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 12;
+}
+
+.red-flash.show {
+    animation:
+        redFlash 0.35s ease-out;
+}
+
+@keyframes redFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+/* =====================================================
+   SCORE POP
+===================================================== */
+
+.score-pop {
+    position: absolute;
+
+    left: 50%;
+    top: 95px;
+
+    transform:
+        translateX(-50%);
+
+    font-size: 22px;
+    font-weight: 900;
+
+    color: #fcc224;
+
+    pointer-events: none;
+
+    z-index: 10;
+
+    opacity: 0;
+}
+
+.score-pop.show {
+    animation:
+        scorePop 0.45s ease-out;
+}
+
+@keyframes scorePop {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, 10px)
+            scale(0.7);
+    }
+
+    35% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, 0)
+            scale(1.15);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -28px)
+            scale(1);
+    }
+
+}
+
+/* =====================================================
+   MILESTONE EFFECT
+===================================================== */
+
+.milestone-flash {
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(252, 194, 36, 0.30),
+            rgba(252, 194, 36, 0.08) 35%,
+            rgba(252, 194, 36, 0) 70%
+        );
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 11;
+}
+
+.milestone-flash.show {
+    animation:
+        milestoneFlash 0.55s ease-out;
+}
+
+.milestone-flash.level-2.show {
+    animation:
+        milestoneFlashStrong 0.65s ease-out;
+}
+
+.milestone-flash.level-3.show {
+    animation:
+        milestoneFlashVeryStrong 0.8s ease-out;
+}
+
+@keyframes milestoneFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+@keyframes milestoneFlashStrong {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    25% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+
+}
+
+@keyframes milestoneFlashVeryStrong {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+
+    25% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.08);
+    }
+
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-height: 600px) {
+
+    .hud {
+        height: 65px;
+    }
+
+    .play-area {
+        top: 65px;
+    }
+
+    .streak-message {
+        top: 75px;
+    }
+
+    .score-pop {
+        top: 65px;
+    }
+
+    .combo {
+        top: 54px;
+    }
+
+    .combo-lost {
+        top: 80px;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    .hud-value {
+        font-size: 21px;
+    }
+
+    .hud-label {
+        font-size: 9px;
+    }
+
+}

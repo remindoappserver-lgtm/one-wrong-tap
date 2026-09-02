@@ -1,1818 +1,262 @@
-/* =========================================================
-ONE WRONG TAP
-VERSION 2.0
-========================================================= */
-
+```css
 * {
-
-  box-sizing: border-box;
-
-  -webkit-tap-highlight-color: transparent;
-
-}
-
-:root {
-
-```
---yellow: #Fcc224;
-
---black: #111111;
-
---dark: #181818;
-
---panel: #202020;
-
---safe: #ededed;
-
---red: #e53935;
-
---muted: #969696;
-```
-
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html,
 body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: Arial, sans-serif;
 
-```
-margin: 0;
-
-min-height: 100%;
-
-font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-background:
-    var(--black);
-
-color:
-    #ffffff;
-```
-
-}
-
-html {
-
-```
-touch-action: manipulation;
-```
-
+    /* Important for phone tapping */
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
 body {
-
-```
-min-height: 100vh;
-
-display: flex;
-
-justify-content: center;
-
-overflow-x: hidden;
-```
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-button {
-
-```
-font: inherit;
-
--webkit-user-select: none;
-
-user-select: none;
-
--webkit-touch-callout: none;
-```
-
+#game {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    background: #111;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
 }
 
-/* =========================================================
-APP
-========================================================= */
-
-.app {
-
-```
-width:
-    min(100%, 620px);
-
-min-height:
-    100vh;
-
-padding:
-    18px
-    16px
-    22px;
-
-display:
-    flex;
-
-flex-direction:
-    column;
-```
-
-}
-
-/* =========================================================
-TOP BAR
-========================================================= */
-
-.topbar {
-
-```
-display:
-    flex;
-
-justify-content:
-    space-between;
-
-align-items:
-    center;
-
-margin-bottom:
-    18px;
-```
-
-}
-
-.logo {
-
-```
-font-weight:
-    900;
-
-letter-spacing:
-    1.5px;
-
-font-size:
-    20px;
-```
-
-}
-
-.logo span {
-
-```
-color:
-    var(--yellow);
-```
-
-}
-
-.top-actions {
-
-```
-display:
-    flex;
-
-align-items:
-    center;
-
-gap:
-    8px;
-```
-
-}
-
-.coin-display {
-
-```
-height:
-    42px;
-
-padding:
-    0
-    12px;
-
-display:
-    flex;
-
-align-items:
-    center;
-
-gap:
-    5px;
-
-background:
-    #1c1c1c;
-
-border:
-    1px solid
-    #343434;
-
-border-radius:
-    12px;
-```
-
-}
-
-.coin-display strong {
-
-```
-color:
-    var(--yellow);
-```
-
-}
-
-.icon-btn {
-
-```
-width:
-    42px;
-
-height:
-    42px;
-
-border:
-    1px solid
-    #343434;
-
-border-radius:
-    12px;
-
-background:
-    #1c1c1c;
-
-color:
-    #ffffff;
-
-cursor:
-    pointer;
-
-touch-action:
-    manipulation;
-```
-
-}
-
-/* =========================================================
-STATS
-========================================================= */
-
-.stats {
-
-```
-display:
-    grid;
-
-grid-template-columns:
-    repeat(3, 1fr);
-
-gap:
-    10px;
-
-margin-bottom:
-    10px;
-```
-
-}
-
-.stat {
-
-```
-background:
-    var(--panel);
-
-border:
-    1px solid
-    #2b2b2b;
-
-border-radius:
-    14px;
-
-padding:
-    11px
-    8px;
-
-text-align:
-    center;
-```
-
-}
-
-.stat small {
-
-```
-display:
-    block;
-
-color:
-    var(--muted);
-
-font-size:
-    10px;
-
-font-weight:
-    800;
-
-letter-spacing:
-    1px;
-
-margin-bottom:
-    4px;
-```
-
-}
-
-.stat strong {
-
-```
-font-size:
-    22px;
-```
-
-}
-
-/* =========================================================
-DAILY PANEL
-========================================================= */
-
-.daily-panel {
-
-```
-display:
-    flex;
-
-justify-content:
-    space-between;
-
-align-items:
-    center;
-
-gap:
-    12px;
-
-padding:
-    12px;
-
-margin-bottom:
-    12px;
-
-background:
-    #181818;
-
-border:
-    1px solid
-    #2b2b2b;
-
-border-radius:
-    14px;
-```
-
-}
-
-.daily-title {
-
-```
-color:
-    var(--yellow);
-
-font-size:
-    10px;
-
-font-weight:
-    900;
-
-letter-spacing:
-    1px;
-
-margin-bottom:
-    4px;
-```
-
-}
-
-.daily-panel > div > strong {
-
-```
-font-size:
-    17px;
-```
-
-}
-
-.daily-challenge {
-
-```
-text-align:
-    right;
-```
-
-}
-
-.daily-challenge small {
-
-```
-display:
-    block;
-
-color:
-    #777777;
-
-font-size:
-    8px;
-
-margin-bottom:
-    3px;
-```
-
-}
-
-.daily-challenge strong {
-
-```
-display:
-    block;
-
-font-size:
-    11px;
-```
-
-}
-
-.daily-challenge span {
-
-```
-display:
-    block;
-
-color:
-    var(--yellow);
-
-font-size:
-    10px;
-
-margin-top:
-    3px;
-```
-
-}
-
-/* =========================================================
-GAME CARD
-========================================================= */
-
-.game-card {
-
-```
-position:
-    relative;
-
-width:
-    100%;
-
-aspect-ratio:
-    1 / 1.08;
-
-min-height:
-    430px;
-
-max-height:
-    690px;
-
-overflow:
-    hidden;
-
-border-radius:
-    22px;
-
-background:
-    #090909;
-
-border:
-    1px solid
-    #2d2d2d;
-
-box-shadow:
-    0 18px 60px
-    rgba(0,0,0,.35);
-```
-
-}
-
-/* =========================================================
-GAME AREA
-========================================================= */
-
-.game-area {
-
-```
-position:
-    absolute;
-
-inset:
-    0;
-
-display:
-    grid;
-
-gap:
-    8px;
-
-padding:
-    10px;
-
-touch-action:
-    manipulation;
-
--webkit-user-select:
-    none;
-
-user-select:
-    none;
-
--webkit-touch-callout:
-    none;
-```
-
-}
-
-/* =========================================================
-TILE
-========================================================= */
-
-.tile {
-
-```
-border:
-    0;
-
-border-radius:
-    12px;
-
-min-width:
-    0;
-
-min-height:
-    0;
-
-cursor:
-    pointer;
-
-background:
-    var(--safe);
-
-box-shadow:
-    inset
-    0 -3px 0
-    rgba(0,0,0,.12);
-
-transition:
-    transform .08s ease;
-
-touch-action:
-    manipulation;
-
--webkit-user-select:
-    none;
-
-user-select:
-    none;
-
--webkit-touch-callout:
-    none;
-
--webkit-tap-highlight-color:
-    transparent;
-```
-
-}
-
-.tile:active {
-
-```
-transform:
-    scale(.94);
-```
-
-}
-
-.tile.danger {
-
-```
-background:
-    var(--red);
-```
-
-}
-
-.tile.safe-hit {
-
-```
-animation:
-    hit
-    .14s
-    ease;
-```
-
-}
-
-/* =========================================================
-OVERLAY
-========================================================= */
-
-.overlay {
-
-```
-position:
-    absolute;
-
-inset:
-    0;
-
-z-index:
-    5;
-
-display:
-    flex;
-
-align-items:
-    center;
-
-justify-content:
-    center;
-
-flex-direction:
-    column;
-
-text-align:
-    center;
-
-padding:
-    30px;
-
-background:
-    radial-gradient(
-        circle at 50% 30%,
-        #242424 0%,
-        #0b0b0b 58%
-    );
-
-touch-action:
-    manipulation;
-```
-
+.screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .hidden {
-
-```
-display:
-    none !important;
-```
-
-}
-
-.hero-icon {
-
-```
-width:
-    70px;
-
-height:
-    70px;
-
-display:
-    grid;
-
-place-items:
-    center;
-
-border-radius:
-    20px;
-
-background:
-    var(--yellow);
-
-color:
-    #111111;
-
-font-size:
-    34px;
-
-margin-bottom:
-    18px;
-```
-
-}
-
-.overlay h1 {
-
-```
-font-size:
-    clamp(
-        27px,
-        7vw,
-        42px
-    );
-
-margin:
-    0 0 12px;
-```
-
-}
-
-.overlay h2 {
-
-```
-font-size:
-    82px;
-
-margin:
-    4px 0 0;
-
-line-height:
-    .9;
-```
-
-}
-
-.overlay p {
-
-```
-color:
-    #bcbcbc;
-
-line-height:
-    1.55;
-
-margin:
-    0 0 20px;
-```
-
-}
-
-.overlay p b {
-
-```
-color:
-    #ffffff;
-```
-
-}
-
-.hint {
-
-```
-font-size:
-    12px !important;
-
-color:
-    #777777 !important;
-
-margin-top:
-    16px !important;
-```
-
-}
-
-/* =========================================================
-BUTTONS
-========================================================= */
-
-.main-btn {
-
-```
-width:
-    min(
-        100%,
-        310px
-    );
-
-border:
-    0;
-
-border-radius:
-    13px;
-
-padding:
-    15px
-    18px;
-
-background:
-    var(--yellow);
-
-color:
-    #111111;
-
-font-size:
-    15px;
-
-font-weight:
-    900;
-
-cursor:
-    pointer;
-
-touch-action:
-    manipulation;
-```
-
-}
-
-.main-btn.secondary {
-
-```
-background:
-    #303030;
-
-color:
-    #ffffff;
-
-margin-bottom:
-    10px;
-
-border:
-    1px solid
-    #444444;
-```
-
-}
-
-.main-btn:disabled {
-
-```
-opacity:
-    .5;
-
-cursor:
-    not-allowed;
-```
-
-}
-
-/* =========================================================
-EARNED COINS
-========================================================= */
-
-.earned-box {
-
-```
-display:
-    flex;
-
-align-items:
-    center;
-
-gap:
-    7px;
-
-margin:
-    0 0 18px;
-
-padding:
-    8px
-    14px;
-
-background:
-    #181818;
-
-border:
-    1px solid
-    #303030;
-
-border-radius:
-    10px;
-```
-
-}
-
-.earned-box span {
-
-```
-font-size:
-    20px;
-```
-
-}
-
-.earned-box strong {
-
-```
-color:
-    var(--yellow);
-
-font-size:
-    18px;
-```
-
-}
-
-.earned-box small {
-
-```
-color:
-    #777777;
-
-font-size:
-    9px;
-```
-
-}
-
-/* =========================================================
-RESULT
-========================================================= */
-
-.result-badge {
-
-```
-color:
-    var(--yellow);
-
-font-weight:
-    900;
-
-letter-spacing:
-    2px;
-
-font-size:
-    13px;
-
-margin-bottom:
-    12px;
-```
-
-}
-
-/* =========================================================
-COUNTDOWN
-========================================================= */
-
-.countdown {
-
-```
-position:
-    absolute;
-
-inset:
-    0;
-
-z-index:
-    10;
-
-display:
-    grid;
-
-place-items:
-    center;
-
-font-size:
-    110px;
-
-font-weight:
-    900;
-
-background:
-    rgba(0,0,0,.35);
-
-touch-action:
-    none;
-```
-
-}
-
-/* =========================================================
-FLASH
-========================================================= */
-
-.flash {
-
-```
-position:
-    absolute;
-
-inset:
-    0;
-
-pointer-events:
-    none;
-
-z-index:
-    20;
-
-opacity:
-    0;
-```
-
-}
-
-/* =========================================================
-MENU
-========================================================= */
-
-.menu-grid {
-
-```
-display:
-    grid;
-
-grid-template-columns:
-    repeat(3, 1fr);
-
-gap:
-    8px;
-
-margin-top:
-    12px;
-```
-
-}
-
-.menu-btn {
-
-```
-border:
-    1px solid
-    #292929;
-
-border-radius:
-    13px;
-
-background:
-    #181818;
-
-color:
-    #ffffff;
-
-padding:
-    12px 5px;
-
-cursor:
-    pointer;
-
-touch-action:
-    manipulation;
-```
-
-}
-
-.menu-btn span {
-
-```
-display:
-    block;
-
-font-size:
-    20px;
-
-margin-bottom:
-    5px;
-```
-
-}
-
-.menu-btn strong {
-
-```
-display:
-    block;
-
-font-size:
-    9px;
-```
-
-}
-
-.menu-btn small {
-
-```
-display:
-    block;
-
-color:
-    #777777;
-
-font-size:
-    8px;
-
-margin-top:
-    3px;
-```
-
-}
-
-/* =========================================================
-MODAL
-========================================================= */
-
-.modal {
-
-```
-position:
-    fixed;
-
-inset:
-    0;
-
-z-index:
-    100;
-
-display:
-    flex;
-
-align-items:
-    center;
-
-justify-content:
-    center;
-
-padding:
-    18px;
-
-background:
-    rgba(
-        0,
-        0,
-        0,
-        .78
-    );
-```
-
-}
-
-.modal-box {
-
-```
-position:
-    relative;
-
-width:
-    min(
-        100%,
-        500px
-    );
-
-max-height:
-    85vh;
-
-overflow:
-    auto;
-
-padding:
-    25px;
-
-border-radius:
-    20px;
-
-background:
-    #202020;
-
-border:
-    1px solid
-    #383838;
-```
-
-}
-
-.close-btn {
-
-```
-position:
-    absolute;
-
-top:
-    10px;
-
-right:
-    12px;
-
-width:
-    34px;
-
-height:
-    34px;
-
-border:
-    0;
-
-border-radius:
-    50%;
-
-background:
-    #333333;
-
-color:
-    #ffffff;
-
-font-size:
-    22px;
-
-cursor:
-    pointer;
-
-touch-action:
-    manipulation;
-```
-
-}
-
-/* =========================================================
-MODAL CONTENT
-========================================================= */
-
-.modal-title {
-
-```
-margin:
-    0 0 18px;
-
-font-size:
-    22px;
-```
-
-}
-
-.shop-item {
-
-```
-display:
-    flex;
-
-align-items:
-    center;
-
-justify-content:
-    space-between;
-
-gap:
-    10px;
-
-padding:
-    13px;
-
-margin-bottom:
-    8px;
-
-border:
-    1px solid
-    #333333;
-
-border-radius:
-    12px;
-
-background:
-    #181818;
-```
-
-}
-
-.shop-info {
-
-```
-display:
-    flex;
-
-align-items:
-    center;
-
-gap:
-    10px;
-```
-
-}
-
-.theme-preview {
-
-```
-width:
-    40px;
-
-height:
-    40px;
-
-border-radius:
-    10px;
-```
-
-}
-
-.theme-name {
-
-```
-font-weight:
-    900;
-
-font-size:
-    13px;
-```
-
-}
-
-.theme-price {
-
-```
-color:
-    var(--yellow);
-
-font-size:
-    10px;
-
-margin-top:
-    3px;
-```
-
-}
-
-.shop-action {
-
-```
-border:
-    0;
-
-border-radius:
-    8px;
-
-padding:
-    8px
-    11px;
-
-background:
-    var(--yellow);
-
-color:
-    #111111;
-
-font-size:
-    10px;
-
-font-weight:
-    900;
-
-cursor:
-    pointer;
-
-touch-action:
-    manipulation;
-```
-
-}
-
-.shop-action.owned {
-
-```
-background:
-    #333333;
-
-color:
-    #ffffff;
-```
-
-}
-
-/* =========================================================
-ACHIEVEMENTS
-========================================================= */
-
-.achievement {
-
-```
-display:
-    flex;
-
-align-items:
-    center;
-
-gap:
-    12px;
-
-padding:
-    12px;
-
-margin-bottom:
-    8px;
-
-border-radius:
-    12px;
-
-background:
-    #181818;
-
-border:
-    1px solid
-    #303030;
-```
-
-}
-
-.achievement-icon {
-
-```
-width:
-    42px;
-
-height:
-    42px;
-
-display:
-    grid;
-
-place-items:
-    center;
-
-border-radius:
-    12px;
-
-background:
-    #292929;
-
-font-size:
-    20px;
-```
-
-}
-
-.achievement.locked {
-
-```
-opacity:
-    .45;
-```
-
-}
-
-.achievement strong {
-
-```
-display:
-    block;
-
-font-size:
-    12px;
-```
-
-}
-
-.achievement small {
-
-```
-color:
-    #777777;
-
-font-size:
-    9px;
-```
-
-}
-
-/* =========================================================
-STATS MODAL
-========================================================= */
-
-.stat-row {
-
-```
-display:
-    flex;
-
-justify-content:
-    space-between;
-
-padding:
-    12px 0;
-
-border-bottom:
-    1px solid
-    #303030;
-```
-
-}
-
-.stat-row span {
-
-```
-color:
-    #999999;
-```
-
+    display: none !important;
 }
 
-.stat-row strong {
 
-```
-color:
-    var(--yellow);
-```
+/* ================================
+   START SCREEN
+================================ */
 
+#startScreen h1 {
+    font-size: clamp(38px, 10vw, 64px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
 }
-
-/* =========================================================
-INSTRUCTIONS
-========================================================= */
-
-.instructions {
 
-```
-display:
-    grid;
-
-grid-template-columns:
-    repeat(3, 1fr);
-
-gap:
-    8px;
-
-margin-top:
-    12px;
-```
-
+.subtitle {
+    font-size: 18px;
+    color: #aaa;
+    margin-bottom: 40px;
 }
-
-.instructions > div {
-
-```
-background:
-    #181818;
-
-border:
-    1px solid
-    #272727;
-
-border-radius:
-    12px;
 
-padding:
-    10px 7px;
+button {
+    border: none;
+    background: #fcc224;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 18px 35px;
+    border-radius: 12px;
+    cursor: pointer;
 
-text-align:
-    center;
-```
+    /* Makes buttons comfortable to tap */
+    min-width: 190px;
+    min-height: 58px;
 
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
-
-.instructions span {
-
-```
-display:
-    inline-grid;
 
-place-items:
-    center;
-
-width:
-    9px;
-
-height:
-    9px;
-
-border-radius:
-    50%;
-
-margin-right:
-    4px;
-```
-
+button:active {
+    transform: scale(0.96);
 }
 
-.safe-dot {
 
-```
-background:
-    #ededed;
-```
+/* ================================
+   GAME SCREEN
+================================ */
 
+#gameScreen {
+    justify-content: flex-start;
 }
 
-.danger-dot {
-
-```
-background:
-    var(--red);
-```
-
+.topBar {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #000;
+    flex-shrink: 0;
 }
-
-.score-dot {
-
-```
-width:
-    18px !important;
 
-height:
-    18px !important;
-
-background:
-    var(--yellow);
-
-color:
-    #111111;
-
-font-size:
-    11px;
-
-font-weight:
-    900;
-```
-
+.stat {
+    text-align: center;
 }
-
-.instructions b {
-
-```
-font-size:
-    10px;
-```
 
+.stat span {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
 }
-
-.instructions small {
-
-```
-display:
-    block;
-
-margin-top:
-    4px;
-
-color:
-    #777777;
 
-font-size:
-    9px;
-```
-
+.stat strong {
+    font-size: 30px;
 }
-
-/* =========================================================
-FOOTER
-========================================================= */
-
-footer {
-
-```
-margin-top:
-    auto;
-
-padding-top:
-    18px;
-
-display:
-    flex;
 
-justify-content:
-    center;
 
-gap:
-    8px;
+/* ================================
+   TAP AREA
+================================ */
 
-color:
-    #666666;
+#tapArea {
+    width: 100%;
+    flex: 1;
+    position: relative;
 
-font-size:
-    10px;
-```
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    /*
+       Critical for phone gameplay.
+       The browser will not interpret taps
+       as scrolling or other gestures.
+    */
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
 }
-
-/* =========================================================
-ANIMATIONS
-========================================================= */
-
-@keyframes hit {
-
-```
-50% {
-
-    transform:
-        scale(.93);
-
-    opacity:
-        .65;
 
-}
-```
 
-}
+/* ================================
+   TARGET
+================================ */
 
-@keyframes flash {
+#target {
+    width: 150px;
+    height: 150px;
 
-```
-0% {
+    border-radius: 50%;
 
-    opacity:
-        1;
+    background: #fcc224;
+    color: #000;
 
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-100% {
+    font-size: 25px;
+    font-weight: 900;
 
-    opacity:
-        0;
+    cursor: pointer;
 
-}
-```
+    /*
+       Makes the target easy to hit
+       on a phone.
+    */
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
 
+    box-shadow:
+        0 0 0 5px rgba(252, 194, 36, 0.15),
+        0 0 30px rgba(252, 194, 36, 0.25);
 }
-
-/* =========================================================
-MOBILE
-========================================================= */
 
-@media (
-max-width: 480px
-) {
-
-```
-.app {
-
-    padding:
-        14px
-        12px
-        18px;
-
+#target:active {
+    transform: scale(0.92);
 }
-
 
-.game-card {
 
-    min-height:
-        400px;
+/* ================================
+   GAME OVER
+================================ */
 
-    border-radius:
-        18px;
-
+#gameOverScreen h2 {
+    font-size: 48px;
+    margin-bottom: 25px;
 }
-
 
-.game-area {
-
-    gap:
-        6px;
-
-    padding:
-        8px;
-
+#gameOverScreen p {
+    color: #999;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
-
 
-.tile {
-
-    border-radius:
-        9px;
-
+#finalScore {
+    font-size: 80px;
+    font-weight: 900;
+    margin-bottom: 40px;
 }
 
 
-.overlay {
+/* ================================
+   SMALL PHONES
+================================ */
 
-    padding:
-        22px;
-
-}
+@media (max-width: 380px) {
 
+    #startScreen h1 {
+        font-size: 34px;
+    }
 
-.overlay h1 {
+    #target {
+        width: 130px;
+        height: 130px;
+        font-size: 22px;
+    }
 
-    font-size:
-        29px;
+    .topBar {
+        height: 80px;
+    }
 
+    .stat strong {
+        font-size: 26px;
+    }
 }
 
 
-.overlay h2 {
+/* ================================
+   LANDSCAPE PHONE
+================================ */
 
-    font-size:
-        68px;
+@media (orientation: landscape) and (max-height: 500px) {
 
-}
-
-
-.daily-panel {
+    .topBar {
+        height: 65px;
+    }
 
-    padding:
-        10px;
+    #target {
+        width: 110px;
+        height: 110px;
+    }
 
-}
-```
+    #startScreen h1 {
+        font-size: 38px;
+    }
 
+    .subtitle {
+        margin-bottom: 20px;
+    }
 }
-
-/* =========================================================
-MOBILE TOUCH SUPPORT
-========================================================= */
-
-#gameArea,
-.tile {
-
-```
-touch-action:
-    manipulation;
-
--webkit-tap-highlight-color:
-    transparent;
-
-user-select:
-    none;
-
--webkit-user-select:
-    none;
-
--webkit-touch-callout:
-    none;
 ```
-
-}

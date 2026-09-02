@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
 
 <title>ONE WRONG TAP</title>
 
@@ -15,36 +20,50 @@
 
 html,
 body {
+
     margin: 0;
+
     width: 100%;
     height: 100%;
+
     overflow: hidden;
 
     background: #070707;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     touch-action: none;
+
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
 }
 
 body {
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 }
 
 #app {
+
     width: 100%;
     height: 100%;
+
     max-width: 650px;
 
     position: relative;
+
     overflow: hidden;
 
     background:
+
         radial-gradient(
             circle at center,
             #202020 0%,
@@ -57,16 +76,21 @@ body {
 
 
 /* =========================
-   GENERAL SCREENS
+   SCREENS
 ========================= */
 
 .screen {
+
     position: absolute;
+
     inset: 0;
 
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
+
     align-items: center;
 
     text-align: center;
@@ -75,6 +99,7 @@ body {
 }
 
 .hidden {
+
     display: none !important;
 }
 
@@ -84,7 +109,13 @@ body {
 ========================= */
 
 .logo {
-    font-size: clamp(42px, 11vw, 78px);
+
+    font-size:
+        clamp(
+            42px,
+            11vw,
+            78px
+        );
 
     line-height: .9;
 
@@ -96,10 +127,12 @@ body {
 }
 
 .logo span {
+
     color: #fcc224;
 }
 
 .tagline {
+
     margin-top: 22px;
 
     color: #aaa;
@@ -120,9 +153,12 @@ body {
     margin-top: 42px;
 
     min-width: 210px;
+
     min-height: 62px;
 
-    padding: 18px 35px;
+    padding:
+        18px
+        35px;
 
     border: 0;
 
@@ -139,7 +175,13 @@ body {
     letter-spacing: 1px;
 
     box-shadow:
-        0 8px 30px rgba(252,194,36,.2);
+        0 8px 30px
+        rgba(
+            252,
+            194,
+            36,
+            .2
+        );
 
     touch-action: manipulation;
 }
@@ -147,7 +189,33 @@ body {
 .startButton:active,
 .restartButton:active {
 
-    transform: scale(.95);
+    transform:
+        scale(.95);
+}
+
+
+/* =========================
+   BEST SCORE START SCREEN
+========================= */
+
+.startBest {
+
+    margin-top: 28px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+}
+
+.startBest strong {
+
+    color: #fcc224;
+
+    font-size: 18px;
+
+    margin-left: 6px;
 }
 
 
@@ -158,9 +226,11 @@ body {
 #gameScreen {
 
     position: absolute;
+
     inset: 0;
 
     display: flex;
+
     flex-direction: column;
 }
 
@@ -181,17 +251,29 @@ body {
 
     align-items: center;
 
-    background: rgba(0,0,0,.85);
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .85
+        );
 
     border-bottom:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .08
+        );
 
     z-index: 100;
 }
 
 .hudItem {
 
-    min-width: 100px;
+    min-width: 80px;
 }
 
 .hudLabel {
@@ -217,6 +299,11 @@ body {
 #timeValue {
 
     color: #fcc224;
+}
+
+#bestValue {
+
+    color: #999;
 }
 
 
@@ -252,6 +339,7 @@ body {
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     font-size: 18px;
@@ -280,10 +368,20 @@ body {
     box-shadow:
 
         0 0 0 6px
-        rgba(252,194,36,.12),
+        rgba(
+            252,
+            194,
+            36,
+            .12
+        ),
 
         0 0 35px
-        rgba(252,194,36,.35);
+        rgba(
+            252,
+            194,
+            36,
+            .35
+        );
 }
 
 
@@ -298,18 +396,23 @@ body {
     box-shadow:
 
         0 0 0 5px
-        rgba(255,255,255,.08);
+        rgba(
+            255,
+            255,
+            255,
+            .08
+        );
 }
-
 
 .target:active {
 
-    transform: scale(.88);
+    transform:
+        scale(.88);
 }
 
 
 /* =========================
-   WRONG TAP FLASH
+   WRONG FLASH
 ========================= */
 
 #wrongFlash {
@@ -319,7 +422,12 @@ body {
     inset: 0;
 
     background:
-        rgba(255,0,0,.35);
+        rgba(
+            255,
+            0,
+            0,
+            .35
+        );
 
     opacity: 0;
 
@@ -331,7 +439,8 @@ body {
 #wrongFlash.show {
 
     animation:
-        wrongFlashAnimation .35s ease;
+        wrongFlashAnimation
+        .35s ease;
 }
 
 @keyframes wrongFlashAnimation {
@@ -365,7 +474,11 @@ body {
 .gameOverTitle {
 
     font-size:
-        clamp(44px, 12vw, 70px);
+        clamp(
+            44px,
+            12vw,
+            70px
+        );
 
     font-weight: 900;
 
@@ -394,16 +507,54 @@ body {
 
 
 /* =========================
+   NEW BEST
+========================= */
+
+.newBest {
+
+    margin-top: 10px;
+
+    min-height: 22px;
+
+    color: #fcc224;
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+.bestResult {
+
+    margin-top: 4px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================
    SMALL PHONES
 ========================= */
 
 @media (max-width: 380px) {
 
     #hud {
+
         height: 78px;
     }
 
+    .hudItem {
+
+        min-width: 65px;
+    }
+
     .hudValue {
+
         font-size: 25px;
     }
 
@@ -425,6 +576,7 @@ body {
        and (max-height: 500px) {
 
     #hud {
+
         height: 65px;
     }
 
@@ -444,6 +596,7 @@ body {
 }
 
 </style>
+
 </head>
 
 
@@ -478,6 +631,17 @@ body {
         One wrong tap and it's over.
 
     </p>
+
+
+    <div class="startBest">
+
+        BEST
+
+        <strong id="startBestValue">
+            0
+        </strong>
+
+    </div>
 
 
     <button
@@ -540,6 +704,23 @@ body {
         </div>
 
 
+
+        <div class="hudItem">
+
+            <span class="hudLabel">
+                BEST
+            </span>
+
+            <strong
+                id="bestValue"
+                class="hudValue"
+            >
+                0
+            </strong>
+
+        </div>
+
+
     </div>
 
 
@@ -556,7 +737,7 @@ body {
 
 
 <!-- =========================
-     GAME OVER SCREEN
+     GAME OVER
 ========================= -->
 
 <section
@@ -587,6 +768,25 @@ body {
     </div>
 
 
+    <div
+        id="newBest"
+        class="newBest"
+    ></div>
+
+
+    <div
+        class="bestResult"
+    >
+
+        BEST:
+
+        <span id="finalBest">
+            0
+        </span>
+
+    </div>
+
+
     <button
         id="restartButton"
         class="restartButton"
@@ -610,7 +810,6 @@ body {
 (function () {
 
 "use strict";
-
 
 
 /* =========================
@@ -657,9 +856,29 @@ const timeValue =
         "timeValue"
     );
 
+const bestValue =
+    document.getElementById(
+        "bestValue"
+    );
+
+const startBestValue =
+    document.getElementById(
+        "startBestValue"
+    );
+
 const finalScore =
     document.getElementById(
         "finalScore"
+    );
+
+const finalBest =
+    document.getElementById(
+        "finalBest"
+    );
+
+const newBest =
+    document.getElementById(
+        "newBest"
     );
 
 const wrongFlash =
@@ -684,6 +903,66 @@ let timer = null;
 let round = 0;
 
 
+/* =========================
+   HIGH SCORE
+========================= */
+
+const HIGH_SCORE_KEY =
+    "oneWrongTapHighScore";
+
+
+function getHighScore() {
+
+    const saved =
+        localStorage.getItem(
+            HIGH_SCORE_KEY
+        );
+
+    const number =
+        parseInt(
+            saved,
+            10
+        );
+
+    if (
+        Number.isFinite(number) &&
+        number >= 0
+    ) {
+
+        return number;
+
+    }
+
+    return 0;
+}
+
+
+
+function saveHighScore(value) {
+
+    localStorage.setItem(
+        HIGH_SCORE_KEY,
+        String(value)
+    );
+}
+
+
+
+function updateBestDisplays() {
+
+    const best =
+        getHighScore();
+
+    startBestValue.textContent =
+        best;
+
+    bestValue.textContent =
+        best;
+
+    finalBest.textContent =
+        best;
+}
+
 
 /* =========================
    SCREEN FUNCTIONS
@@ -702,6 +981,8 @@ function showStartScreen() {
     gameOverScreen.classList.add(
         "hidden"
     );
+
+    updateBestDisplays();
 }
 
 
@@ -739,7 +1020,6 @@ function showGameOverScreen() {
 }
 
 
-
 /* =========================
    START GAME
 ========================= */
@@ -764,13 +1044,22 @@ function startGame() {
         "30";
 
 
+    updateBestDisplays();
+
+
+    newBest.textContent =
+        "";
+
+
     playArea
         .querySelectorAll(".target")
-        .forEach(function (element) {
+        .forEach(
+            function (element) {
 
-            element.remove();
+                element.remove();
 
-        });
+            }
+        );
 
 
     showGameScreen();
@@ -800,7 +1089,9 @@ function startGame() {
                 timeLeft;
 
 
-            if (timeLeft <= 0) {
+            if (
+                timeLeft <= 0
+            ) {
 
                 endGame();
 
@@ -810,7 +1101,6 @@ function startGame() {
         1000
     );
 }
-
 
 
 /* =========================
@@ -824,22 +1114,55 @@ function endGame() {
     clearInterval(timer);
 
 
+    const oldBest =
+        getHighScore();
+
+
+    let isNewBest = false;
+
+
+    if (score > oldBest) {
+
+        saveHighScore(score);
+
+        isNewBest = true;
+
+    }
+
+
     finalScore.textContent =
         score;
 
 
+    if (isNewBest) {
+
+        newBest.textContent =
+            "NEW BEST!";
+
+    } else {
+
+        newBest.textContent =
+            "";
+
+    }
+
+
+    updateBestDisplays();
+
+
     playArea
         .querySelectorAll(".target")
-        .forEach(function (element) {
+        .forEach(
+            function (element) {
 
-            element.remove();
+                element.remove();
 
-        });
+            }
+        );
 
 
     showGameOverScreen();
 }
-
 
 
 /* =========================
@@ -876,7 +1199,6 @@ function getTargetCount() {
 }
 
 
-
 /* =========================
    TARGET SIZE
 ========================= */
@@ -911,7 +1233,6 @@ function getTargetSize() {
 }
 
 
-
 /* =========================
    CREATE ROUND
 ========================= */
@@ -928,11 +1249,13 @@ function createRound() {
 
     playArea
         .querySelectorAll(".target")
-        .forEach(function (element) {
+        .forEach(
+            function (element) {
 
-            element.remove();
+                element.remove();
 
-        });
+            }
+        );
 
 
     const targetCount =
@@ -975,7 +1298,9 @@ function createRound() {
             targetSize + "px";
 
 
-        if (i === correctIndex) {
+        if (
+            i === correctIndex
+        ) {
 
             target.classList.add(
                 "correct"
@@ -998,6 +1323,7 @@ function createRound() {
 
             target.dataset.correct =
                 "false";
+
         }
 
 
@@ -1022,7 +1348,6 @@ function createRound() {
     }
 
 }
-
 
 
 /* =========================
@@ -1088,7 +1413,6 @@ function positionTarget(
 }
 
 
-
 /* =========================
    HANDLE TAP
 ========================= */
@@ -1119,7 +1443,6 @@ function handleTargetTap(
     /* WRONG TAP */
 
     if (!isCorrect) {
-
 
         wrongFlash.classList.remove(
             "show"
@@ -1155,7 +1478,6 @@ function handleTargetTap(
 }
 
 
-
 /* =========================
    START BUTTON
 ========================= */
@@ -1175,7 +1497,6 @@ startButton.addEventListener(
         passive: false
     }
 );
-
 
 
 /* =========================
@@ -1199,7 +1520,6 @@ restartButton.addEventListener(
 );
 
 
-
 /* =========================
    TOUCH PROTECTION
 ========================= */
@@ -1217,7 +1537,6 @@ document.addEventListener(
 );
 
 
-
 document.addEventListener(
     "gesturestart",
     function (event) {
@@ -1228,7 +1547,6 @@ document.addEventListener(
 );
 
 
-
 document.addEventListener(
     "contextmenu",
     function (event) {
@@ -1237,7 +1555,6 @@ document.addEventListener(
 
     }
 );
-
 
 
 /* =========================
@@ -1269,10 +1586,11 @@ window.addEventListener(
 );
 
 
-
 /* =========================
-   INITIAL SCREEN
+   INITIALIZE
 ========================= */
+
+updateBestDisplays();
 
 showStartScreen();
 

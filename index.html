@@ -230,11 +230,16 @@ body {
     user-select: none;
     -webkit-user-select: none;
 
-    animation: targetAppear 0.18s ease-out;
+    animation:
+        targetAppear 0.18s ease-out,
+        targetFloat 2.8s ease-in-out infinite;
+
+    will-change: transform;
 }
 
 .target.correct {
     background: #fcc224;
+
     box-shadow:
         0 0 0 3px rgba(252,194,36,0.2),
         0 0 30px rgba(252,194,36,0.28),
@@ -244,6 +249,10 @@ body {
 .target:active {
     transform: scale(0.94);
 }
+
+/* =====================================================
+   TARGET APPEAR
+===================================================== */
 
 @keyframes targetAppear {
 
@@ -255,6 +264,39 @@ body {
     to {
         opacity: 1;
         transform: scale(1);
+    }
+
+}
+
+/* =====================================================
+   TARGET FLOAT
+===================================================== */
+
+@keyframes targetFloat {
+
+    0% {
+        margin-top: 0;
+        margin-left: 0;
+    }
+
+    25% {
+        margin-top: -5px;
+        margin-left: 4px;
+    }
+
+    50% {
+        margin-top: 2px;
+        margin-left: -4px;
+    }
+
+    75% {
+        margin-top: 5px;
+        margin-left: 3px;
+    }
+
+    100% {
+        margin-top: 0;
+        margin-left: 0;
     }
 
 }
@@ -1453,11 +1495,13 @@ function positionTargetsWithoutOverlap(
 
     const positions = [];
 
+
     targets.forEach(function (target) {
 
         let placed = false;
 
         let attempts = 0;
+
 
         while (
             !placed &&
@@ -1498,7 +1542,9 @@ function positionTargetsWithoutOverlap(
                     maxY - padding
                 );
 
+
             let overlaps = false;
+
 
             for (
                 let i = 0;
@@ -1525,6 +1571,7 @@ function positionTargetsWithoutOverlap(
 
             }
 
+
             if (!overlaps) {
 
                 positions.push({
@@ -1546,9 +1593,7 @@ function positionTargetsWithoutOverlap(
 
 
         /*
-         * Fallback:
-         * If random placement cannot find
-         * enough space, use a simple grid.
+         * Fallback grid placement.
          */
 
         if (!placed) {
@@ -1583,6 +1628,7 @@ function positionTargetsWithoutOverlap(
                 row *
                 (targetSize + gap);
 
+
             target.style.left =
                 Math.min(
                     x,
@@ -1594,6 +1640,7 @@ function positionTargetsWithoutOverlap(
                     )
                 ) + "px";
 
+
             target.style.top =
                 Math.min(
                     y,
@@ -1604,6 +1651,7 @@ function positionTargetsWithoutOverlap(
                         padding
                     )
                 ) + "px";
+
 
             positions.push({
                 x: parseFloat(
@@ -1650,12 +1698,6 @@ function createRound() {
         );
 
 
-    /*
-     * First create every target.
-     * We position them only after
-     * all targets exist.
-     */
-
     for (
         let i = 0;
         i < targetCount;
@@ -1677,6 +1719,7 @@ function createRound() {
         target.textContent =
             "TAP";
 
+
         if (
             i === correctIndex
         ) {
@@ -1687,15 +1730,18 @@ function createRound() {
 
         }
 
+
         target.dataset.correct =
             i === correctIndex
                 ? "true"
                 : "false";
 
+
         target.addEventListener(
             "pointerdown",
             handleTargetTap
         );
+
 
         playArea.appendChild(target);
 
@@ -1703,11 +1749,6 @@ function createRound() {
 
     }
 
-
-    /*
-     * Position the entire group
-     * without overlapping.
-     */
 
     positionTargetsWithoutOverlap(
         targets
@@ -1730,6 +1771,7 @@ function handleTargetTap(event) {
 
     const target =
         event.currentTarget;
+
 
     if (
         target.dataset.correct === "true"

@@ -2,11 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
->
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 
 <title>ONE WRONG TAP</title>
 
@@ -29,7 +25,6 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 
     touch-action: none;
-
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
@@ -47,7 +42,6 @@ body {
     max-width: 650px;
 
     position: relative;
-
     overflow: hidden;
 
     background:
@@ -62,21 +56,17 @@ body {
 }
 
 
-/* =========================================================
-   SCREENS
-========================================================= */
+/* =========================
+   GENERAL SCREENS
+========================= */
 
 .screen {
     position: absolute;
-
     inset: 0;
 
     display: flex;
-
     flex-direction: column;
-
     justify-content: center;
-
     align-items: center;
 
     text-align: center;
@@ -89,9 +79,9 @@ body {
 }
 
 
-/* =========================================================
-   START
-========================================================= */
+/* =========================
+   LOGO
+========================= */
 
 .logo {
     font-size: clamp(42px, 11vw, 78px);
@@ -119,13 +109,17 @@ body {
     letter-spacing: 1px;
 }
 
+
+/* =========================
+   BUTTONS
+========================= */
+
 .startButton,
 .restartButton {
 
     margin-top: 42px;
 
     min-width: 210px;
-
     min-height: 62px;
 
     padding: 18px 35px;
@@ -152,28 +146,28 @@ body {
 
 .startButton:active,
 .restartButton:active {
+
     transform: scale(.95);
 }
 
 
-/* =========================================================
+/* =========================
    GAME SCREEN
-========================================================= */
+========================= */
 
 #gameScreen {
-    position: absolute;
 
+    position: absolute;
     inset: 0;
 
     display: flex;
-
     flex-direction: column;
 }
 
 
-/* =========================================================
+/* =========================
    HUD
-========================================================= */
+========================= */
 
 #hud {
 
@@ -196,6 +190,7 @@ body {
 }
 
 .hudItem {
+
     min-width: 100px;
 }
 
@@ -220,13 +215,14 @@ body {
 }
 
 #timeValue {
+
     color: #fcc224;
 }
 
 
-/* =========================================================
+/* =========================
    PLAY AREA
-========================================================= */
+========================= */
 
 #playArea {
 
@@ -240,16 +236,15 @@ body {
 }
 
 
-/* =========================================================
+/* =========================
    TARGETS
-========================================================= */
+========================= */
 
 .target {
 
     position: absolute;
 
     width: 100px;
-
     height: 100px;
 
     border-radius: 50%;
@@ -257,7 +252,6 @@ body {
     display: flex;
 
     justify-content: center;
-
     align-items: center;
 
     font-size: 18px;
@@ -269,12 +263,13 @@ body {
     touch-action: none;
 
     transition:
-        transform .08s ease;
-
+        transform .08s ease,
+        width .15s ease,
+        height .15s ease;
 }
 
 
-/* CORRECT TARGET */
+/* CORRECT */
 
 .correct {
 
@@ -292,7 +287,7 @@ body {
 }
 
 
-/* WRONG TARGETS */
+/* WRONG */
 
 .wrong {
 
@@ -304,20 +299,18 @@ body {
 
         0 0 0 5px
         rgba(255,255,255,.08);
-
 }
 
 
-/* TAP FEEDBACK */
-
 .target:active {
+
     transform: scale(.88);
 }
 
 
-/* =========================================================
-   WRONG FLASH
-========================================================= */
+/* =========================
+   WRONG TAP FLASH
+========================= */
 
 #wrongFlash {
 
@@ -350,13 +343,12 @@ body {
     100% {
         opacity: 0;
     }
-
 }
 
 
-/* =========================================================
+/* =========================
    GAME OVER
-========================================================= */
+========================= */
 
 #gameOverScreen {
 
@@ -401,9 +393,9 @@ body {
 }
 
 
-/* =========================================================
+/* =========================
    SMALL PHONES
-========================================================= */
+========================= */
 
 @media (max-width: 380px) {
 
@@ -418,18 +410,16 @@ body {
     .target {
 
         width: 82px;
-
         height: 82px;
 
         font-size: 15px;
     }
-
 }
 
 
-/* =========================================================
-   LANDSCAPE PHONES
-========================================================= */
+/* =========================
+   LANDSCAPE
+========================= */
 
 @media (orientation: landscape)
        and (max-height: 500px) {
@@ -441,7 +431,6 @@ body {
     .target {
 
         width: 75px;
-
         height: 75px;
 
         font-size: 14px;
@@ -452,7 +441,6 @@ body {
 
         margin-top: 22px;
     }
-
 }
 
 </style>
@@ -461,12 +449,13 @@ body {
 
 <body>
 
+
 <div id="app">
 
 
-<!-- =======================================================
+<!-- =========================
      START SCREEN
-======================================================= -->
+========================= -->
 
 <section
     id="startScreen"
@@ -477,15 +466,19 @@ body {
 
         ONE<br>
 
-        <span>WRONG TAP</span>
+        <span>
+            WRONG TAP
+        </span>
 
     </h1>
+
 
     <p class="tagline">
 
         One wrong tap and it's over.
 
     </p>
+
 
     <button
         id="startButton"
@@ -501,16 +494,18 @@ body {
 
 
 
-<!-- =======================================================
+<!-- =========================
      GAME SCREEN
-======================================================= -->
+========================= -->
 
 <section
     id="gameScreen"
     class="hidden"
 >
 
+
     <div id="hud">
+
 
         <div class="hudItem">
 
@@ -528,6 +523,7 @@ body {
         </div>
 
 
+
         <div class="hudItem">
 
             <span class="hudLabel">
@@ -543,7 +539,9 @@ body {
 
         </div>
 
+
     </div>
+
 
 
     <div id="playArea">
@@ -552,18 +550,20 @@ body {
 
     </div>
 
+
 </section>
 
 
 
-<!-- =======================================================
-     GAME OVER
-======================================================= -->
+<!-- =========================
+     GAME OVER SCREEN
+========================= -->
 
 <section
     id="gameOverScreen"
     class="screen hidden"
 >
+
 
     <h2 class="gameOverTitle">
 
@@ -571,11 +571,13 @@ body {
 
     </h2>
 
+
     <p class="gameOverSub">
 
         FINAL SCORE
 
     </p>
+
 
     <div
         id="finalScore"
@@ -583,6 +585,7 @@ body {
     >
         0
     </div>
+
 
     <button
         id="restartButton"
@@ -593,6 +596,7 @@ body {
         PLAY AGAIN
 
     </button>
+
 
 </section>
 
@@ -608,44 +612,66 @@ body {
 "use strict";
 
 
-/* =========================================================
+
+/* =========================
    ELEMENTS
-========================================================= */
+========================= */
 
 const startScreen =
-    document.getElementById("startScreen");
+    document.getElementById(
+        "startScreen"
+    );
 
 const gameScreen =
-    document.getElementById("gameScreen");
+    document.getElementById(
+        "gameScreen"
+    );
 
 const gameOverScreen =
-    document.getElementById("gameOverScreen");
+    document.getElementById(
+        "gameOverScreen"
+    );
 
 const startButton =
-    document.getElementById("startButton");
+    document.getElementById(
+        "startButton"
+    );
 
 const restartButton =
-    document.getElementById("restartButton");
+    document.getElementById(
+        "restartButton"
+    );
 
 const playArea =
-    document.getElementById("playArea");
+    document.getElementById(
+        "playArea"
+    );
 
 const scoreValue =
-    document.getElementById("scoreValue");
+    document.getElementById(
+        "scoreValue"
+    );
 
 const timeValue =
-    document.getElementById("timeValue");
+    document.getElementById(
+        "timeValue"
+    );
 
 const finalScore =
-    document.getElementById("finalScore");
+    document.getElementById(
+        "finalScore"
+    );
 
 const wrongFlash =
-    document.getElementById("wrongFlash");
+    document.getElementById(
+        "wrongFlash"
+    );
 
 
-/* =========================================================
+
+/* =========================
    GAME VARIABLES
-========================================================= */
+========================= */
 
 let score = 0;
 
@@ -658,46 +684,65 @@ let timer = null;
 let round = 0;
 
 
-/* =========================================================
+
+/* =========================
    SCREEN FUNCTIONS
-========================================================= */
+========================= */
 
 function showStartScreen() {
 
-    startScreen.classList.remove("hidden");
+    startScreen.classList.remove(
+        "hidden"
+    );
 
-    gameScreen.classList.add("hidden");
+    gameScreen.classList.add(
+        "hidden"
+    );
 
-    gameOverScreen.classList.add("hidden");
-
+    gameOverScreen.classList.add(
+        "hidden"
+    );
 }
+
 
 
 function showGameScreen() {
 
-    startScreen.classList.add("hidden");
+    startScreen.classList.add(
+        "hidden"
+    );
 
-    gameScreen.classList.remove("hidden");
+    gameScreen.classList.remove(
+        "hidden"
+    );
 
-    gameOverScreen.classList.add("hidden");
-
+    gameOverScreen.classList.add(
+        "hidden"
+    );
 }
+
 
 
 function showGameOverScreen() {
 
-    startScreen.classList.add("hidden");
+    startScreen.classList.add(
+        "hidden"
+    );
 
-    gameScreen.classList.add("hidden");
+    gameScreen.classList.add(
+        "hidden"
+    );
 
-    gameOverScreen.classList.remove("hidden");
-
+    gameOverScreen.classList.remove(
+        "hidden"
+    );
 }
 
 
-/* =========================================================
+
+/* =========================
    START GAME
-========================================================= */
+========================= */
 
 function startGame() {
 
@@ -711,9 +756,13 @@ function startGame() {
 
     gameRunning = true;
 
-    scoreValue.textContent = "0";
 
-    timeValue.textContent = "30";
+    scoreValue.textContent =
+        "0";
+
+    timeValue.textContent =
+        "30";
+
 
     playArea
         .querySelectorAll(".target")
@@ -723,42 +772,50 @@ function startGame() {
 
         });
 
+
     showGameScreen();
 
 
-    requestAnimationFrame(function () {
+    requestAnimationFrame(
+        function () {
 
-        createRound();
-
-    });
-
-
-    timer = setInterval(function () {
-
-        if (!gameRunning) {
-            return;
-        }
-
-        timeLeft--;
-
-        timeValue.textContent =
-            timeLeft;
-
-
-        if (timeLeft <= 0) {
-
-            endGame();
+            createRound();
 
         }
+    );
 
-    }, 1000);
 
+    timer = setInterval(
+        function () {
+
+            if (!gameRunning) {
+                return;
+            }
+
+
+            timeLeft--;
+
+
+            timeValue.textContent =
+                timeLeft;
+
+
+            if (timeLeft <= 0) {
+
+                endGame();
+
+            }
+
+        },
+        1000
+    );
 }
 
 
-/* =========================================================
+
+/* =========================
    END GAME
-========================================================= */
+========================= */
 
 function endGame() {
 
@@ -766,7 +823,10 @@ function endGame() {
 
     clearInterval(timer);
 
-    finalScore.textContent = score;
+
+    finalScore.textContent =
+        score;
+
 
     playArea
         .querySelectorAll(".target")
@@ -776,48 +836,85 @@ function endGame() {
 
         });
 
-    showGameOverScreen();
 
+    showGameOverScreen();
 }
 
 
-/* =========================================================
-   NUMBER OF TARGETS
-========================================================= */
+
+/* =========================
+   TARGET COUNT
+========================= */
 
 function getTargetCount() {
 
-    /*
-       Start easy.
-
-       As the score increases,
-       more targets appear.
-    */
-
     if (score < 5) {
+
         return 2;
+
     }
 
     if (score < 10) {
+
         return 3;
+
     }
 
     if (score < 20) {
+
         return 4;
+
     }
 
     if (score < 35) {
+
         return 5;
+
     }
 
     return 6;
-
 }
 
 
-/* =========================================================
+
+/* =========================
+   TARGET SIZE
+========================= */
+
+function getTargetSize() {
+
+    if (score < 5) {
+
+        return 100;
+
+    }
+
+    if (score < 10) {
+
+        return 95;
+
+    }
+
+    if (score < 20) {
+
+        return 90;
+
+    }
+
+    if (score < 35) {
+
+        return 85;
+
+    }
+
+    return 80;
+}
+
+
+
+/* =========================
    CREATE ROUND
-========================================================= */
+========================= */
 
 function createRound() {
 
@@ -825,7 +922,9 @@ function createRound() {
         return;
     }
 
+
     round++;
+
 
     playArea
         .querySelectorAll(".target")
@@ -840,14 +939,14 @@ function createRound() {
         getTargetCount();
 
 
-    /*
-       Pick one random target
-       to be the CORRECT one.
-    */
+    const targetSize =
+        getTargetSize();
+
 
     const correctIndex =
         Math.floor(
-            Math.random() * targetCount
+            Math.random() *
+            targetCount
         );
 
 
@@ -857,34 +956,59 @@ function createRound() {
         i++
     ) {
 
-        const target =
-            document.createElement("div");
 
-        target.className = "target";
+        const target =
+            document.createElement(
+                "div"
+            );
+
+
+        target.className =
+            "target";
+
+
+        target.style.width =
+            targetSize + "px";
+
+
+        target.style.height =
+            targetSize + "px";
 
 
         if (i === correctIndex) {
 
-            target.classList.add("correct");
+            target.classList.add(
+                "correct"
+            );
 
-            target.textContent = "TAP";
+            target.textContent =
+                "TAP";
 
-            target.dataset.correct = "true";
+            target.dataset.correct =
+                "true";
 
         } else {
 
-            target.classList.add("wrong");
+            target.classList.add(
+                "wrong"
+            );
 
-            target.textContent = "TAP";
+            target.textContent =
+                "TAP";
 
-            target.dataset.correct = "false";
-
+            target.dataset.correct =
+                "false";
         }
 
 
-        positionTarget(target);
+        playArea.appendChild(
+            target
+        );
 
-        playArea.appendChild(target);
+
+        positionTarget(
+            target
+        );
 
 
         target.addEventListener(
@@ -900,21 +1024,25 @@ function createRound() {
 }
 
 
-/* =========================================================
-   POSITION TARGET
-========================================================= */
 
-function positionTarget(target) {
+/* =========================
+   POSITION TARGET
+========================= */
+
+function positionTarget(
+    target
+) {
 
     const areaWidth =
         playArea.clientWidth;
+
 
     const areaHeight =
         playArea.clientHeight;
 
 
     const targetSize =
-        target.offsetWidth || 100;
+        target.offsetWidth;
 
 
     const padding = 15;
@@ -940,16 +1068,19 @@ function positionTarget(target) {
 
     const x =
         padding +
-        Math.random() * maxX;
+        Math.random() *
+        maxX;
 
 
     const y =
         padding +
-        Math.random() * maxY;
+        Math.random() *
+        maxY;
 
 
     target.style.left =
         x + "px";
+
 
     target.style.top =
         y + "px";
@@ -957,11 +1088,14 @@ function positionTarget(target) {
 }
 
 
-/* =========================================================
-   HANDLE TARGET TAP
-========================================================= */
 
-function handleTargetTap(event) {
+/* =========================
+   HANDLE TAP
+========================= */
+
+function handleTargetTap(
+    event
+) {
 
     event.preventDefault();
 
@@ -978,37 +1112,39 @@ function handleTargetTap(event) {
 
 
     const isCorrect =
-        tappedTarget.dataset.correct === "true";
+        tappedTarget.dataset.correct
+        === "true";
 
 
-    /* =====================================================
-       WRONG TARGET
-    ====================================================== */
+    /* WRONG TAP */
 
     if (!isCorrect) {
 
-        wrongFlash.classList.remove("show");
 
-        /*
-           Force animation to restart.
-        */
+        wrongFlash.classList.remove(
+            "show"
+        );
+
 
         void wrongFlash.offsetWidth;
 
-        wrongFlash.classList.add("show");
+
+        wrongFlash.classList.add(
+            "show"
+        );
+
 
         endGame();
 
-        return;
 
+        return;
     }
 
 
-    /* =====================================================
-       CORRECT TARGET
-    ====================================================== */
+    /* CORRECT TAP */
 
     score++;
+
 
     scoreValue.textContent =
         score;
@@ -1019,9 +1155,10 @@ function handleTargetTap(event) {
 }
 
 
-/* =========================================================
+
+/* =========================
    START BUTTON
-========================================================= */
+========================= */
 
 startButton.addEventListener(
     "pointerdown",
@@ -1040,9 +1177,10 @@ startButton.addEventListener(
 );
 
 
-/* =========================================================
+
+/* =========================
    RESTART BUTTON
-========================================================= */
+========================= */
 
 restartButton.addEventListener(
     "pointerdown",
@@ -1061,9 +1199,10 @@ restartButton.addEventListener(
 );
 
 
-/* =========================================================
-   PREVENT PHONE SCROLLING
-========================================================= */
+
+/* =========================
+   TOUCH PROTECTION
+========================= */
 
 document.addEventListener(
     "touchmove",
@@ -1078,9 +1217,6 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   PREVENT DOUBLE-TAP ZOOM
-========================================================= */
 
 document.addEventListener(
     "gesturestart",
@@ -1088,16 +1224,10 @@ document.addEventListener(
 
         event.preventDefault();
 
-    },
-    {
-        passive: false
     }
 );
 
 
-/* =========================================================
-   PREVENT CONTEXT MENU
-========================================================= */
 
 document.addEventListener(
     "contextmenu",
@@ -1109,9 +1239,10 @@ document.addEventListener(
 );
 
 
-/* =========================================================
+
+/* =========================
    RESIZE
-========================================================= */
+========================= */
 
 window.addEventListener(
     "resize",
@@ -1121,23 +1252,30 @@ window.addEventListener(
             return;
         }
 
+
         playArea
             .querySelectorAll(".target")
-            .forEach(function (target) {
+            .forEach(
+                function (target) {
 
-                positionTarget(target);
+                    positionTarget(
+                        target
+                    );
 
-            });
+                }
+            );
 
     }
 );
 
 
-/* =========================================================
-   INITIAL STATE
-========================================================= */
+
+/* =========================
+   INITIAL SCREEN
+========================= */
 
 showStartScreen();
+
 
 })();
 
@@ -1145,4 +1283,3 @@ showStartScreen();
 
 </body>
 </html>
-```

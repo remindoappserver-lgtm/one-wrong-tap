@@ -1,8 +1,9 @@
+```javascript
 /* =========================================================
    ONE WRONG TAP
-   VERSION 2.1
+   VERSION 2.2
 
-   Android touch-fixed edition
+   Android / Mobile TAP FIXED
 ========================================================= */
 
 
@@ -31,7 +32,6 @@ const challengeTextEl =
 const challengeProgressEl =
     document.getElementById("challengeProgress");
 
-
 const startScreen =
     document.getElementById("startScreen");
 
@@ -47,7 +47,6 @@ const countdownEl =
 const flashEl =
     document.getElementById("flash");
 
-
 const startBtn =
     document.getElementById("startBtn");
 
@@ -59,7 +58,6 @@ const continueBtn =
 
 const soundBtn =
     document.getElementById("soundBtn");
-
 
 const finalScoreEl =
     document.getElementById("finalScore");
@@ -73,7 +71,6 @@ const resultBadgeEl =
 const earnedCoinsEl =
     document.getElementById("earnedCoins");
 
-
 const shopBtn =
     document.getElementById("shopBtn");
 
@@ -82,7 +79,6 @@ const achievementsBtn =
 
 const statsBtn =
     document.getElementById("statsBtn");
-
 
 const modal =
     document.getElementById("modal");
@@ -108,9 +104,7 @@ const STORAGE_KEY =
 
 let data =
     JSON.parse(
-        localStorage.getItem(
-            STORAGE_KEY
-        ) ||
+        localStorage.getItem(STORAGE_KEY) ||
         "null"
     );
 
@@ -163,6 +157,52 @@ if (!data) {
 
 
 /* =========================================================
+   DATA SAFETY
+========================================================= */
+
+data.coins =
+    Number(data.coins) || 0;
+
+data.best =
+    Number(data.best) || 0;
+
+data.totalGames =
+    Number(data.totalGames) || 0;
+
+data.totalTaps =
+    Number(data.totalTaps) || 0;
+
+data.totalWins =
+    Number(data.totalWins) || 0;
+
+data.totalCoinsEarned =
+    Number(data.totalCoinsEarned) || 0;
+
+data.streak =
+    Number(data.streak) || 0;
+
+if (!Array.isArray(data.ownedThemes)) {
+
+    data.ownedThemes = [
+        "classic"
+    ];
+
+}
+
+if (!data.achievements) {
+
+    data.achievements = {};
+
+}
+
+if (typeof data.soundOn !== "boolean") {
+
+    data.soundOn = true;
+
+}
+
+
+/* =========================================================
    SAVE
 ========================================================= */
 
@@ -200,6 +240,10 @@ let currentGameCoins = 0;
 
 let audioContext = null;
 
+let boardBuildTimer = null;
+
+let countdownTimer = null;
+
 
 /* =========================================================
    THEMES
@@ -221,7 +265,6 @@ const themes = {
 
     },
 
-
     gold: {
 
         name: "Gold",
@@ -235,7 +278,6 @@ const themes = {
         background: "#17120a"
 
     },
-
 
     neon: {
 
@@ -251,7 +293,6 @@ const themes = {
 
     },
 
-
     ice: {
 
         name: "Ice",
@@ -265,7 +306,6 @@ const themes = {
         background: "#07121a"
 
     },
-
 
     fire: {
 
@@ -305,7 +345,6 @@ const achievements = [
             data.totalGames >= 1
     },
 
-
     {
         id: "score_10",
 
@@ -320,7 +359,6 @@ const achievements = [
         check: () =>
             data.best >= 10
     },
-
 
     {
         id: "score_50",
@@ -337,7 +375,6 @@ const achievements = [
             data.best >= 50
     },
 
-
     {
         id: "score_100",
 
@@ -352,7 +389,6 @@ const achievements = [
         check: () =>
             data.best >= 100
     },
-
 
     {
         id: "score_250",
@@ -369,7 +405,6 @@ const achievements = [
             data.best >= 250
     },
 
-
     {
         id: "games_10",
 
@@ -385,7 +420,6 @@ const achievements = [
             data.totalGames >= 10
     },
 
-
     {
         id: "streak_3",
 
@@ -400,7 +434,6 @@ const achievements = [
         check: () =>
             data.streak >= 3
     },
-
 
     {
         id: "streak_7",
@@ -418,19 +451,6 @@ const achievements = [
     }
 
 ];
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-prepareDailyChallenge();
-
-applyTheme();
-
-updateUI();
-
-checkAchievements();
 
 
 /* =========================================================
@@ -466,7 +486,6 @@ function prepareDailyChallenge() {
     const today =
         todayString();
 
-
     if (
         data.dailyChallengeDate !==
         today
@@ -475,26 +494,21 @@ function prepareDailyChallenge() {
         data.dailyChallengeDate =
             today;
 
-
         data.dailyChallengeTarget =
             50 +
             Math.floor(
                 Math.random() * 3
             ) * 25;
 
-
         data.dailyChallengeBest =
             0;
-
 
         data.dailyChallengeComplete =
             false;
 
-
         saveData();
 
     }
-
 
     updateDailyUI();
 
@@ -510,7 +524,6 @@ function updateStreak() {
     const today =
         todayString();
 
-
     if (
         data.lastPlayedDate ===
         today
@@ -519,7 +532,6 @@ function updateStreak() {
         return;
 
     }
-
 
     if (
         !data.lastPlayedDate
@@ -537,12 +549,10 @@ function updateStreak() {
                 data.lastPlayedDate
             );
 
-
         const current =
             new Date(
                 today
             );
-
 
         const difference =
             Math.round(
@@ -552,7 +562,6 @@ function updateStreak() {
                 ) /
                 86400000
             );
-
 
         if (
             difference === 1
@@ -571,10 +580,8 @@ function updateStreak() {
 
     }
 
-
     data.lastPlayedDate =
         today;
-
 
     saveData();
 
@@ -587,17 +594,23 @@ function updateStreak() {
 
 function updateDailyUI() {
 
-    streakEl.textContent =
-        `${data.streak} DAY${
-            data.streak === 1
-                ? ""
-                : "S"
-        }`;
+    if (streakEl) {
 
+        streakEl.textContent =
+            `${data.streak} DAY${
+                data.streak === 1
+                    ? ""
+                    : "S"
+            }`;
 
-    challengeTextEl.textContent =
-        `Reach ${data.dailyChallengeTarget} points`;
+    }
 
+    if (challengeTextEl) {
+
+        challengeTextEl.textContent =
+            `Reach ${data.dailyChallengeTarget} points`;
+
+    }
 
     const progress =
         Math.min(
@@ -605,13 +618,16 @@ function updateDailyUI() {
             data.dailyChallengeTarget
         );
 
+    if (challengeProgressEl) {
 
-    challengeProgressEl.textContent =
-        `${progress} / ${data.dailyChallengeTarget}`;
+        challengeProgressEl.textContent =
+            `${progress} / ${data.dailyChallengeTarget}`;
 
+    }
 
     if (
-        data.dailyChallengeComplete
+        data.dailyChallengeComplete &&
+        challengeProgressEl
     ) {
 
         challengeProgressEl.textContent =
@@ -636,7 +652,6 @@ function ensureAudio() {
 
     }
 
-
     if (
         !audioContext
     ) {
@@ -645,24 +660,37 @@ function ensureAudio() {
             window.AudioContext ||
             window.webkitAudioContext;
 
-
         if (AudioCtx) {
 
-            audioContext =
-                new AudioCtx();
+            try {
+
+                audioContext =
+                    new AudioCtx();
+
+            }
+
+            catch (error) {
+
+                console.log(
+                    "Audio unavailable:",
+                    error
+                );
+
+            }
 
         }
 
     }
 
-
     if (
         audioContext &&
         audioContext.state ===
-            "suspended"
+        "suspended"
     ) {
 
-        audioContext.resume();
+        audioContext.resume().catch(
+            () => {}
+        );
 
     }
 
@@ -684,9 +712,7 @@ function beep(
 
     }
 
-
     ensureAudio();
-
 
     if (
         !audioContext
@@ -696,53 +722,56 @@ function beep(
 
     }
 
+    try {
 
-    const oscillator =
-        audioContext.createOscillator();
+        const oscillator =
+            audioContext.createOscillator();
 
+        const gain =
+            audioContext.createGain();
 
-    const gain =
-        audioContext.createGain();
+        oscillator.type =
+            type;
 
+        oscillator.frequency.value =
+            frequency;
 
-    oscillator.type =
-        type;
+        gain.gain.setValueAtTime(
+            volume,
+            audioContext.currentTime
+        );
 
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime +
+            duration
+        );
 
-    oscillator.frequency.value =
-        frequency;
+        oscillator.connect(
+            gain
+        );
 
+        gain.connect(
+            audioContext.destination
+        );
 
-    gain.gain.setValueAtTime(
-        volume,
-        audioContext.currentTime
-    );
+        oscillator.start();
 
+        oscillator.stop(
+            audioContext.currentTime +
+            duration
+        );
 
-    gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audioContext.currentTime +
-        duration
-    );
+    }
 
+    catch (error) {
 
-    oscillator.connect(
-        gain
-    );
+        console.log(
+            "Sound error:",
+            error
+        );
 
-
-    gain.connect(
-        audioContext.destination
-    );
-
-
-    oscillator.start();
-
-
-    oscillator.stop(
-        audioContext.currentTime +
-        duration
-    );
+    }
 
 }
 
@@ -751,33 +780,36 @@ function beep(
    SOUND BUTTON
 ========================================================= */
 
-soundBtn.addEventListener(
-    "click",
-    () => {
+if (soundBtn) {
 
-        data.soundOn =
-            !data.soundOn;
+    soundBtn.addEventListener(
+        "click",
+        () => {
 
+            data.soundOn =
+                !data.soundOn;
 
-        saveData();
+            saveData();
 
+            updateUI();
 
-        updateUI();
+            if (
+                data.soundOn
+            ) {
 
+                ensureAudio();
 
-        if (
-            data.soundOn
-        ) {
+                beep(
+                    620,
+                    0.08
+                );
 
-            beep(
-                620,
-                0.08
-            );
+            }
 
         }
+    );
 
-    }
-);
+}
 
 
 /* =========================================================
@@ -786,29 +818,80 @@ soundBtn.addEventListener(
 
 function updateUI() {
 
-    coinsEl.textContent =
-        data.coins;
+    if (coinsEl) {
 
+        coinsEl.textContent =
+            data.coins;
 
-    bestEl.textContent =
-        data.best;
+    }
 
+    if (bestEl) {
 
-    scoreEl.textContent =
-        score;
+        bestEl.textContent =
+            data.best;
 
+    }
 
-    levelEl.textContent =
-        level;
+    if (scoreEl) {
 
+        scoreEl.textContent =
+            score;
 
-    soundBtn.textContent =
-        data.soundOn
-            ? "🔊"
-            : "🔇";
+    }
 
+    if (levelEl) {
+
+        levelEl.textContent =
+            level;
+
+    }
+
+    if (soundBtn) {
+
+        soundBtn.textContent =
+            data.soundOn
+                ? "🔊"
+                : "🔇";
+
+    }
 
     updateDailyUI();
+
+}
+
+
+/* =========================================================
+   START GAME BUTTONS
+========================================================= */
+
+if (startBtn) {
+
+    startBtn.addEventListener(
+        "click",
+        () => {
+
+            ensureAudio();
+
+            startGame();
+
+        }
+    );
+
+}
+
+
+if (restartBtn) {
+
+    restartBtn.addEventListener(
+        "click",
+        () => {
+
+            ensureAudio();
+
+            startGame();
+
+        }
+    );
 
 }
 
@@ -817,85 +900,85 @@ function updateUI() {
    START GAME
 ========================================================= */
 
-startBtn.addEventListener(
-    "click",
-    () => {
-
-        ensureAudio();
-
-        startGame();
-
-    }
-);
-
-
-restartBtn.addEventListener(
-    "click",
-    () => {
-
-        ensureAudio();
-
-        startGame();
-
-    }
-);
-
-
 function startGame() {
 
-    updateStreak();
+    if (boardBuildTimer) {
 
+        clearTimeout(
+            boardBuildTimer
+        );
+
+        boardBuildTimer =
+            null;
+
+    }
+
+    if (countdownTimer) {
+
+        clearInterval(
+            countdownTimer
+        );
+
+        countdownTimer =
+            null;
+
+    }
+
+    updateStreak();
 
     score =
         0;
 
-
     level =
         1;
-
 
     currentGameCoins =
         0;
 
-
     continueUsed =
         false;
-
 
     continued =
         false;
 
+    gameRunning =
+        false;
 
     data.totalGames++;
 
-
     saveData();
-
 
     updateUI();
 
+    if (startScreen) {
 
-    startScreen.classList.add(
-        "hidden"
-    );
+        startScreen.classList.add(
+            "hidden"
+        );
 
+    }
 
-    gameOverScreen.classList.add(
-        "hidden"
-    );
+    if (gameOverScreen) {
 
+        gameOverScreen.classList.add(
+            "hidden"
+        );
 
-    gameArea.classList.remove(
-        "hidden"
-    );
+    }
 
+    if (gameArea) {
+
+        gameArea.classList.remove(
+            "hidden"
+        );
+
+    }
 
     beginCountdown(
         () => {
 
             gameRunning =
                 true;
-
 
             buildBoard();
 
@@ -911,31 +994,34 @@ function startGame() {
 
 function beginCountdown(done) {
 
+    if (!countdownEl) {
+
+        done();
+
+        return;
+
+    }
+
     countdownEl.classList.remove(
         "hidden"
     );
 
-
     let n =
         3;
 
-
     countdownEl.textContent =
         n;
-
 
     beep(
         440,
         0.08
     );
 
-
-    const timer =
+    countdownTimer =
         setInterval(
             () => {
 
                 n--;
-
 
                 if (
                     n > 0
@@ -943,7 +1029,6 @@ function beginCountdown(done) {
 
                     countdownEl.textContent =
                         n;
-
 
                     beep(
                         440 +
@@ -959,7 +1044,6 @@ function beginCountdown(done) {
                     countdownEl.textContent =
                         "GO!";
 
-
                     beep(
                         800,
                         0.12,
@@ -967,6 +1051,12 @@ function beginCountdown(done) {
                         0.025
                     );
 
+                    clearInterval(
+                        countdownTimer
+                    );
+
+                    countdownTimer =
+                        null;
 
                     setTimeout(
                         () => {
@@ -975,16 +1065,10 @@ function beginCountdown(done) {
                                 "hidden"
                             );
 
-
                             done();
 
                         },
                         350
-                    );
-
-
-                    clearInterval(
-                        timer
                     );
 
                 }
@@ -1010,7 +1094,6 @@ function getBoardSize() {
 
     }
 
-
     if (
         score < 25
     ) {
@@ -1018,7 +1101,6 @@ function getBoardSize() {
         return [4, 5];
 
     }
-
 
     if (
         score < 50
@@ -1028,7 +1110,6 @@ function getBoardSize() {
 
     }
 
-
     if (
         score < 90
     ) {
@@ -1037,7 +1118,6 @@ function getBoardSize() {
 
     }
 
-
     if (
         score < 150
     ) {
@@ -1045,7 +1125,6 @@ function getBoardSize() {
         return [6, 6];
 
     }
-
 
     return [6, 7];
 
@@ -1074,13 +1153,13 @@ function getLevel() {
 function buildBoard() {
 
     if (
-        !gameRunning
+        !gameRunning ||
+        !gameArea
     ) {
 
         return;
 
     }
-
 
     [
         boardRows,
@@ -1088,37 +1167,51 @@ function buildBoard() {
     ] =
         getBoardSize();
 
-
     level =
         getLevel();
 
-
     updateUI();
-
 
     gameArea.style.gridTemplateColumns =
         `repeat(${boardCols}, 1fr)`;
 
-
     gameArea.style.gridTemplateRows =
         `repeat(${boardRows}, 1fr)`;
 
+    /*
+     =====================================================
+     MOBILE TAP SUPPORT
+
+     These properties make the browser treat the board
+     as an interactive touch area and prevent accidental
+     scrolling/gesture interpretation.
+     =====================================================
+    */
+
+    gameArea.style.touchAction =
+        "manipulation";
+
+    gameArea.style.userSelect =
+        "none";
+
+    gameArea.style.webkitUserSelect =
+        "none";
+
+    gameArea.style.webkitTapHighlightColor =
+        "transparent";
 
     gameArea.innerHTML =
         "";
 
-
     const total =
         boardRows *
         boardCols;
-
 
     dangerIndex =
         Math.floor(
             Math.random() *
             total
         );
-
 
     for (
         let i = 0;
@@ -1131,14 +1224,26 @@ function buildBoard() {
                 "button"
             );
 
-
         tile.type =
             "button";
-
 
         tile.className =
             "tile";
 
+        tile.dataset.index =
+            String(i);
+
+        /*
+         =================================================
+         IMPORTANT
+
+         We do NOT attach pointerdown or touchstart
+         handlers to individual tiles.
+
+         The game uses the board-level click handler
+         below. This is much more reliable on Android.
+         =================================================
+        */
 
         if (
             i ===
@@ -1151,52 +1256,23 @@ function buildBoard() {
 
         }
 
-
         /*
-         =====================================================
-         ANDROID / MOBILE TOUCH FIX
-
-         pointerdown works with:
-         - Android touch
-         - iPhone touch
-         - mouse
-         - stylus
-
-         We no longer use touchstart.preventDefault(),
-         which could block the click event in Android WebView.
-         =====================================================
+         =================================================
+         MOBILE CSS SAFETY
+         =================================================
         */
 
-        tile.addEventListener(
-            "pointerdown",
-            event => {
+        tile.style.touchAction =
+            "manipulation";
 
-                if (
-                    event.pointerType ===
-                    "mouse" &&
-                    event.button !== 0
-                ) {
+        tile.style.userSelect =
+            "none";
 
-                    return;
+        tile.style.webkitUserSelect =
+            "none";
 
-                }
-
-
-                event.preventDefault();
-
-
-                handleTile(
-                    tile,
-                    i
-                );
-
-            },
-            {
-                once: true,
-                passive: false
-            }
-        );
-
+        tile.style.webkitTapHighlightColor =
+            "transparent";
 
         gameArea.appendChild(
             tile
@@ -1204,8 +1280,69 @@ function buildBoard() {
 
     }
 
-
     applyTheme();
+
+}
+
+
+/* =========================================================
+   BOARD CLICK / TAP HANDLER
+=========================================================
+
+   ONE handler controls every tile.
+
+   This fixes Android devices where dynamically-created
+   pointerdown listeners can fail to fire correctly.
+========================================================= */
+
+if (gameArea) {
+
+    gameArea.addEventListener(
+        "click",
+        event => {
+
+            if (
+                !gameRunning
+            ) {
+
+                return;
+
+            }
+
+            const tile =
+                event.target.closest(
+                    ".tile"
+                );
+
+            if (
+                !tile ||
+                !gameArea.contains(tile)
+            ) {
+
+                return;
+
+            }
+
+            const index =
+                Number(
+                    tile.dataset.index
+                );
+
+            if (
+                !Number.isInteger(index)
+            ) {
+
+                return;
+
+            }
+
+            handleTile(
+                tile,
+                index
+            );
+
+        }
+    );
 
 }
 
@@ -1227,12 +1364,17 @@ function handleTile(
 
     }
 
+    if (
+        !tile
+    ) {
+
+        return;
+
+    }
 
     /*
      =====================================================
      PREVENT DOUBLE INPUT
-
-     This is especially useful on mobile devices.
      =====================================================
     */
 
@@ -1245,18 +1387,24 @@ function handleTile(
 
     }
 
-
     tile.dataset.clicked =
         "true";
 
+    /*
+     =====================================================
+     DISABLE THIS TILE IMMEDIATELY
+     =====================================================
+    */
+
+    tile.disabled =
+        true;
 
     data.totalTaps++;
-
 
     /*
      =====================================================
      RED TILE
-=====================================================
+     =====================================================
     */
 
     if (
@@ -1272,38 +1420,33 @@ function handleTile(
 
     }
 
-
     /*
      =====================================================
      SAFE TILE
-=========================================================
+     =====================================================
     */
 
     tile.classList.add(
         "safe-hit"
     );
 
-
     score++;
-
 
     level =
         getLevel();
 
-
     /*
      =====================================================
      COINS
-=========================================================
+     =====================================================
     */
 
     currentGameCoins++;
 
-
     /*
      =====================================================
      DAILY CHALLENGE
-=========================================================
+     =====================================================
     */
 
     if (
@@ -1315,7 +1458,6 @@ function handleTile(
             score;
 
     }
-
 
     if (
         data.dailyChallengeBest >=
@@ -1329,10 +1471,8 @@ function handleTile(
             data.dailyChallengeComplete =
                 true;
 
-
             data.coins +=
                 100;
-
 
             data.totalCoinsEarned +=
                 100;
@@ -1341,38 +1481,37 @@ function handleTile(
 
     }
 
-
     saveData();
 
-
     updateUI();
-
 
     /*
      =====================================================
      FLASH
-=========================================================
+     =====================================================
     */
 
-    flashEl.className =
-        "flash good";
+    if (flashEl) {
 
+        flashEl.className =
+            "flash good";
 
-    setTimeout(
-        () => {
+        setTimeout(
+            () => {
 
-            flashEl.className =
-                "flash";
+                flashEl.className =
+                    "flash";
 
-        },
-        120
-    );
+            },
+            120
+        );
 
+    }
 
     /*
      =====================================================
      SOUND
-=========================================================
+     =====================================================
     */
 
     beep(
@@ -1387,21 +1526,36 @@ function handleTile(
         0.025
     );
 
-
     /*
      =====================================================
      NEXT BOARD
-=========================================================
+     =====================================================
     */
 
-    setTimeout(
-        buildBoard,
-        Math.max(
-            70,
-            170 -
-            level * 5
-        )
-    );
+    if (boardBuildTimer) {
+
+        clearTimeout(
+            boardBuildTimer
+        );
+
+    }
+
+    boardBuildTimer =
+        setTimeout(
+            () => {
+
+                boardBuildTimer =
+                    null;
+
+                buildBoard();
+
+            },
+            Math.max(
+                70,
+                170 -
+                level * 5
+            )
+        );
 
 }
 
@@ -1415,11 +1569,21 @@ function endGame() {
     gameRunning =
         false;
 
+    if (boardBuildTimer) {
+
+        clearTimeout(
+            boardBuildTimer
+        );
+
+        boardBuildTimer =
+            null;
+
+    }
 
     /*
      =====================================================
      COINS
-=========================================================
+     =====================================================
     */
 
     const gameBonus =
@@ -1427,34 +1591,32 @@ function endGame() {
             score / 10
         );
 
-
     const earned =
         currentGameCoins +
         gameBonus;
 
-
     data.coins +=
         earned;
-
 
     data.totalCoinsEarned +=
         earned;
 
+    if (earnedCoinsEl) {
 
-    earnedCoinsEl.textContent =
-        `+${earned}`;
+        earnedCoinsEl.textContent =
+            `+${earned}`;
 
+    }
 
     /*
      =====================================================
      HIGH SCORE
-=========================================================
+     =====================================================
     */
 
     const newRecord =
         score >
         data.best;
-
 
     if (
         newRecord
@@ -1465,11 +1627,10 @@ function endGame() {
 
     }
 
-
     /*
      =====================================================
      DAILY CHALLENGE
-=========================================================
+     =====================================================
     */
 
     if (
@@ -1482,7 +1643,6 @@ function endGame() {
 
     }
 
-
     if (
         data.dailyChallengeBest >=
         data.dailyChallengeTarget
@@ -1493,20 +1653,16 @@ function endGame() {
 
     }
 
-
     saveData();
-
 
     checkAchievements();
 
-
     updateUI();
-
 
     /*
      =====================================================
      GAME OVER SOUND
-=========================================================
+     =====================================================
     */
 
     beep(
@@ -1516,57 +1672,71 @@ function endGame() {
         0.045
     );
 
-
     /*
      =====================================================
      FLASH
-=========================================================
+     =====================================================
     */
 
-    flashEl.className =
-        "flash bad";
+    if (flashEl) {
 
+        flashEl.className =
+            "flash bad";
 
-    setTimeout(
-        () => {
+        setTimeout(
+            () => {
 
-            flashEl.className =
-                "flash";
+                flashEl.className =
+                    "flash";
 
-        },
-        260
-    );
+            },
+            260
+        );
 
+    }
 
     /*
      =====================================================
      RESULT
-=========================================================
+     =====================================================
     */
 
-    finalScoreEl.textContent =
-        score;
+    if (finalScoreEl) {
 
+        finalScoreEl.textContent =
+            score;
+
+    }
 
     if (
         newRecord &&
         score > 0
     ) {
 
-        resultBadgeEl.textContent =
-            "NEW RECORD!";
+        if (resultBadgeEl) {
 
+            resultBadgeEl.textContent =
+                "NEW RECORD!";
 
-        recordTextEl.textContent =
-            "You beat your best score. 🏆";
+        }
+
+        if (recordTextEl) {
+
+            recordTextEl.textContent =
+                "You beat your best score. 🏆";
+
+        }
 
     }
 
     else {
 
-        resultBadgeEl.textContent =
-            "GAME OVER";
+        if (resultBadgeEl) {
 
+            resultBadgeEl.textContent =
+                "GAME OVER";
+
+        }
 
         const difference =
             Math.max(
@@ -1575,53 +1745,61 @@ function endGame() {
                 score
             );
 
+        if (recordTextEl) {
 
-        recordTextEl.textContent =
-            difference === 0
-                ? "That is your best score!"
-                : `${difference} point${
-                    difference === 1
-                        ? ""
-                        : "s"
-                  } away from your record.`;
+            recordTextEl.textContent =
+                difference === 0
+                    ? "That is your best score!"
+                    : `${difference} point${
+                        difference === 1
+                            ? ""
+                            : "s"
+                      } away from your record.`;
+
+        }
 
     }
-
 
     /*
      =====================================================
      CONTINUE
-=========================================================
+     =====================================================
     */
 
-    if (
-        continueUsed
-    ) {
+    if (continueBtn) {
 
-        continueBtn.classList.add(
+        if (
+            continueUsed
+        ) {
+
+            continueBtn.classList.add(
+                "hidden"
+            );
+
+        }
+
+        else {
+
+            continueBtn.classList.remove(
+                "hidden"
+            );
+
+        }
+
+    }
+
+    if (gameOverScreen) {
+
+        gameOverScreen.classList.remove(
             "hidden"
         );
 
     }
-
-    else {
-
-        continueBtn.classList.remove(
-            "hidden"
-        );
-
-    }
-
-
-    gameOverScreen.classList.remove(
-        "hidden"
-    );
-
 
     /*
      =====================================================
      INTERSTITIAL AD
-=========================================================
+     =====================================================
     */
 
     if (
@@ -1640,65 +1818,68 @@ function endGame() {
    REWARDED AD
 ========================================================= */
 
-continueBtn.addEventListener(
-    "click",
-    () => {
+if (continueBtn) {
 
-        if (
-            continueUsed
-        ) {
+    continueBtn.addEventListener(
+        "click",
+        () => {
 
-            return;
+            if (
+                continueUsed
+            ) {
 
-        }
-
-
-        continueBtn.disabled =
-            true;
-
-
-        continueBtn.textContent =
-            "LOADING AD...";
-
-
-        showRewardedAd(
-            () => {
-
-                continueUsed =
-                    true;
-
-
-                continueBtn.disabled =
-                    false;
-
-
-                continueBtn.classList.add(
-                    "hidden"
-                );
-
-
-                gameOverScreen.classList.add(
-                    "hidden"
-                );
-
-
-                beginCountdown(
-                    () => {
-
-                        gameRunning =
-                            true;
-
-
-                        buildBoard();
-
-                    }
-                );
+                return;
 
             }
-        );
 
-    }
-);
+            continueBtn.disabled =
+                true;
+
+            continueBtn.textContent =
+                "LOADING AD...";
+
+            showRewardedAd(
+                () => {
+
+                    continueUsed =
+                        true;
+
+                    continued =
+                        true;
+
+                    continueBtn.disabled =
+                        false;
+
+                    continueBtn.classList.add(
+                        "hidden"
+                    );
+
+                    if (gameOverScreen) {
+
+                        gameOverScreen.classList.add(
+                            "hidden"
+                        );
+
+                    }
+
+                    beginCountdown(
+                        () => {
+
+                            gameRunning =
+                                true;
+
+                            buildBoard();
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
 
 
 /* =========================================================
@@ -1713,8 +1894,7 @@ function showRewardedAd(
      =====================================================
      DEMO MODE
 
-     Replace this function later with the actual
-     advertising SDK.
+     Replace later with real advertising SDK.
      =====================================================
     */
 
@@ -1735,14 +1915,6 @@ function showRewardedAd(
 ========================================================= */
 
 function showInterstitialAd() {
-
-    /*
-     =====================================================
-     DEMO PLACEHOLDER
-
-     Real advertising SDK can be connected here.
-     =====================================================
-    */
 
     console.log(
         "Interstitial ad opportunity."
@@ -1770,7 +1942,6 @@ function checkAchievements() {
 
             }
 
-
             if (
                 achievement.check()
             ) {
@@ -1780,10 +1951,8 @@ function checkAchievements() {
                 ] =
                     true;
 
-
                 data.coins +=
                     achievement.reward;
-
 
                 data.totalCoinsEarned +=
                     achievement.reward;
@@ -1792,7 +1961,6 @@ function checkAchievements() {
 
         }
     );
-
 
     saveData();
 
@@ -1803,10 +1971,14 @@ function checkAchievements() {
    SHOP
 ========================================================= */
 
-shopBtn.addEventListener(
-    "click",
-    openShop
-);
+if (shopBtn) {
+
+    shopBtn.addEventListener(
+        "click",
+        openShop
+    );
+
+}
 
 
 function openShop() {
@@ -1823,24 +1995,20 @@ function openShop() {
 
     `;
 
-
     Object.keys(themes).forEach(
         id => {
 
             const theme =
                 themes[id];
 
-
             const owned =
                 data.ownedThemes.includes(
                     id
                 );
 
-
             const active =
                 data.activeTheme ===
                 id;
-
 
             html += `
 
@@ -1858,7 +2026,6 @@ function openShop() {
                                 ${theme.danger};
                             "
                         ></div>
-
 
                         <div>
 
@@ -1878,7 +2045,6 @@ function openShop() {
 
                     </div>
 
-
                     <button
                         class="shop-action ${
                             active ||
@@ -1886,9 +2052,8 @@ function openShop() {
                                 ? "owned"
                                 : ""
                         }"
-                        onclick="
-                            shopAction('${id}')
-                        "
+                        type="button"
+                        onclick="shopAction('${id}')"
                     >
 
                         ${
@@ -1907,7 +2072,6 @@ function openShop() {
 
         }
     );
-
 
     html += `
 
@@ -1939,7 +2103,6 @@ function openShop() {
 
     `;
 
-
     openModal(
         html
     );
@@ -1957,6 +2120,11 @@ window.shopAction =
         const theme =
             themes[id];
 
+        if (!theme) {
+
+            return;
+
+        }
 
         if (
             data.ownedThemes.includes(
@@ -1967,20 +2135,17 @@ window.shopAction =
             data.activeTheme =
                 id;
 
-
             applyTheme();
-
 
             saveData();
 
+            updateUI();
 
             openShop();
-
 
             return;
 
         }
-
 
         if (
             data.coins <
@@ -1991,33 +2156,25 @@ window.shopAction =
                 "You don't have enough coins yet."
             );
 
-
             return;
 
         }
 
-
         data.coins -=
             theme.price;
-
 
         data.ownedThemes.push(
             id
         );
 
-
         data.activeTheme =
             id;
 
-
         saveData();
-
 
         applyTheme();
 
-
         updateUI();
-
 
         openShop();
 
@@ -2036,24 +2193,20 @@ function applyTheme() {
         ] ||
         themes.classic;
 
-
     document.documentElement.style.setProperty(
         "--safe",
         theme.safe
     );
-
 
     document.documentElement.style.setProperty(
         "--red",
         theme.danger
     );
 
-
     const card =
         document.querySelector(
             ".game-card"
         );
-
 
     if (card) {
 
@@ -2069,10 +2222,14 @@ function applyTheme() {
    ACHIEVEMENTS MENU
 ========================================================= */
 
-achievementsBtn.addEventListener(
-    "click",
-    openAchievements
-);
+if (achievementsBtn) {
+
+    achievementsBtn.addEventListener(
+        "click",
+        openAchievements
+    );
+
+}
 
 
 function openAchievements() {
@@ -2085,7 +2242,6 @@ function openAchievements() {
 
     `;
 
-
     achievements.forEach(
         achievement => {
 
@@ -2093,7 +2249,6 @@ function openAchievements() {
                 !!data.achievements[
                     achievement.id
                 ];
-
 
             html += `
 
@@ -2108,7 +2263,6 @@ function openAchievements() {
                     <div class="achievement-icon">
                         ${achievement.icon}
                     </div>
-
 
                     <div>
 
@@ -2134,7 +2288,6 @@ function openAchievements() {
         }
     );
 
-
     openModal(
         html
     );
@@ -2146,10 +2299,14 @@ function openAchievements() {
    STATS
 ========================================================= */
 
-statsBtn.addEventListener(
-    "click",
-    openStats
-);
+if (statsBtn) {
+
+    statsBtn.addEventListener(
+        "click",
+        openStats
+    );
+
+}
 
 
 function openStats() {
@@ -2159,7 +2316,6 @@ function openStats() {
         <h2 class="modal-title">
             📊 YOUR STATS
         </h2>
-
 
         <div class="stat-row">
 
@@ -2173,7 +2329,6 @@ function openStats() {
 
         </div>
 
-
         <div class="stat-row">
 
             <span>
@@ -2185,7 +2340,6 @@ function openStats() {
             </strong>
 
         </div>
-
 
         <div class="stat-row">
 
@@ -2199,7 +2353,6 @@ function openStats() {
 
         </div>
 
-
         <div class="stat-row">
 
             <span>
@@ -2212,7 +2365,6 @@ function openStats() {
 
         </div>
 
-
         <div class="stat-row">
 
             <span>
@@ -2224,7 +2376,6 @@ function openStats() {
             </strong>
 
         </div>
-
 
         <div class="stat-row">
 
@@ -2241,7 +2392,6 @@ function openStats() {
 
     `;
 
-
     openModal(
         html
     );
@@ -2257,9 +2407,17 @@ function openModal(
     html
 ) {
 
+    if (
+        !modal ||
+        !modalContent
+    ) {
+
+        return;
+
+    }
+
     modalContent.innerHTML =
         html;
-
 
     modal.classList.remove(
         "hidden"
@@ -2270,6 +2428,12 @@ function openModal(
 
 function closeModal() {
 
+    if (!modal) {
+
+        return;
+
+    }
+
     modal.classList.add(
         "hidden"
     );
@@ -2277,49 +2441,75 @@ function closeModal() {
 }
 
 
-closeModalBtn.addEventListener(
-    "click",
-    closeModal
-);
+if (closeModalBtn) {
+
+    closeModalBtn.addEventListener(
+        "click",
+        closeModal
+    );
+
+}
 
 
-modal.addEventListener(
-    "click",
-    event => {
+if (modal) {
 
-        if (
-            event.target ===
-            modal
-        ) {
+    modal.addEventListener(
+        "click",
+        event => {
 
-            closeModal();
+            if (
+                event.target ===
+                modal
+            ) {
+
+                closeModal();
+
+            }
 
         }
+    );
 
-    }
-);
+}
 
 
 /* =========================================================
-   IMPORTANT:
-   NO MOBILE TOUCH BLOCKING CODE HERE.
+   INITIALIZE
+========================================================= */
+
+prepareDailyChallenge();
+
+applyTheme();
+
+updateUI();
+
+checkAchievements();
+
+saveData();
+
+
+/* =========================================================
+   IMPORTANT MOBILE TAP FIX
+=========================================================
 
    We intentionally do NOT use:
 
    touchstart + preventDefault()
    touchmove + preventDefault()
+   pointerdown on individual tiles
 
-   because those can interfere with Android WebView
-   pointer/click events.
+   Tile taps are handled by ONE click listener on
+   gameArea using event delegation.
+
+   This is designed to work with:
+
+   ✓ Android
+   ✓ iPhone
+   ✓ Android WebView
+   ✓ Chrome mobile
+   ✓ Safari mobile
+   ✓ Mouse
+   ✓ Trackpad
+   ✓ Stylus
+
 ========================================================= */
-
-
-/* =========================================================
-   FINAL SAVE
-========================================================= */
-
-saveData();
-
-updateUI();
-
-applyTheme();
+```

@@ -1,90 +1,805 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
+<title>ONE WRONG TAP</title>
 
-    <title>One Wrong Tap</title>
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
-    <link rel="stylesheet" href="style.css">
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #070707;
+    font-family: Arial, Helvetica, sans-serif;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    max-width: 650px;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at center, #202020 0%, #0c0c0c 55%, #050505 100%);
+    color: white;
+}
+
+
+/* =========================================================
+   START SCREEN
+========================================================= */
+
+.screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.logo {
+    font-size: clamp(42px, 11vw, 78px);
+    line-height: .9;
+    font-weight: 900;
+    letter-spacing: -3px;
+    margin: 0;
+}
+
+.logo span {
+    color: #fcc224;
+}
+
+.tagline {
+    margin-top: 22px;
+    color: #aaa;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.startButton,
+.restartButton {
+    margin-top: 42px;
+    min-width: 210px;
+    min-height: 62px;
+    padding: 18px 35px;
+    border: 0;
+    border-radius: 14px;
+    background: #fcc224;
+    color: #080808;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 30px rgba(252,194,36,.2);
+    touch-action: manipulation;
+}
+
+.startButton:active,
+.restartButton:active {
+    transform: scale(.95);
+}
+
+
+/* =========================================================
+   GAME SCREEN
+========================================================= */
+
+#gameScreen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#hud {
+    height: 92px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(0,0,0,.8);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    z-index: 10;
+}
+
+.hudItem {
+    min-width: 100px;
+}
+
+.hudLabel {
+    display: block;
+    color: #777;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.hudValue {
+    font-size: 29px;
+    font-weight: 900;
+}
+
+#timeValue {
+    color: #fcc224;
+}
+
+
+/* =========================================================
+   PLAY AREA
+========================================================= */
+
+#playArea {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    touch-action: none;
+}
+
+
+/* =========================================================
+   TARGET
+========================================================= */
+
+#target {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: #fcc224;
+    color: #080808;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    box-shadow:
+        0 0 0 7px rgba(252,194,36,.12),
+        0 0 35px rgba(252,194,36,.35);
+    transform: scale(1);
+    transition: transform .08s ease;
+    touch-action: none;
+}
+
+#target:active {
+    transform: scale(.90);
+}
+
+
+/* =========================================================
+   WRONG TAP FLASH
+========================================================= */
+
+#wrongFlash {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,40,40,.35);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 50;
+}
+
+#wrongFlash.show {
+    animation: flash .35s ease;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* =========================================================
+   GAME OVER
+========================================================= */
+
+#gameOverScreen {
+    background:
+        radial-gradient(circle at center, #251b1b 0%, #0c0808 55%, #050505 100%);
+}
+
+.gameOverTitle {
+    font-size: clamp(44px, 12vw, 70px);
+    font-weight: 900;
+    margin: 0;
+}
+
+.gameOverSub {
+    margin-top: 12px;
+    color: #999;
+}
+
+.finalScore {
+    margin-top: 12px;
+    font-size: 86px;
+    line-height: 1;
+    font-weight: 900;
+    color: #fcc224;
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    #hud {
+        height: 78px;
+    }
+
+    .hudValue {
+        font-size: 25px;
+    }
+
+    #target {
+        width: 112px;
+        height: 112px;
+        font-size: 18px;
+    }
+}
+
+
+/* =========================================================
+   LANDSCAPE PHONES
+========================================================= */
+
+@media (orientation: landscape) and (max-height: 500px) {
+
+    #hud {
+        height: 65px;
+    }
+
+    #target {
+        width: 100px;
+        height: 100px;
+    }
+
+    .startButton,
+    .restartButton {
+        margin-top: 22px;
+    }
+}
+</style>
 </head>
+
 
 <body>
 
-    <main id="game">
-
-        <!-- START SCREEN -->
-        <section id="startScreen" class="screen">
-            <h1>ONE WRONG TAP</h1>
-
-            <p class="subtitle">
-                One wrong tap and you're out.
-            </p>
-
-            <button id="startButton" type="button">
-                START GAME
-            </button>
-        </section>
+<div id="app">
 
 
-        <!-- GAME SCREEN -->
-        <section id="gameScreen" class="screen hidden">
+    <!-- =====================================================
+         START SCREEN
+    ====================================================== -->
 
-            <div class="topBar">
+    <section id="startScreen" class="screen">
 
-                <div class="stat">
-                    <span>TIME</span>
-                    <strong id="timer">30</strong>
-                </div>
+        <h1 class="logo">
+            ONE<br>
+            <span>WRONG TAP</span>
+        </h1>
 
-                <div class="stat">
-                    <span>SCORE</span>
-                    <strong id="score">0</strong>
-                </div>
+        <p class="tagline">
+            One wrong tap and it's over.
+        </p>
 
+        <button
+            id="startButton"
+            class="startButton"
+            type="button">
+            START GAME
+        </button>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         GAME SCREEN
+    ====================================================== -->
+
+    <section id="gameScreen" class="hidden">
+
+        <div id="hud">
+
+            <div class="hudItem">
+                <span class="hudLabel">TIME</span>
+                <strong
+                    id="timeValue"
+                    class="hudValue">
+                    30
+                </strong>
             </div>
 
-
-            <!--
-                Everything inside this area can receive
-                phone taps and mouse clicks.
-            -->
-            <div id="tapArea">
-
-                <div id="target">
-                    TAP
-                </div>
-
+            <div class="hudItem">
+                <span class="hudLabel">SCORE</span>
+                <strong
+                    id="scoreValue"
+                    class="hudValue">
+                    0
+                </strong>
             </div>
 
-        </section>
+        </div>
 
 
-        <!-- GAME OVER SCREEN -->
-        <section id="gameOverScreen" class="screen hidden">
+        <div id="playArea">
 
-            <h2>GAME OVER</h2>
-
-            <p>Your Score</p>
-
-            <div id="finalScore">
-                0
+            <div id="target">
+                TAP
             </div>
 
-            <button id="restartButton" type="button">
-                PLAY AGAIN
-            </button>
+            <div id="wrongFlash"></div>
 
-        </section>
+        </div>
 
-    </main>
+    </section>
 
 
-    <script src="game.js"></script>
+
+    <!-- =====================================================
+         GAME OVER SCREEN
+    ====================================================== -->
+
+    <section
+        id="gameOverScreen"
+        class="screen hidden">
+
+        <h2 class="gameOverTitle">
+            GAME OVER
+        </h2>
+
+        <p class="gameOverSub">
+            FINAL SCORE
+        </p>
+
+        <div
+            id="finalScore"
+            class="finalScore">
+            0
+        </div>
+
+        <button
+            id="restartButton"
+            class="restartButton"
+            type="button">
+            PLAY AGAIN
+        </button>
+
+    </section>
+
+
+</div>
+
+
+
+<script>
+/* =========================================================
+   ONE WRONG TAP
+   Complete standalone version
+========================================================= */
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const startScreen =
+        document.getElementById("startScreen");
+
+    const gameScreen =
+        document.getElementById("gameScreen");
+
+    const gameOverScreen =
+        document.getElementById("gameOverScreen");
+
+    const startButton =
+        document.getElementById("startButton");
+
+    const restartButton =
+        document.getElementById("restartButton");
+
+    const playArea =
+        document.getElementById("playArea");
+
+    const target =
+        document.getElementById("target");
+
+    const scoreValue =
+        document.getElementById("scoreValue");
+
+    const timeValue =
+        document.getElementById("timeValue");
+
+    const finalScore =
+        document.getElementById("finalScore");
+
+    const wrongFlash =
+        document.getElementById("wrongFlash");
+
+
+    /* =====================================================
+       GAME VARIABLES
+    ====================================================== */
+
+    let score = 0;
+    let timeLeft = 30;
+    let gameRunning = false;
+    let timer = null;
+
+    let targetPointerId = null;
+
+
+    /* =====================================================
+       SHOW SCREEN
+    ====================================================== */
+
+    function showStartScreen() {
+
+        startScreen.classList.remove("hidden");
+        gameScreen.classList.add("hidden");
+        gameOverScreen.classList.add("hidden");
+
+    }
+
+
+    function showGameScreen() {
+
+        startScreen.classList.add("hidden");
+        gameScreen.classList.remove("hidden");
+        gameOverScreen.classList.add("hidden");
+
+    }
+
+
+    function showGameOverScreen() {
+
+        startScreen.classList.add("hidden");
+        gameScreen.classList.add("hidden");
+        gameOverScreen.classList.remove("hidden");
+
+    }
+
+
+    /* =====================================================
+       START GAME
+    ====================================================== */
+
+    function startGame() {
+
+        clearInterval(timer);
+
+        score = 0;
+        timeLeft = 30;
+        gameRunning = true;
+
+        scoreValue.textContent = "0";
+        timeValue.textContent = "30";
+
+        showGameScreen();
+
+        requestAnimationFrame(function () {
+
+            moveTarget();
+
+        });
+
+
+        timer = setInterval(function () {
+
+            if (!gameRunning) {
+                return;
+            }
+
+            timeLeft--;
+
+            timeValue.textContent = timeLeft;
+
+
+            if (timeLeft <= 0) {
+
+                endGame();
+
+            }
+
+        }, 1000);
+
+    }
+
+
+    /* =====================================================
+       END GAME
+    ====================================================== */
+
+    function endGame() {
+
+        gameRunning = false;
+
+        clearInterval(timer);
+
+        finalScore.textContent = score;
+
+        showGameOverScreen();
+
+    }
+
+
+    /* =====================================================
+       MOVE TARGET
+    ====================================================== */
+
+    function moveTarget() {
+
+        if (!gameRunning) {
+            return;
+        }
+
+
+        const areaWidth =
+            playArea.clientWidth;
+
+        const areaHeight =
+            playArea.clientHeight;
+
+
+        const targetSize =
+            target.offsetWidth;
+
+
+        const safePadding = 18;
+
+
+        const availableWidth =
+            Math.max(
+                0,
+                areaWidth -
+                targetSize -
+                safePadding * 2
+            );
+
+
+        const availableHeight =
+            Math.max(
+                0,
+                areaHeight -
+                targetSize -
+                safePadding * 2
+            );
+
+
+        const x =
+            safePadding +
+            Math.random() * availableWidth;
+
+
+        const y =
+            safePadding +
+            Math.random() * availableHeight;
+
+
+        target.style.left = x + "px";
+        target.style.top = y + "px";
+
+    }
+
+
+    /* =====================================================
+       SUCCESSFUL TAP
+    ====================================================== */
+
+    function successfulTap(event) {
+
+        if (!gameRunning) {
+            return;
+        }
+
+
+        /*
+         Prevent a single physical touch
+         from triggering multiple actions.
+        */
+
+        if (
+            targetPointerId !== null &&
+            event.pointerId !== targetPointerId
+        ) {
+            return;
+        }
+
+
+        score++;
+
+        scoreValue.textContent = score;
+
+
+        targetPointerId = event.pointerId;
+
+
+        /*
+         Release pointer capture after
+         processing the tap.
+        */
+
+        try {
+
+            target.releasePointerCapture(
+                event.pointerId
+            );
+
+        } catch (error) {
+            // Nothing needed here.
+        }
+
+
+        targetPointerId = null;
+
+
+        moveTarget();
+
+    }
+
+
+    /* =====================================================
+       TARGET TOUCH / MOUSE
+    ====================================================== */
+
+    target.addEventListener(
+        "pointerdown",
+        function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            successfulTap(event);
+
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    /* =====================================================
+       START BUTTON
+    ====================================================== */
+
+    startButton.addEventListener(
+        "pointerdown",
+        function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            startGame();
+
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    /* =====================================================
+       RESTART BUTTON
+    ====================================================== */
+
+    restartButton.addEventListener(
+        "pointerdown",
+        function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            startGame();
+
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    /* =====================================================
+       PREVENT ACCIDENTAL PAGE GESTURES
+    ====================================================== */
+
+    document.addEventListener(
+        "touchmove",
+        function (event) {
+
+            event.preventDefault();
+
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    document.addEventListener(
+        "gesturestart",
+        function (event) {
+
+            event.preventDefault();
+
+        },
+        {
+            passive: false
+        }
+    );
+
+
+    document.addEventListener(
+        "contextmenu",
+        function (event) {
+
+            event.preventDefault();
+
+        }
+    );
+
+
+    /* =====================================================
+       RESIZE
+    ====================================================== */
+
+    window.addEventListener(
+        "resize",
+        function () {
+
+            if (gameRunning) {
+                moveTarget();
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       INITIAL STATE
+    ====================================================== */
+
+    showStartScreen();
+
+
+})();
+</script>
 
 </body>
 </html>
+```

@@ -109,6 +109,72 @@ body {
 }
 
 /* =====================================================
+   PERFECT TAP
+===================================================== */
+
+.perfect-tap {
+    position: absolute;
+    pointer-events: none;
+    z-index: 17;
+
+    color: #fcc224;
+
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    opacity: 0;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.65);
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 0 15px rgba(252, 194, 36, 0.55),
+        0 0 30px rgba(252, 194, 36, 0.25);
+}
+
+.perfect-tap.show {
+    animation:
+        perfectTapPop 0.55s ease-out forwards;
+}
+
+@keyframes perfectTapPop {
+
+    0% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            scale(0.65);
+    }
+
+    25% {
+        opacity: 1;
+        transform:
+            translate(-50%, -50%)
+            scale(1.15);
+    }
+
+    45% {
+        opacity: 1;
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            translateY(-35px)
+            scale(1.05);
+    }
+
+}
+
+/* =====================================================
    HUD
 ===================================================== */
 

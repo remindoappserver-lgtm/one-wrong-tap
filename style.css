@@ -191,14 +191,6 @@ button:active {
    DECEPTIVE WRONG TARGET
 ================================ */
 
-/*
-   Some wrong targets briefly receive
-   a very subtle yellow glow.
-
-   They remain white and are still wrong.
-   This is visual deception only.
-*/
-
 .target.wrong.deceptive {
     animation:
         targetAppear 0.18s ease-out,
@@ -223,6 +215,28 @@ button:active {
             0 0 0 rgba(252, 194, 36, 0);
     }
 
+}
+
+
+/* ================================
+   STREAK PRESSURE
+================================ */
+
+/*
+   Wrong targets become slightly more
+   visually intense at higher streaks.
+
+   This does NOT change the game rules.
+*/
+
+.target.wrong.streak-pressure {
+    box-shadow:
+        0 0 22px rgba(255, 255, 255, 0.18);
+}
+
+.target.wrong.streak-pressure-high {
+    box-shadow:
+        0 0 30px rgba(255, 255, 255, 0.28);
 }
 
 

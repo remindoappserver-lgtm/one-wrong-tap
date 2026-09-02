@@ -2602,6 +2602,38 @@ async function startGame() {
 
         startTimer();
 
+        } else {
+
+    target.classList.add(
+        "wrong"
+    );
+
+    if (
+        Math.random() < 0.35
+    ) {
+
+        target.classList.add(
+            "deceptive"
+        );
+
+    }
+
+    if (streak >= 20) {
+
+        target.classList.add(
+            "streak-pressure-high"
+        );
+
+    } else if (streak >= 10) {
+
+        target.classList.add(
+            "streak-pressure"
+        );
+
+    }
+
+}
+
     }
 
 }

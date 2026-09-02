@@ -1,4 +1,3 @@
-```javascript
 // ONE WRONG TAP - GAME.JS
 
 const startScreen = document.getElementById("startScreen");

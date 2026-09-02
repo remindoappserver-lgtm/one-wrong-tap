@@ -1,7 +1,5 @@
 ```javascript
-// ============================================================
 // ONE WRONG TAP - GAME.JS
-// ============================================================
 
 const startScreen = document.getElementById("startScreen");
 const gameScreen = document.getElementById("gameScreen");
@@ -23,9 +21,7 @@ let gameRunning = false;
 let timerInterval = null;
 
 
-// ============================================================
 // START GAME
-// ============================================================
 
 function startGame() {
 
@@ -41,8 +37,8 @@ function startGame() {
     timerDisplay.textContent = "30";
 
     startScreen.classList.add("hidden");
-    gameOverScreen.classList.add("hidden");
     gameScreen.classList.remove("hidden");
+    gameOverScreen.classList.add("hidden");
 
     positionTarget();
 
@@ -60,9 +56,7 @@ function startGame() {
 }
 
 
-// ============================================================
 // END GAME
-// ============================================================
 
 function endGame() {
 
@@ -77,9 +71,7 @@ function endGame() {
 }
 
 
-// ============================================================
 // MOVE TARGET
-// ============================================================
 
 function positionTarget() {
 
@@ -105,13 +97,8 @@ function positionTarget() {
         areaHeight - targetHeight - padding * 2
     );
 
-    const x =
-        padding +
-        Math.random() * maxX;
-
-    const y =
-        padding +
-        Math.random() * maxY;
+    const x = padding + Math.random() * maxX;
+    const y = padding + Math.random() * maxY;
 
     target.style.position = "absolute";
     target.style.left = x + "px";
@@ -119,13 +106,12 @@ function positionTarget() {
 }
 
 
-// ============================================================
 // TARGET TAP
-// ============================================================
 
 function tapTarget(event) {
 
     event.preventDefault();
+    event.stopPropagation();
 
     if (!gameRunning) {
         return;
@@ -139,11 +125,8 @@ function tapTarget(event) {
 }
 
 
-// ============================================================
 // START BUTTON
-// ============================================================
 
-// Pointer event - phone + mouse
 startButton.addEventListener("pointerdown", function (event) {
 
     event.preventDefault();
@@ -153,21 +136,7 @@ startButton.addEventListener("pointerdown", function (event) {
 });
 
 
-// Click fallback
-startButton.addEventListener("click", function (event) {
-
-    event.preventDefault();
-
-    if (!gameRunning) {
-        startGame();
-    }
-
-});
-
-
-// ============================================================
 // RESTART BUTTON
-// ============================================================
 
 restartButton.addEventListener("pointerdown", function (event) {
 
@@ -178,26 +147,12 @@ restartButton.addEventListener("pointerdown", function (event) {
 });
 
 
-// ============================================================
-// TARGET - PHONE + MOUSE
-// ============================================================
+// TARGET
 
 target.addEventListener("pointerdown", tapTarget);
 
 
-// Click fallback for target
-target.addEventListener("click", function (event) {
-
-    if (gameRunning) {
-        tapTarget(event);
-    }
-
-});
-
-
-// ============================================================
 // STOP PHONE SCROLLING
-// ============================================================
 
 tapArea.addEventListener(
     "touchstart",
@@ -208,9 +163,7 @@ tapArea.addEventListener(
 );
 
 
-// ============================================================
-// STOP LONG-PRESS MENU
-// ============================================================
+// STOP LONG PRESS MENU
 
 document.addEventListener("contextmenu", function (event) {
 
@@ -219,9 +172,7 @@ document.addEventListener("contextmenu", function (event) {
 });
 
 
-// ============================================================
-// KEEP TARGET INSIDE SCREEN
-// ============================================================
+// SCREEN SIZE CHANGE
 
 window.addEventListener("resize", function () {
 
@@ -232,9 +183,7 @@ window.addEventListener("resize", function () {
 });
 
 
-// ============================================================
 // INITIAL SCREEN
-// ============================================================
 
 startScreen.classList.remove("hidden");
 gameScreen.classList.add("hidden");
@@ -242,3 +191,4 @@ gameOverScreen.classList.add("hidden");
 
 console.log("One Wrong Tap loaded successfully.");
 ```
+

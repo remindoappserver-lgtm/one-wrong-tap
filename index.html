@@ -26,6 +26,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+
             background:
                 radial-gradient(
                     circle at center,
@@ -33,6 +34,7 @@
                     #0d0d0d 55%,
                     #050505 100%
                 );
+
             font-family: Arial, sans-serif;
             color: white;
             touch-action: none;
@@ -55,10 +57,13 @@
         .screen {
             position: fixed;
             inset: 0;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             text-align: center;
+
             z-index: 20;
         }
 
@@ -76,7 +81,9 @@
             font-weight: 900;
             line-height: 0.88;
             letter-spacing: -2px;
+
             color: #fcc224;
+
             text-shadow:
                 0 0 25px rgba(252, 194, 36, 0.20);
         }
@@ -88,6 +95,7 @@
 
         .tagline {
             margin-top: 22px;
+
             font-size: 15px;
             color: #999;
             letter-spacing: 1px;
@@ -95,32 +103,43 @@
 
         .best-label {
             margin-top: 38px;
+
             font-size: 12px;
             color: #777;
+
             letter-spacing: 2px;
             font-weight: bold;
         }
 
         .best-score {
             margin-top: 5px;
+
             font-size: 32px;
             font-weight: 900;
+
             color: #fcc224;
         }
 
         .start-button,
         .play-again-button {
             margin-top: 35px;
+
             width: 100%;
+
             border: none;
             border-radius: 14px;
+
             background: #fcc224;
             color: #080808;
+
             font-size: 17px;
             font-weight: 900;
             letter-spacing: 1px;
+
             padding: 17px 20px;
+
             cursor: pointer;
+
             box-shadow:
                 0 8px 30px rgba(252, 194, 36, 0.18);
         }
@@ -142,14 +161,19 @@
 
         .hud {
             position: absolute;
+
             top: 0;
             left: 0;
             right: 0;
+
             height: 68px;
+
             display: flex;
             align-items: center;
             justify-content: space-around;
+
             z-index: 10;
+
             pointer-events: none;
         }
 
@@ -161,14 +185,17 @@
         .hud-label {
             font-size: 9px;
             color: #666;
+
             letter-spacing: 2px;
             font-weight: 900;
         }
 
         .hud-value {
             margin-top: 3px;
+
             font-size: 22px;
             font-weight: 900;
+
             color: white;
         }
 
@@ -183,20 +210,27 @@
 
         .combo {
             position: absolute;
+
             top: 72px;
             left: 50%;
+
             transform: translateX(-50%);
+
             z-index: 11;
+
             pointer-events: none;
 
             font-size: 14px;
             font-weight: 900;
+
             letter-spacing: 2px;
 
             color: #fcc224;
 
             opacity: 0;
-            transition: opacity 0.2s ease;
+
+            transition:
+                opacity 0.2s ease;
 
             text-shadow:
                 0 0 15px rgba(252, 194, 36, 0.30);
@@ -207,7 +241,8 @@
         }
 
         .combo.bump {
-            animation: comboBump 0.35s ease-out;
+            animation:
+                comboBump 0.35s ease-out;
         }
 
         @keyframes comboBump {
@@ -234,24 +269,32 @@
 
 
         /* =====================================================
-           COMBO LOST WARNING
+           COMBO LOST
         ===================================================== */
 
         .combo-lost {
             position: absolute;
+
             top: 105px;
             left: 50%;
-            transform: translateX(-50%) scale(0.7);
+
+            transform:
+                translateX(-50%)
+                scale(0.7);
 
             color: #ff3b3b;
+
             font-size: 17px;
             font-weight: 900;
+
             letter-spacing: 2px;
 
             pointer-events: none;
+
             z-index: 13;
 
             opacity: 0;
+
             white-space: nowrap;
 
             text-shadow:
@@ -259,13 +302,15 @@
         }
 
         .combo-lost.show {
-            animation: comboLostPop 0.65s ease-out;
+            animation:
+                comboLostPop 0.65s ease-out;
         }
 
         @keyframes comboLostPop {
 
             0% {
                 opacity: 0;
+
                 transform:
                     translateX(-50%)
                     scale(0.65);
@@ -273,6 +318,7 @@
 
             25% {
                 opacity: 1;
+
                 transform:
                     translateX(-50%)
                     scale(1.15);
@@ -280,6 +326,7 @@
 
             45% {
                 opacity: 1;
+
                 transform:
                     translateX(-50%)
                     scale(1);
@@ -287,6 +334,7 @@
 
             100% {
                 opacity: 0;
+
                 transform:
                     translateX(-50%)
                     scale(1.05);
@@ -301,10 +349,13 @@
 
         #playArea {
             position: absolute;
+
             left: 0;
             right: 0;
+
             top: 68px;
             bottom: 0;
+
             overflow: hidden;
         }
 
@@ -324,6 +375,7 @@
 
             font-size: 12px;
             font-weight: 900;
+
             letter-spacing: 1px;
 
             cursor: pointer;
@@ -362,6 +414,41 @@
                 0 0 18px rgba(255, 255, 255, 0.10);
         }
 
+
+        /* =====================================================
+           DECEPTIVE TARGET
+        ===================================================== */
+
+        .target.wrong.deceptive {
+            animation:
+                targetAppear 0.18s ease-out,
+                targetFloat 2.8s ease-in-out infinite,
+                deceptiveGlow 0.8s ease-out 0.05s 1;
+        }
+
+        @keyframes deceptiveGlow {
+
+            0% {
+                box-shadow:
+                    0 0 0
+                    rgba(252, 194, 36, 0);
+            }
+
+            30% {
+                box-shadow:
+                    0 0 18px
+                    rgba(252, 194, 36, 0.16);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0
+                    rgba(252, 194, 36, 0);
+            }
+
+        }
+
+
         .target.tapped {
             animation:
                 targetTap 0.13s ease-out forwards !important;
@@ -374,22 +461,26 @@
 
         .target.correct.streak-low {
             box-shadow:
-                0 0 24px rgba(252, 194, 36, 0.34);
+                0 0 24px
+                rgba(252, 194, 36, 0.34);
         }
 
         .target.correct.streak-medium {
             box-shadow:
-                0 0 30px rgba(252, 194, 36, 0.40);
+                0 0 30px
+                rgba(252, 194, 36, 0.40);
         }
 
         .target.correct.streak-high {
             box-shadow:
-                0 0 40px rgba(252, 194, 36, 0.52);
+                0 0 40px
+                rgba(252, 194, 36, 0.52);
         }
 
         .target.correct.streak-extreme {
             box-shadow:
-                0 0 52px rgba(252, 194, 36, 0.68);
+                0 0 52px
+                rgba(252, 194, 36, 0.68);
         }
 
 
@@ -444,17 +535,20 @@
 
             0% {
                 box-shadow:
-                    0 0 20px rgba(252, 194, 36, 0.28);
+                    0 0 20px
+                    rgba(252, 194, 36, 0.28);
             }
 
             50% {
                 box-shadow:
-                    0 0 38px rgba(252, 194, 36, 0.48);
+                    0 0 38px
+                    rgba(252, 194, 36, 0.48);
             }
 
             100% {
                 box-shadow:
-                    0 0 20px rgba(252, 194, 36, 0.28);
+                    0 0 20px
+                    rgba(252, 194, 36, 0.28);
             }
 
         }
@@ -493,7 +587,9 @@
 
             z-index: 15;
 
-            font-size: clamp(70px, 20vw, 140px);
+            font-size:
+                clamp(70px, 20vw, 140px);
+
             font-weight: 900;
 
             color: #fcc224;
@@ -501,13 +597,15 @@
             pointer-events: none;
 
             text-shadow:
-                0 0 35px rgba(252, 194, 36, 0.35);
+                0 0 35px
+                rgba(252, 194, 36, 0.35);
 
             opacity: 0;
         }
 
         .countdown.show {
-            animation: countdownPop 0.8s ease-out;
+            animation:
+                countdownPop 0.8s ease-out;
         }
 
         @keyframes countdownPop {
@@ -541,6 +639,7 @@
 
         .streak-message {
             position: absolute;
+
             left: 50%;
             bottom: 65px;
 
@@ -554,6 +653,7 @@
 
             font-size: 14px;
             font-weight: 900;
+
             letter-spacing: 2px;
 
             pointer-events: none;
@@ -561,17 +661,20 @@
             opacity: 0;
 
             text-shadow:
-                0 0 18px rgba(252, 194, 36, 0.35);
+                0 0 18px
+                rgba(252, 194, 36, 0.35);
         }
 
         .streak-message.show {
-            animation: streakMessage 0.75s ease-out;
+            animation:
+                streakMessage 0.75s ease-out;
         }
 
         @keyframes streakMessage {
 
             0% {
                 opacity: 0;
+
                 transform:
                     translateX(-50%)
                     translateY(15px)
@@ -580,6 +683,7 @@
 
             25% {
                 opacity: 1;
+
                 transform:
                     translateX(-50%)
                     translateY(0)
@@ -588,6 +692,7 @@
 
             50% {
                 opacity: 1;
+
                 transform:
                     translateX(-50%)
                     translateY(0)
@@ -596,6 +701,7 @@
 
             100% {
                 opacity: 0;
+
                 transform:
                     translateX(-50%)
                     translateY(-8px)
@@ -626,22 +732,26 @@
             font-weight: 900;
 
             pointer-events: none;
+
             z-index: 14;
 
             opacity: 0;
 
             text-shadow:
-                0 0 15px rgba(252, 194, 36, 0.35);
+                0 0 15px
+                rgba(252, 194, 36, 0.35);
         }
 
         .score-pop.show {
-            animation: scorePop 0.45s ease-out;
+            animation:
+                scorePop 0.45s ease-out;
         }
 
         @keyframes scorePop {
 
             0% {
                 opacity: 0;
+
                 transform:
                     translateX(-50%)
                     translateY(0)
@@ -650,6 +760,7 @@
 
             30% {
                 opacity: 1;
+
                 transform:
                     translateX(-50%)
                     translateY(-8px)
@@ -658,10 +769,88 @@
 
             100% {
                 opacity: 0;
+
                 transform:
                     translateX(-50%)
                     translateY(-25px)
                     scale(1);
+            }
+
+        }
+
+
+        /* =====================================================
+           PERFECT TAP
+        ===================================================== */
+
+        .perfect-tap {
+            position: absolute;
+
+            pointer-events: none;
+
+            z-index: 17;
+
+            color: #fcc224;
+
+            font-size: 18px;
+            font-weight: 900;
+
+            letter-spacing: 2px;
+
+            opacity: 0;
+
+            transform:
+                translate(-50%, -50%)
+                scale(0.65);
+
+            white-space: nowrap;
+
+            text-shadow:
+                0 0 15px
+                rgba(252, 194, 36, 0.55),
+
+                0 0 30px
+                rgba(252, 194, 36, 0.25);
+        }
+
+        .perfect-tap.show {
+            animation:
+                perfectTapPop 0.55s ease-out forwards;
+        }
+
+        @keyframes perfectTapPop {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(0.65);
+            }
+
+            25% {
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(1.15);
+            }
+
+            45% {
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(1);
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -50%)
+                    translateY(-35px)
+                    scale(1.05);
             }
 
         }
@@ -787,7 +976,8 @@
         }
 
         .red-flash.show {
-            animation: redFlash 0.45s ease-out;
+            animation:
+                redFlash 0.45s ease-out;
         }
 
         @keyframes redFlash {
@@ -808,6 +998,111 @@
 
 
         /* =====================================================
+           NEAR MISS EFFECT
+        ===================================================== */
+
+        .near-miss {
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            z-index: 16;
+
+            transform:
+                translate(-50%, -50%)
+                scale(0.35);
+
+            opacity: 0;
+
+            border:
+                4px solid #fcc224;
+
+            box-shadow:
+                0 0 20px
+                rgba(252, 194, 36, 0.55),
+
+                0 0 45px
+                rgba(252, 194, 36, 0.25);
+        }
+
+        .near-miss.show {
+            animation:
+                nearMissImpact 0.42s ease-out forwards;
+        }
+
+        @keyframes nearMissImpact {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(0.25);
+
+                border-color: #fcc224;
+
+                box-shadow:
+                    0 0 10px
+                    rgba(252, 194, 36, 0.35);
+            }
+
+            25% {
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(0.65);
+
+                border-color: #fcc224;
+
+                box-shadow:
+                    0 0 25px
+                    rgba(252, 194, 36, 0.65),
+
+                    0 0 55px
+                    rgba(252, 194, 36, 0.30);
+            }
+
+            55% {
+                opacity: 0.95;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(1);
+
+                border-color: #ff3b3b;
+
+                box-shadow:
+                    0 0 30px
+                    rgba(255, 59, 59, 0.65),
+
+                    0 0 65px
+                    rgba(255, 59, 59, 0.30);
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -50%)
+                    scale(1.35);
+
+                border-color: #ff3b3b;
+
+                box-shadow:
+                    0 0 10px
+                    rgba(255, 59, 59, 0);
+            }
+
+        }
+
+
+        /* =====================================================
            GAME OVER
         ===================================================== */
 
@@ -817,37 +1112,56 @@
         }
 
         .game-over-title {
-            font-size: clamp(38px, 11vw, 68px);
+            font-size:
+                clamp(38px, 11vw, 68px);
+
             font-weight: 900;
+
             color: white;
+
             letter-spacing: -2px;
         }
 
         .final-label {
             margin-top: 30px;
+
             color: #777;
+
             font-size: 11px;
+
             letter-spacing: 2px;
+
             font-weight: 900;
         }
 
         .final-score {
             margin-top: 5px;
-            font-size: clamp(65px, 18vw, 110px);
+
+            font-size:
+                clamp(65px, 18vw, 110px);
+
             line-height: 0.9;
+
             font-weight: 900;
+
             color: #fcc224;
 
             text-shadow:
-                0 0 30px rgba(252, 194, 36, 0.25);
+                0 0 30px
+                rgba(252, 194, 36, 0.25);
         }
 
         .new-best {
             margin-top: 15px;
+
             font-size: 13px;
+
             font-weight: 900;
+
             letter-spacing: 2px;
+
             color: #fcc224;
+
             opacity: 0;
         }
 
@@ -857,7 +1171,7 @@
 
 
         /* =====================================================
-           SMALL PHONES / SHORT SCREENS
+           SMALL PHONES
         ===================================================== */
 
         @media (max-height: 600px) {
@@ -988,8 +1302,6 @@
         class="hidden"
     >
 
-        <!-- HUD -->
-
         <div class="hud">
 
             <div class="hud-item">
@@ -1097,6 +1409,16 @@
         </div>
 
 
+        <!-- PERFECT TAP -->
+
+        <div
+            id="perfectTap"
+            class="perfect-tap"
+        >
+            PERFECT!
+        </div>
+
+
         <!-- MILESTONE FLASH -->
 
         <div
@@ -1110,6 +1432,14 @@
         <div
             id="redFlash"
             class="red-flash"
+        ></div>
+
+
+        <!-- NEAR MISS -->
+
+        <div
+            id="nearMiss"
+            class="near-miss"
         ></div>
 
     </div>
@@ -1258,6 +1588,11 @@
                 "scorePop"
             );
 
+        const perfectTap =
+            document.getElementById(
+                "perfectTap"
+            );
+
         const combo =
             document.getElementById(
                 "combo"
@@ -1278,6 +1613,11 @@
                 "redFlash"
             );
 
+        const nearMiss =
+            document.getElementById(
+                "nearMiss"
+            );
+
 
         /* =====================================================
            GAME STATE
@@ -1294,6 +1634,8 @@
         let gameRunning = false;
 
         let targets = [];
+
+        let roundStartTime = 0;
 
         let highScore =
             Number(
@@ -1558,18 +1900,6 @@
         }
 
 
-        function tickSound() {
-
-            playTone(
-                800,
-                0.035,
-                "sine",
-                0.018
-            );
-
-        }
-
-
         function scoreMilestoneSound(
             milestone
         ) {
@@ -1665,6 +1995,38 @@
                 );
 
             }
+
+        }
+
+
+        function perfectSound() {
+
+            playTone(
+                1250,
+                0.08,
+                "sine",
+                0.035
+            );
+
+            playTone(
+                1650,
+                0.12,
+                "sine",
+                0.04,
+                0.07
+            );
+
+        }
+
+
+        function tickSound() {
+
+            playTone(
+                800,
+                0.035,
+                "sine",
+                0.018
+            );
 
         }
 
@@ -1787,6 +2149,51 @@
             comboLost.classList.add(
                 "show"
             );
+
+        }
+
+
+        /* =====================================================
+           PERFECT TAP
+        ===================================================== */
+
+        function showPerfectTap(
+            target
+        ) {
+
+            const rect =
+                target.getBoundingClientRect();
+
+            const areaRect =
+                playArea.getBoundingClientRect();
+
+            perfectTap.style.left =
+                (
+                    rect.left -
+                    areaRect.left +
+                    rect.width / 2
+                ) + "px";
+
+            perfectTap.style.top =
+                (
+                    rect.top -
+                    areaRect.top +
+                    rect.height / 2
+                ) + "px";
+
+            perfectTap.classList.remove(
+                "show"
+            );
+
+            void perfectTap.offsetWidth;
+
+            perfectTap.classList.add(
+                "show"
+            );
+
+            perfectSound();
+
+            vibrate(12);
 
         }
 
@@ -2289,6 +2696,7 @@
                             ) {
 
                                 overlaps = true;
+
                                 break;
 
                             }
@@ -2458,26 +2866,29 @@
                     target.dataset.correct =
                         "true";
 
-               } else {
+                } else {
 
-    target.classList.add(
-        "wrong"
-    );
+                    target.classList.add(
+                        "wrong"
+                    );
 
-    target.dataset.correct =
-        "false";
+                    target.dataset.correct =
+                        "false";
 
-    if (
-        Math.random() < 0.35
-    ) {
 
-        target.classList.add(
-            "deceptive"
-        );
+                    /* 35% chance of deceptive glow */
 
-    }
+                    if (
+                        Math.random() < 0.35
+                    ) {
 
-}
+                        target.classList.add(
+                            "deceptive"
+                        );
+
+                    }
+
+                }
 
 
                 target.addEventListener(
@@ -2504,6 +2915,13 @@
                 targets
             );
 
+
+            /* Start reaction timer AFTER
+               targets have been positioned */
+
+            roundStartTime =
+                performance.now();
+
         }
 
 
@@ -2524,6 +2942,7 @@
             const target =
                 event.currentTarget;
 
+
             if (
                 target.classList.contains(
                     "tapped"
@@ -2535,6 +2954,10 @@
             }
 
 
+            /* =================================================
+               CORRECT TARGET
+            ================================================= */
+
             if (
                 target.dataset.correct ===
                 "true"
@@ -2544,9 +2967,37 @@
                     "tapped"
                 );
 
-                correctSound();
 
-                vibrate(8);
+                /* =============================================
+                   PERFECT TAP CHECK
+                ============================================= */
+
+                const reactionTime =
+                    performance.now() -
+                    roundStartTime;
+
+                const isPerfect =
+                    reactionTime <= 450;
+
+
+                if (isPerfect) {
+
+                    showPerfectTap(
+                        target
+                    );
+
+                } else {
+
+                    correctSound();
+
+                    vibrate(8);
+
+                }
+
+
+                /* =============================================
+                   SCORE / STREAK
+                ============================================= */
 
                 const previousCombo =
                     getComboLevel();
@@ -2557,6 +3008,7 @@
 
                 updateHUD();
 
+
                 const newCombo =
                     getComboLevel();
 
@@ -2565,10 +3017,15 @@
                     previousCombo
                 );
 
+
                 checkStreakMilestone();
 
                 checkScoreMilestone();
 
+
+                /* =============================================
+                   SCORE POP
+                ============================================= */
 
                 scorePop.classList.remove(
                     "show"
@@ -2580,6 +3037,10 @@
                     "show"
                 );
 
+
+                /* =============================================
+                   NEXT ROUND
+                ============================================= */
 
                 setTimeout(
                     () => {
@@ -2595,10 +3056,60 @@
                 );
 
 
-            } else {
+            }
+
+
+            /* =================================================
+               WRONG TARGET
+            ================================================= */
+
+            else {
 
                 const comboWasActive =
                     streak >= 5;
+
+
+                /* =============================================
+                   NEAR MISS EFFECT
+                ============================================= */
+
+                const rect =
+                    target.getBoundingClientRect();
+
+                const areaRect =
+                    playArea.getBoundingClientRect();
+
+
+                nearMiss.style.left =
+                    (
+                        rect.left -
+                        areaRect.left +
+                        rect.width / 2
+                    ) + "px";
+
+
+                nearMiss.style.top =
+                    (
+                        rect.top -
+                        areaRect.top +
+                        rect.height / 2
+                    ) + "px";
+
+
+                nearMiss.classList.remove(
+                    "show"
+                );
+
+                void nearMiss.offsetWidth;
+
+                nearMiss.classList.add(
+                    "show"
+                );
+
+
+                /* =============================================
+                   RESET STREAK
+                ============================================= */
 
                 streak = 0;
 
@@ -2606,11 +3117,23 @@
 
                 updateCombo();
 
-                if (comboWasActive) {
+
+                /* =============================================
+                   COMBO LOST
+                ============================================= */
+
+                if (
+                    comboWasActive
+                ) {
 
                     showComboLost();
 
                 }
+
+
+                /* =============================================
+                   GAME OVER EFFECTS
+                ============================================= */
 
                 wrongSound();
 
@@ -2619,6 +3142,7 @@
                     35,
                     100
                 ]);
+
 
                 redFlash.classList.remove(
                     "show"
@@ -2629,6 +3153,7 @@
                 redFlash.classList.add(
                     "show"
                 );
+
 
                 endGame();
 
@@ -2646,6 +3171,7 @@
         ) {
 
             let number = 3;
+
 
             countdown.textContent =
                 number;
@@ -2673,6 +3199,7 @@
 
                         number--;
 
+
                         if (
                             number > 0
                         ) {
@@ -2696,11 +3223,15 @@
 
                             vibrate(12);
 
-                        } else {
+                        }
+
+
+                        else {
 
                             clearInterval(
                                 countdownTimer
                             );
+
 
                             countdown.textContent =
                                 "GO";
@@ -2715,6 +3246,7 @@
                                 "show"
                             );
 
+
                             goSound();
 
                             vibrate([
@@ -2722,6 +3254,7 @@
                                 20,
                                 35
                             ]);
+
 
                             setTimeout(
                                 callback,
@@ -2749,6 +3282,7 @@
                 timer
             );
 
+
             score = 0;
 
             streak = 0;
@@ -2759,13 +3293,22 @@
 
             targets = [];
 
+            roundStartTime = 0;
+
+
             playArea.innerHTML = "";
+
 
             updateHUD();
 
             updateCombo();
 
+
             comboLost.classList.remove(
+                "show"
+            );
+
+            perfectTap.classList.remove(
                 "show"
             );
 
@@ -2774,6 +3317,11 @@
                 "level-2",
                 "level-3"
             );
+
+            nearMiss.classList.remove(
+                "show"
+            );
+
 
             startScreen.classList.add(
                 "hidden"
@@ -2813,6 +3361,7 @@
                 timer
             );
 
+
             timer =
                 setInterval(
                     () => {
@@ -2824,6 +3373,7 @@
                             return;
 
                         }
+
 
                         timeLeft--;
 
@@ -2869,7 +3419,9 @@
 
             }
 
+
             gameRunning = false;
+
 
             clearInterval(
                 timer
@@ -2877,12 +3429,15 @@
 
             timer = null;
 
+
             targets = [];
 
             playArea.innerHTML = "";
 
+
             const isNewBest =
                 score > highScore;
+
 
             if (isNewBest) {
 
@@ -3006,7 +3561,6 @@
                 passive: false
             }
         );
-
 
     </script>
 

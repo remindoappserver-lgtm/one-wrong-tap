@@ -161,6 +161,78 @@ body {
 }
 
 /* =====================================================
+   COMBO INDICATOR
+===================================================== */
+
+.combo {
+    position: absolute;
+    top: 72px;
+    left: 50%;
+
+    transform:
+        translateX(-50%)
+        scale(0.85);
+
+    padding: 5px 12px;
+
+    border: 1px solid rgba(252, 194, 36, 0.35);
+    border-radius: 20px;
+
+    background: rgba(252, 194, 36, 0.08);
+
+    color: #fcc224;
+
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 9;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.combo.active {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        scale(1);
+}
+
+.combo.bump {
+    animation:
+        comboBump 0.35s ease-out;
+}
+
+@keyframes comboBump {
+
+    0% {
+        transform:
+            translateX(-50%)
+            scale(1);
+    }
+
+    45% {
+        transform:
+            translateX(-50%)
+            scale(1.18);
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            scale(1);
+    }
+
+}
+
+/* =====================================================
    PLAY AREA
 ===================================================== */
 
@@ -179,6 +251,7 @@ body {
 
 .target {
     position: absolute;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -319,7 +392,6 @@ body {
         0 0 52px rgba(252, 194, 36, 0.68);
 }
 
-
 /* =====================================================
    TAP FEEDBACK
 ===================================================== */
@@ -348,7 +420,6 @@ body {
 
 }
 
-
 /* =====================================================
    COUNTDOWN
 ===================================================== */
@@ -356,18 +427,22 @@ body {
 .countdown {
     position: absolute;
     inset: 0;
+
     display: flex;
     justify-content: center;
     align-items: center;
 
     font-size: clamp(80px, 25vw, 180px);
     font-weight: 900;
+
     color: #fcc224;
 
     z-index: 15;
 
     pointer-events: none;
-    text-shadow: 0 0 40px rgba(252, 194, 36, 0.35);
+
+    text-shadow:
+        0 0 40px rgba(252, 194, 36, 0.35);
 }
 
 .countdown.hidden {
@@ -375,7 +450,8 @@ body {
 }
 
 .countdown.pop {
-    animation: countdownPop 0.55s ease-out;
+    animation:
+        countdownPop 0.55s ease-out;
 }
 
 @keyframes countdownPop {
@@ -397,51 +473,65 @@ body {
 
 }
 
-
 /* =====================================================
    STREAK MESSAGE
 ===================================================== */
 
 .streak-message {
     position: absolute;
+
     top: 105px;
     left: 50%;
-    transform: translateX(-50%);
+
+    transform:
+        translateX(-50%);
 
     color: #fcc224;
+
     font-size: 16px;
     font-weight: 900;
+
     letter-spacing: 2px;
 
     pointer-events: none;
+
     z-index: 10;
 
     opacity: 0;
 }
 
 .streak-message.show {
-    animation: streakPop 0.75s ease-out;
+    animation:
+        streakPop 0.75s ease-out;
 }
 
 @keyframes streakPop {
 
     0% {
         opacity: 0;
-        transform: translateX(-50%) scale(0.6);
+
+        transform:
+            translateX(-50%)
+            scale(0.6);
     }
 
     25% {
         opacity: 1;
-        transform: translateX(-50%) scale(1.15);
+
+        transform:
+            translateX(-50%)
+            scale(1.15);
     }
 
     100% {
         opacity: 0;
-        transform: translateX(-50%) scale(1);
+
+        transform:
+            translateX(-50%)
+            scale(1);
     }
 
 }
-
 
 /* =====================================================
    RED FLASH
@@ -451,16 +541,19 @@ body {
     position: absolute;
     inset: 0;
 
-    background: rgba(255, 0, 0, 0.18);
+    background:
+        rgba(255, 0, 0, 0.18);
 
     opacity: 0;
+
     pointer-events: none;
 
     z-index: 12;
 }
 
 .red-flash.show {
-    animation: redFlash 0.35s ease-out;
+    animation:
+        redFlash 0.35s ease-out;
 }
 
 @keyframes redFlash {
@@ -479,51 +572,63 @@ body {
 
 }
 
-
 /* =====================================================
    SCORE POP
 ===================================================== */
 
 .score-pop {
     position: absolute;
+
     left: 50%;
     top: 95px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
     font-size: 22px;
     font-weight: 900;
+
     color: #fcc224;
 
     pointer-events: none;
+
     z-index: 10;
 
     opacity: 0;
 }
 
 .score-pop.show {
-    animation: scorePop 0.45s ease-out;
+    animation:
+        scorePop 0.45s ease-out;
 }
 
 @keyframes scorePop {
 
     0% {
         opacity: 0;
-        transform: translate(-50%, 10px) scale(0.7);
+
+        transform:
+            translate(-50%, 10px)
+            scale(0.7);
     }
 
     35% {
         opacity: 1;
-        transform: translate(-50%, 0) scale(1.15);
+
+        transform:
+            translate(-50%, 0)
+            scale(1.15);
     }
 
     100% {
         opacity: 0;
-        transform: translate(-50%, -28px) scale(1);
+
+        transform:
+            translate(-50%, -28px)
+            scale(1);
     }
 
 }
-
 
 /* =====================================================
    RESPONSIVE
@@ -545,6 +650,10 @@ body {
 
     .score-pop {
         top: 65px;
+    }
+
+    .combo {
+        top: 54px;
     }
 
 }
@@ -591,7 +700,10 @@ body {
             0
         </div>
 
-        <button id="startButton" class="start-button">
+        <button
+            id="startButton"
+            class="start-button"
+        >
             START GAME
         </button>
 
@@ -602,7 +714,10 @@ body {
          GAME OVER SCREEN
     ================================================== -->
 
-    <div id="gameOverScreen" class="screen hidden">
+    <div
+        id="gameOverScreen"
+        class="screen hidden"
+    >
 
         <div class="logo">
             <div>GAME</div>
@@ -613,17 +728,23 @@ body {
             FINAL SCORE
         </div>
 
-        <div id="finalScore" class="best-score">
+        <div
+            id="finalScore"
+            class="best-score"
+        >
             0
         </div>
 
-        <div id="newBest" style="
-            margin-top:12px;
-            color:#fcc224;
-            font-weight:900;
-            letter-spacing:2px;
-            display:none;
-        ">
+        <div
+            id="newBest"
+            style="
+                margin-top:12px;
+                color:#fcc224;
+                font-weight:900;
+                letter-spacing:2px;
+                display:none;
+            "
+        >
             NEW BEST!
         </div>
 
@@ -631,11 +752,17 @@ body {
             BEST
         </div>
 
-        <div id="gameOverBest" class="best-score">
+        <div
+            id="gameOverBest"
+            class="best-score"
+        >
             0
         </div>
 
-        <button id="playAgainButton" class="start-button">
+        <button
+            id="playAgainButton"
+            class="start-button"
+        >
             PLAY AGAIN
         </button>
 
@@ -654,7 +781,10 @@ body {
                 TIME
             </div>
 
-            <div id="timeValue" class="hud-value">
+            <div
+                id="timeValue"
+                class="hud-value"
+            >
                 30
             </div>
 
@@ -667,7 +797,10 @@ body {
                 SCORE
             </div>
 
-            <div id="scoreValue" class="hud-value">
+            <div
+                id="scoreValue"
+                class="hud-value"
+            >
                 0
             </div>
 
@@ -680,7 +813,10 @@ body {
                 STREAK
             </div>
 
-            <div id="streakValue" class="hud-value">
+            <div
+                id="streakValue"
+                class="hud-value"
+            >
                 0
             </div>
 
@@ -690,17 +826,35 @@ body {
 
 
     <!-- =================================================
+         COMBO
+    ================================================== -->
+
+    <div
+        id="combo"
+        class="combo"
+    >
+        COMBO x1
+    </div>
+
+
+    <!-- =================================================
          PLAY AREA
     ================================================== -->
 
-    <div id="playArea" class="play-area"></div>
+    <div
+        id="playArea"
+        class="play-area"
+    ></div>
 
 
     <!-- =================================================
          COUNTDOWN
     ================================================== -->
 
-    <div id="countdown" class="countdown hidden">
+    <div
+        id="countdown"
+        class="countdown hidden"
+    >
         3
     </div>
 
@@ -709,7 +863,10 @@ body {
          STREAK MESSAGE
     ================================================== -->
 
-    <div id="streakMessage" class="streak-message">
+    <div
+        id="streakMessage"
+        class="streak-message"
+    >
         STREAK!
     </div>
 
@@ -718,7 +875,10 @@ body {
          SCORE POP
     ================================================== -->
 
-    <div id="scorePop" class="score-pop">
+    <div
+        id="scorePop"
+        class="score-pop"
+    >
         +1
     </div>
 
@@ -727,7 +887,10 @@ body {
          RED FLASH
     ================================================== -->
 
-    <div id="redFlash" class="red-flash"></div>
+    <div
+        id="redFlash"
+        class="red-flash"
+    ></div>
 
 </div>
 
@@ -739,52 +902,89 @@ body {
 ===================================================== */
 
 const startScreen =
-    document.getElementById("startScreen");
+    document.getElementById(
+        "startScreen"
+    );
 
 const gameOverScreen =
-    document.getElementById("gameOverScreen");
+    document.getElementById(
+        "gameOverScreen"
+    );
 
 const startButton =
-    document.getElementById("startButton");
+    document.getElementById(
+        "startButton"
+    );
 
 const playAgainButton =
-    document.getElementById("playAgainButton");
+    document.getElementById(
+        "playAgainButton"
+    );
 
 const playArea =
-    document.getElementById("playArea");
+    document.getElementById(
+        "playArea"
+    );
 
 const timeValue =
-    document.getElementById("timeValue");
+    document.getElementById(
+        "timeValue"
+    );
 
 const scoreValue =
-    document.getElementById("scoreValue");
+    document.getElementById(
+        "scoreValue"
+    );
 
 const streakValue =
-    document.getElementById("streakValue");
+    document.getElementById(
+        "streakValue"
+    );
 
 const startBest =
-    document.getElementById("startBest");
+    document.getElementById(
+        "startBest"
+    );
 
 const finalScore =
-    document.getElementById("finalScore");
+    document.getElementById(
+        "finalScore"
+    );
 
 const gameOverBest =
-    document.getElementById("gameOverBest");
+    document.getElementById(
+        "gameOverBest"
+    );
 
 const newBest =
-    document.getElementById("newBest");
+    document.getElementById(
+        "newBest"
+    );
 
 const countdown =
-    document.getElementById("countdown");
+    document.getElementById(
+        "countdown"
+    );
 
 const streakMessage =
-    document.getElementById("streakMessage");
+    document.getElementById(
+        "streakMessage"
+    );
 
 const redFlash =
-    document.getElementById("redFlash");
+    document.getElementById(
+        "redFlash"
+    );
 
 const scorePop =
-    document.getElementById("scorePop");
+    document.getElementById(
+        "scorePop"
+    );
+
+const combo =
+    document.getElementById(
+        "combo"
+    );
 
 
 /* =====================================================
@@ -831,7 +1031,8 @@ function initAudio() {
     }
 
     if (
-        audioContext.state === "suspended"
+        audioContext.state ===
+        "suspended"
     ) {
 
         audioContext.resume();
@@ -852,7 +1053,8 @@ function playTone(
     volume = 0.05
 ) {
 
-    if (!audioContext) return;
+    if (!audioContext)
+        return;
 
     const oscillator =
         audioContext.createOscillator();
@@ -1039,6 +1241,94 @@ function updateHUD() {
 
     streakValue.textContent =
         streak;
+
+}
+
+
+/* =====================================================
+   COMBO LEVEL
+===================================================== */
+
+function getComboLevel() {
+
+    if (streak >= 20) {
+
+        return 5;
+
+    }
+
+    if (streak >= 15) {
+
+        return 4;
+
+    }
+
+    if (streak >= 10) {
+
+        return 3;
+
+    }
+
+    if (streak >= 5) {
+
+        return 2;
+
+    }
+
+    return 1;
+
+}
+
+
+/* =====================================================
+   UPDATE COMBO
+===================================================== */
+
+function updateCombo(
+    animate = false
+) {
+
+    const comboLevel =
+        getComboLevel();
+
+
+    /*
+     * Hide combo while streak
+     * is below 5.
+     */
+    if (streak < 5) {
+
+        combo.classList.remove(
+            "active"
+        );
+
+        return;
+
+    }
+
+
+    combo.textContent =
+        `COMBO x${comboLevel}`;
+
+
+    combo.classList.add(
+        "active"
+    );
+
+
+    if (animate) {
+
+        combo.classList.remove(
+            "bump"
+        );
+
+        void combo.offsetWidth;
+
+        combo.classList.add(
+            "bump"
+        );
+
+    }
 
 }
 
@@ -1376,10 +1666,6 @@ function createRound() {
                 "correct"
             );
 
-            /*
-             * Apply the visual streak
-             * intensity to the correct target.
-             */
             target.classList.add(
                 getStreakClass()
             );
@@ -1423,7 +1709,8 @@ function createRound() {
 
 function handleTargetTap(event) {
 
-    if (!gameRunning) return;
+    if (!gameRunning)
+        return;
 
     event.preventDefault();
 
@@ -1452,9 +1739,15 @@ function handleTargetTap(event) {
         )
     ) {
 
+        const previousCombo =
+            getComboLevel();
+
         score++;
 
         streak++;
+
+        const newCombo =
+            getComboLevel();
 
         correctSound();
 
@@ -1475,6 +1768,15 @@ function handleTargetTap(event) {
 
         scorePop.classList.add(
             "show"
+        );
+
+
+        /* =============================================
+           COMBO UPDATE
+        ============================================= */
+
+        updateCombo(
+            newCombo > previousCombo
         );
 
 
@@ -1558,6 +1860,8 @@ function handleTargetTap(event) {
         streak = 0;
 
         updateHUD();
+
+        updateCombo();
 
         wrongSound();
 
@@ -1720,6 +2024,9 @@ async function startGame() {
 
     updateHUD();
 
+    updateCombo();
+
+
     startScreen.classList.add(
         "hidden"
     );
@@ -1727,6 +2034,7 @@ async function startGame() {
     gameOverScreen.classList.add(
         "hidden"
     );
+
 
     await startCountdown();
 
@@ -1847,6 +2155,8 @@ function endGame() {
 
     startBest.textContent =
         highScore;
+
+    updateCombo();
 
 }
 

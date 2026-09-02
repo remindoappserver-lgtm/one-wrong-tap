@@ -244,6 +244,11 @@ body {
         0 0 0 3px rgba(252,194,36,0.2),
         0 0 30px rgba(252,194,36,0.28),
         0 8px 25px rgba(0,0,0,0.35);
+
+    animation:
+        targetAppear 0.18s ease-out,
+        targetFloat 2.8s ease-in-out infinite,
+        correctPulse 1.8s ease-in-out infinite;
 }
 
 .target:active {
@@ -297,6 +302,35 @@ body {
     100% {
         margin-top: 0;
         margin-left: 0;
+    }
+
+}
+
+/* =====================================================
+   CORRECT TARGET PULSE
+===================================================== */
+
+@keyframes correctPulse {
+
+    0% {
+        box-shadow:
+            0 0 0 3px rgba(252,194,36,0.18),
+            0 0 20px rgba(252,194,36,0.18),
+            0 8px 25px rgba(0,0,0,0.35);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 4px rgba(252,194,36,0.30),
+            0 0 38px rgba(252,194,36,0.38),
+            0 8px 25px rgba(0,0,0,0.35);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 3px rgba(252,194,36,0.18),
+            0 0 20px rgba(252,194,36,0.18),
+            0 8px 25px rgba(0,0,0,0.35);
     }
 
 }
@@ -1591,10 +1625,6 @@ function positionTargetsWithoutOverlap(
 
         }
 
-
-        /*
-         * Fallback grid placement.
-         */
 
         if (!placed) {
 

@@ -677,10 +677,6 @@ body {
 
 <div class="game">
 
-    <!-- =================================================
-         START SCREEN
-    ================================================== -->
-
     <div id="startScreen" class="screen">
 
         <div class="logo">
@@ -709,10 +705,6 @@ body {
 
     </div>
 
-
-    <!-- =================================================
-         GAME OVER SCREEN
-    ================================================== -->
 
     <div
         id="gameOverScreen"
@@ -769,10 +761,6 @@ body {
     </div>
 
 
-    <!-- =================================================
-         HUD
-    ================================================== -->
-
     <div class="hud">
 
         <div class="hud-item">
@@ -825,10 +813,6 @@ body {
     </div>
 
 
-    <!-- =================================================
-         COMBO
-    ================================================== -->
-
     <div
         id="combo"
         class="combo"
@@ -837,19 +821,11 @@ body {
     </div>
 
 
-    <!-- =================================================
-         PLAY AREA
-    ================================================== -->
-
     <div
         id="playArea"
         class="play-area"
     ></div>
 
-
-    <!-- =================================================
-         COUNTDOWN
-    ================================================== -->
 
     <div
         id="countdown"
@@ -859,10 +835,6 @@ body {
     </div>
 
 
-    <!-- =================================================
-         STREAK MESSAGE
-    ================================================== -->
-
     <div
         id="streakMessage"
         class="streak-message"
@@ -871,10 +843,6 @@ body {
     </div>
 
 
-    <!-- =================================================
-         SCORE POP
-    ================================================== -->
-
     <div
         id="scorePop"
         class="score-pop"
@@ -882,10 +850,6 @@ body {
         +1
     </div>
 
-
-    <!-- =================================================
-         RED FLASH
-    ================================================== -->
 
     <div
         id="redFlash"
@@ -1292,10 +1256,6 @@ function updateCombo(
         getComboLevel();
 
 
-    /*
-     * Hide combo while streak
-     * is below 5.
-     */
     if (streak < 5) {
 
         combo.classList.remove(
@@ -1448,6 +1408,7 @@ function circlesOverlap(
 
 /* =====================================================
    POSITION TARGETS
+   VARIED SCREEN ZONES + NO OVERLAP
 ===================================================== */
 
 function positionTargetsWithoutOverlap(
@@ -1463,6 +1424,57 @@ function positionTargetsWithoutOverlap(
     const placed = [];
 
 
+    /*
+     * Divide the play area into 9 zones.
+     *
+     * Each round the zones are shuffled,
+     * giving targets much more variety.
+     */
+
+    const zones = [
+
+        { col: 0, row: 0 },
+        { col: 1, row: 0 },
+        { col: 2, row: 0 },
+
+        { col: 0, row: 1 },
+        { col: 1, row: 1 },
+        { col: 2, row: 1 },
+
+        { col: 0, row: 2 },
+        { col: 1, row: 2 },
+        { col: 2, row: 2 }
+
+    ];
+
+
+    /*
+     * Shuffle zones.
+     */
+
+    for (
+        let i = zones.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() *
+                (i + 1)
+            );
+
+        [
+            zones[i],
+            zones[j]
+        ] = [
+            zones[j],
+            zones[i]
+        ];
+
+    }
+
+
     targetElements.forEach(
         target => {
 
@@ -1473,53 +1485,154 @@ function positionTargetsWithoutOverlap(
                 false;
 
 
+            /*
+             * Try each screen zone.
+             */
+
             for (
-                let attempt = 0;
-                attempt < 250;
-                attempt++
+                const zone of zones
             ) {
 
-                const x =
-                    radius +
-                    Math.random() *
-                    Math.max(
-                        1,
-                        areaWidth -
-                        radius * 2
-                    );
-
-                const y =
-                    radius +
-                    Math.random() *
-                    Math.max(
-                        1,
-                        areaHeight -
-                        radius * 2
-                    );
-
-                const candidate = {
-                    x,
-                    y,
-                    radius
-                };
-
-                let overlaps =
-                    false;
-
-
-                for (
-                    const other of placed
+                if (
+                    placedSuccessfully
                 ) {
 
-                    if (
-                        circlesOverlap(
-                            candidate,
-                            other,
-                            14
-                        )
+                    break;
+
+                }
+
+
+                const zoneWidth =
+                    areaWidth / 3;
+
+                const zoneHeight =
+                    areaHeight / 3;
+
+
+                const zoneLeft =
+                    zone.col *
+                    zoneWidth;
+
+                const zoneTop =
+                    zone.row *
+                    zoneHeight;
+
+
+                /*
+                 * Keep the target completely
+                 * inside the play area.
+                 */
+
+                const minX =
+                    Math.max(
+                        radius,
+                        zoneLeft +
+                        radius
+                    );
+
+                const maxX =
+                    Math.min(
+                        areaWidth -
+                        radius,
+                        zoneLeft +
+                        zoneWidth -
+                        radius
+                    );
+
+
+                const minY =
+                    Math.max(
+                        radius,
+                        zoneTop +
+                        radius
+                    );
+
+                const maxY =
+                    Math.min(
+                        areaHeight -
+                        radius,
+                        zoneTop +
+                        zoneHeight -
+                        radius
+                    );
+
+
+                /*
+                 * Try multiple positions
+                 * within this zone.
+                 */
+
+                for (
+                    let attempt = 0;
+                    attempt < 50;
+                    attempt++
+                ) {
+
+                    const x =
+                        minX +
+                        Math.random() *
+                        Math.max(
+                            1,
+                            maxX - minX
+                        );
+
+                    const y =
+                        minY +
+                        Math.random() *
+                        Math.max(
+                            1,
+                            maxY - minY
+                        );
+
+
+                    const candidate = {
+                        x,
+                        y,
+                        radius
+                    };
+
+
+                    let overlaps =
+                        false;
+
+
+                    for (
+                        const other of placed
                     ) {
 
-                        overlaps =
+                        if (
+                            circlesOverlap(
+                                candidate,
+                                other,
+                                14
+                            )
+                        ) {
+
+                            overlaps =
+                                true;
+
+                            break;
+
+                        }
+
+                    }
+
+
+                    if (
+                        !overlaps
+                    ) {
+
+                        target.style.left =
+                            `${x - radius}px`;
+
+                        target.style.top =
+                            `${y - radius}px`;
+
+                        placed.push(
+                            candidate
+                        );
+
+                        placedSuccessfully =
                             true;
 
                         break;
@@ -1528,28 +1641,108 @@ function positionTargetsWithoutOverlap(
 
                 }
 
+            }
 
-                if (!overlaps) {
 
-                    target.style.left =
-                        `${x - radius}px`;
+            /*
+             * FALLBACK:
+             * If the zone system cannot find
+             * enough space, use the entire
+             * play area.
+             */
 
-                    target.style.top =
-                        `${y - radius}px`;
+            if (
+                !placedSuccessfully
+            ) {
 
-                    placed.push(
-                        candidate
-                    );
+                for (
+                    let attempt = 0;
+                    attempt < 300;
+                    attempt++
+                ) {
 
-                    placedSuccessfully =
-                        true;
+                    const x =
+                        radius +
+                        Math.random() *
+                        Math.max(
+                            1,
+                            areaWidth -
+                            radius * 2
+                        );
 
-                    break;
+                    const y =
+                        radius +
+                        Math.random() *
+                        Math.max(
+                            1,
+                            areaHeight -
+                            radius * 2
+                        );
+
+
+                    const candidate = {
+                        x,
+                        y,
+                        radius
+                    };
+
+
+                    let overlaps =
+                        false;
+
+
+                    for (
+                        const other of placed
+                    ) {
+
+                        if (
+                            circlesOverlap(
+                                candidate,
+                                other,
+                                14
+                            )
+                        ) {
+
+                            overlaps =
+                                true;
+
+                            break;
+
+                        }
+
+                    }
+
+
+                    if (
+                        !overlaps
+                    ) {
+
+                        target.style.left =
+                            `${x - radius}px`;
+
+                        target.style.top =
+                            `${y - radius}px`;
+
+                        placed.push(
+                            candidate
+                        );
+
+                        placedSuccessfully =
+                            true;
+
+                        break;
+
+                    }
 
                 }
 
             }
 
+
+            /*
+             * FINAL SAFETY FALLBACK
+             * For extremely small screens.
+             */
 
             if (
                 !placedSuccessfully
@@ -1571,12 +1764,15 @@ function positionTargetsWithoutOverlap(
                     );
 
                 const column =
-                    index % columns;
+                    index %
+                    columns;
 
                 const row =
                     Math.floor(
-                        index / columns
+                        index /
+                        columns
                     );
+
 
                 const x =
                     radius +
@@ -1594,19 +1790,46 @@ function positionTargetsWithoutOverlap(
                         20
                     );
 
+
+                const safeX =
+                    Math.max(
+                        0,
+                        Math.min(
+                            x - radius,
+                            areaWidth -
+                            radius * 2
+                        )
+                    );
+
+                const safeY =
+                    Math.max(
+                        0,
+                        Math.min(
+                            y - radius,
+                            areaHeight -
+                            radius * 2
+                        )
+                    );
+
+
                 target.style.left =
-                    `${Math.min(
-                        x - radius,
-                        areaWidth -
-                        radius * 2
-                    )}px`;
+                    `${safeX}px`;
 
                 target.style.top =
-                    `${Math.min(
-                        y - radius,
-                        areaHeight -
-                        radius * 2
-                    )}px`;
+                    `${safeY}px`;
+
+
+                placed.push({
+                    x:
+                        safeX +
+                        radius,
+
+                    y:
+                        safeY +
+                        radius,
+
+                    radius
+                });
 
             }
 
@@ -1756,10 +1979,6 @@ function handleTargetTap(event) {
         updateHUD();
 
 
-        /* =============================================
-           SCORE POP
-        ============================================= */
-
         scorePop.classList.remove(
             "show"
         );
@@ -1771,18 +1990,10 @@ function handleTargetTap(event) {
         );
 
 
-        /* =============================================
-           COMBO UPDATE
-        ============================================= */
-
         updateCombo(
             newCombo > previousCombo
         );
 
-
-        /* =============================================
-           STREAK CELEBRATION
-        ============================================= */
 
         const milestones = [
             5,
@@ -1825,18 +2036,10 @@ function handleTargetTap(event) {
         }
 
 
-        /* =============================================
-           TAP ANIMATION
-        ============================================= */
-
         target.classList.add(
             "tapped"
         );
 
-
-        /* =============================================
-           NEXT ROUND
-        ============================================= */
 
         setTimeout(() => {
 

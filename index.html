@@ -195,7 +195,8 @@ body {
 
     transition:
         transform 0.08s ease,
-        opacity 0.12s ease;
+        opacity 0.12s ease,
+        box-shadow 0.2s ease;
 
     touch-action: none;
 
@@ -295,11 +296,37 @@ body {
 }
 
 /* =====================================================
-   NEW TAP FEEDBACK
+   STREAK INTENSITY
+===================================================== */
+
+.target.correct.streak-low {
+    box-shadow:
+        0 0 24px rgba(252, 194, 36, 0.34);
+}
+
+.target.correct.streak-medium {
+    box-shadow:
+        0 0 30px rgba(252, 194, 36, 0.40);
+}
+
+.target.correct.streak-high {
+    box-shadow:
+        0 0 40px rgba(252, 194, 36, 0.52);
+}
+
+.target.correct.streak-extreme {
+    box-shadow:
+        0 0 52px rgba(252, 194, 36, 0.68);
+}
+
+
+/* =====================================================
+   TAP FEEDBACK
 ===================================================== */
 
 .target.tapped {
-    animation: targetTap 0.13s ease-out forwards !important;
+    animation:
+        targetTap 0.13s ease-out forwards !important;
 }
 
 @keyframes targetTap {
@@ -320,6 +347,7 @@ body {
     }
 
 }
+
 
 /* =====================================================
    COUNTDOWN
@@ -369,6 +397,7 @@ body {
 
 }
 
+
 /* =====================================================
    STREAK MESSAGE
 ===================================================== */
@@ -413,6 +442,7 @@ body {
 
 }
 
+
 /* =====================================================
    RED FLASH
 ===================================================== */
@@ -448,6 +478,7 @@ body {
     }
 
 }
+
 
 /* =====================================================
    SCORE POP
@@ -492,6 +523,7 @@ body {
     }
 
 }
+
 
 /* =====================================================
    RESPONSIVE
@@ -706,27 +738,53 @@ body {
    ELEMENTS
 ===================================================== */
 
-const startScreen = document.getElementById("startScreen");
-const gameOverScreen = document.getElementById("gameOverScreen");
+const startScreen =
+    document.getElementById("startScreen");
 
-const startButton = document.getElementById("startButton");
-const playAgainButton = document.getElementById("playAgainButton");
+const gameOverScreen =
+    document.getElementById("gameOverScreen");
 
-const playArea = document.getElementById("playArea");
+const startButton =
+    document.getElementById("startButton");
 
-const timeValue = document.getElementById("timeValue");
-const scoreValue = document.getElementById("scoreValue");
-const streakValue = document.getElementById("streakValue");
+const playAgainButton =
+    document.getElementById("playAgainButton");
 
-const startBest = document.getElementById("startBest");
-const finalScore = document.getElementById("finalScore");
-const gameOverBest = document.getElementById("gameOverBest");
-const newBest = document.getElementById("newBest");
+const playArea =
+    document.getElementById("playArea");
 
-const countdown = document.getElementById("countdown");
-const streakMessage = document.getElementById("streakMessage");
-const redFlash = document.getElementById("redFlash");
-const scorePop = document.getElementById("scorePop");
+const timeValue =
+    document.getElementById("timeValue");
+
+const scoreValue =
+    document.getElementById("scoreValue");
+
+const streakValue =
+    document.getElementById("streakValue");
+
+const startBest =
+    document.getElementById("startBest");
+
+const finalScore =
+    document.getElementById("finalScore");
+
+const gameOverBest =
+    document.getElementById("gameOverBest");
+
+const newBest =
+    document.getElementById("newBest");
+
+const countdown =
+    document.getElementById("countdown");
+
+const streakMessage =
+    document.getElementById("streakMessage");
+
+const redFlash =
+    document.getElementById("redFlash");
+
+const scorePop =
+    document.getElementById("scorePop");
 
 
 /* =====================================================
@@ -734,6 +792,7 @@ const scorePop = document.getElementById("scorePop");
 ===================================================== */
 
 let score = 0;
+
 let streak = 0;
 
 let timeLeft = 30;
@@ -745,7 +804,11 @@ let gameRunning = false;
 let targets = [];
 
 let highScore =
-    Number(localStorage.getItem("oneWrongTapHighScore")) || 0;
+    Number(
+        localStorage.getItem(
+            "oneWrongTapHighScore"
+        )
+    ) || 0;
 
 
 /* =====================================================
@@ -753,6 +816,7 @@ let highScore =
 ===================================================== */
 
 let audioContext = null;
+
 
 function initAudio() {
 
@@ -766,8 +830,12 @@ function initAudio() {
 
     }
 
-    if (audioContext.state === "suspended") {
+    if (
+        audioContext.state === "suspended"
+    ) {
+
         audioContext.resume();
+
     }
 
 }
@@ -792,7 +860,8 @@ function playTone(
     const gain =
         audioContext.createGain();
 
-    oscillator.type = type;
+    oscillator.type =
+        type;
 
     oscillator.frequency.value =
         frequency;
@@ -804,16 +873,21 @@ function playTone(
 
     gain.gain.exponentialRampToValueAtTime(
         0.001,
-        audioContext.currentTime + duration
+        audioContext.currentTime +
+        duration
     );
 
     oscillator.connect(gain);
-    gain.connect(audioContext.destination);
+
+    gain.connect(
+        audioContext.destination
+    );
 
     oscillator.start();
 
     oscillator.stop(
-        audioContext.currentTime + duration
+        audioContext.currentTime +
+        duration
     );
 
 }
@@ -841,14 +915,33 @@ function correctSound() {
 
 function streakSound() {
 
-    playTone(660, 0.08, "sine", 0.04);
+    playTone(
+        660,
+        0.08,
+        "sine",
+        0.04
+    );
 
     setTimeout(() => {
-        playTone(880, 0.08, "sine", 0.04);
+
+        playTone(
+            880,
+            0.08,
+            "sine",
+            0.04
+        );
+
     }, 70);
 
     setTimeout(() => {
-        playTone(1100, 0.12, "sine", 0.045);
+
+        playTone(
+            1100,
+            0.12,
+            "sine",
+            0.045
+        );
+
     }, 140);
 
 }
@@ -921,7 +1014,8 @@ function vibrate(pattern) {
 
     if (
         navigator.vibrate &&
-        typeof navigator.vibrate === "function"
+        typeof navigator.vibrate ===
+        "function"
     ) {
 
         navigator.vibrate(pattern);
@@ -937,11 +1031,43 @@ function vibrate(pattern) {
 
 function updateHUD() {
 
-    timeValue.textContent = timeLeft;
+    timeValue.textContent =
+        timeLeft;
 
-    scoreValue.textContent = score;
+    scoreValue.textContent =
+        score;
 
-    streakValue.textContent = streak;
+    streakValue.textContent =
+        streak;
+
+}
+
+
+/* =====================================================
+   STREAK INTENSITY
+===================================================== */
+
+function getStreakClass() {
+
+    if (streak >= 20) {
+
+        return "streak-extreme";
+
+    }
+
+    if (streak >= 10) {
+
+        return "streak-high";
+
+    }
+
+    if (streak >= 5) {
+
+        return "streak-medium";
+
+    }
+
+    return "streak-low";
 
 }
 
@@ -1006,8 +1132,11 @@ function circlesOverlap(
     gap = 12
 ) {
 
-    const dx = a.x - b.x;
-    const dy = a.y - b.y;
+    const dx =
+        a.x - b.x;
+
+    const dy =
+        a.y - b.y;
 
     const distance =
         Math.sqrt(
@@ -1017,7 +1146,11 @@ function circlesOverlap(
 
     return (
         distance <
-        (a.radius + b.radius + gap)
+        (
+            a.radius +
+            b.radius +
+            gap
+        )
     );
 
 }
@@ -1039,130 +1172,156 @@ function positionTargetsWithoutOverlap(
 
     const placed = [];
 
-    targetElements.forEach(target => {
 
-        const radius =
-            target.offsetWidth / 2;
+    targetElements.forEach(
+        target => {
 
-        let placedSuccessfully = false;
+            const radius =
+                target.offsetWidth / 2;
 
-        for (
-            let attempt = 0;
-            attempt < 250;
-            attempt++
-        ) {
+            let placedSuccessfully =
+                false;
 
-            const x =
-                radius +
-                Math.random() *
-                Math.max(
-                    1,
-                    areaWidth -
-                    radius * 2
-                );
 
-            const y =
-                radius +
-                Math.random() *
-                Math.max(
-                    1,
-                    areaHeight -
-                    radius * 2
-                );
+            for (
+                let attempt = 0;
+                attempt < 250;
+                attempt++
+            ) {
 
-            const candidate = {
-                x,
-                y,
-                radius
-            };
+                const x =
+                    radius +
+                    Math.random() *
+                    Math.max(
+                        1,
+                        areaWidth -
+                        radius * 2
+                    );
 
-            let overlaps = false;
+                const y =
+                    radius +
+                    Math.random() *
+                    Math.max(
+                        1,
+                        areaHeight -
+                        radius * 2
+                    );
 
-            for (const other of placed) {
+                const candidate = {
+                    x,
+                    y,
+                    radius
+                };
 
-                if (
-                    circlesOverlap(
-                        candidate,
-                        other,
-                        14
-                    )
+                let overlaps =
+                    false;
+
+
+                for (
+                    const other of placed
                 ) {
 
-                    overlaps = true;
+                    if (
+                        circlesOverlap(
+                            candidate,
+                            other,
+                            14
+                        )
+                    ) {
+
+                        overlaps =
+                            true;
+
+                        break;
+
+                    }
+
+                }
+
+
+                if (!overlaps) {
+
+                    target.style.left =
+                        `${x - radius}px`;
+
+                    target.style.top =
+                        `${y - radius}px`;
+
+                    placed.push(
+                        candidate
+                    );
+
+                    placedSuccessfully =
+                        true;
+
                     break;
 
                 }
 
             }
 
-            if (!overlaps) {
+
+            if (
+                !placedSuccessfully
+            ) {
+
+                const index =
+                    placed.length;
+
+                const columns =
+                    Math.max(
+                        1,
+                        Math.floor(
+                            areaWidth /
+                            (
+                                radius * 2 +
+                                20
+                            )
+                        )
+                    );
+
+                const column =
+                    index % columns;
+
+                const row =
+                    Math.floor(
+                        index / columns
+                    );
+
+                const x =
+                    radius +
+                    column *
+                    (
+                        radius * 2 +
+                        20
+                    );
+
+                const y =
+                    radius +
+                    row *
+                    (
+                        radius * 2 +
+                        20
+                    );
 
                 target.style.left =
-                    `${x - radius}px`;
+                    `${Math.min(
+                        x - radius,
+                        areaWidth -
+                        radius * 2
+                    )}px`;
 
                 target.style.top =
-                    `${y - radius}px`;
-
-                placed.push(candidate);
-
-                placedSuccessfully = true;
-
-                break;
+                    `${Math.min(
+                        y - radius,
+                        areaHeight -
+                        radius * 2
+                    )}px`;
 
             }
 
         }
-
-
-        /* =============================================
-           FALLBACK GRID
-        ============================================= */
-
-        if (!placedSuccessfully) {
-
-            const index =
-                placed.length;
-
-            const columns =
-                Math.max(
-                    1,
-                    Math.floor(
-                        areaWidth /
-                        (radius * 2 + 20)
-                    )
-                );
-
-            const column =
-                index % columns;
-
-            const row =
-                Math.floor(index / columns);
-
-            const x =
-                radius +
-                column *
-                (radius * 2 + 20);
-
-            const y =
-                radius +
-                row *
-                (radius * 2 + 20);
-
-            target.style.left =
-                `${Math.min(
-                    x - radius,
-                    areaWidth - radius * 2
-                )}px`;
-
-            target.style.top =
-                `${Math.min(
-                    y - radius,
-                    areaHeight - radius * 2
-                )}px`;
-
-        }
-
-    });
+    );
 
 }
 
@@ -1187,10 +1346,6 @@ function createRound() {
         difficulty.size;
 
 
-    /* =============================================
-       CREATE TARGETS
-    ============================================= */
-
     for (
         let i = 0;
         i < targetCount;
@@ -1198,7 +1353,9 @@ function createRound() {
     ) {
 
         const target =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         target.className =
             "target";
@@ -1213,14 +1370,18 @@ function createRound() {
             "TAP";
 
 
-        /* =========================================
-           CORRECT TARGET
-        ========================================= */
-
         if (i === 0) {
 
             target.classList.add(
                 "correct"
+            );
+
+            /*
+             * Apply the visual streak
+             * intensity to the correct target.
+             */
+            target.classList.add(
+                getStreakClass()
             );
 
         } else {
@@ -1231,10 +1392,6 @@ function createRound() {
 
         }
 
-
-        /* =========================================
-           TAP HANDLER
-        ========================================= */
 
         target.addEventListener(
             "pointerdown",
@@ -1252,10 +1409,6 @@ function createRound() {
 
     }
 
-
-    /* =============================================
-       POSITION AFTER CREATION
-    ============================================= */
 
     positionTargetsWithoutOverlap(
         targets
@@ -1278,10 +1431,6 @@ function handleTargetTap(event) {
         event.currentTarget;
 
 
-    /* =============================================
-       PREVENT DOUBLE TAP
-    ============================================= */
-
     if (
         target.classList.contains(
             "tapped"
@@ -1293,9 +1442,9 @@ function handleTargetTap(event) {
     }
 
 
-    /* =============================================
+    /* =================================================
        CORRECT
-    ============================================= */
+    ================================================= */
 
     if (
         target.classList.contains(
@@ -1314,20 +1463,24 @@ function handleTargetTap(event) {
         updateHUD();
 
 
-        /* =========================================
+        /* =============================================
            SCORE POP
-        ========================================= */
+        ============================================= */
 
-        scorePop.classList.remove("show");
+        scorePop.classList.remove(
+            "show"
+        );
 
         void scorePop.offsetWidth;
 
-        scorePop.classList.add("show");
+        scorePop.classList.add(
+            "show"
+        );
 
 
-        /* =========================================
+        /* =============================================
            STREAK CELEBRATION
-        ========================================= */
+        ============================================= */
 
         const milestones = [
             5,
@@ -1341,7 +1494,9 @@ function handleTargetTap(event) {
         ];
 
         if (
-            milestones.includes(streak)
+            milestones.includes(
+                streak
+            )
         ) {
 
             streakMessage.textContent =
@@ -1368,18 +1523,18 @@ function handleTargetTap(event) {
         }
 
 
-        /* =========================================
+        /* =============================================
            TAP ANIMATION
-        ========================================= */
+        ============================================= */
 
         target.classList.add(
             "tapped"
         );
 
 
-        /* =========================================
+        /* =============================================
            NEXT ROUND
-        ========================================= */
+        ============================================= */
 
         setTimeout(() => {
 
@@ -1391,13 +1546,12 @@ function handleTargetTap(event) {
 
         }, 120);
 
-
     }
 
 
-    /* =============================================
+    /* =================================================
        WRONG
-    ============================================= */
+    ================================================= */
 
     else {
 
@@ -1436,100 +1590,108 @@ function handleTargetTap(event) {
 
 function startCountdown() {
 
-    return new Promise(resolve => {
+    return new Promise(
+        resolve => {
 
-        let number = 3;
+            let number = 3;
 
-        countdown.classList.remove(
-            "hidden"
-        );
+            countdown.classList.remove(
+                "hidden"
+            );
 
-        countdown.textContent =
-            number;
+            countdown.textContent =
+                number;
 
-        countdown.classList.remove(
-            "pop"
-        );
+            countdown.classList.remove(
+                "pop"
+            );
 
-        void countdown.offsetWidth;
+            void countdown.offsetWidth;
 
-        countdown.classList.add(
-            "pop"
-        );
+            countdown.classList.add(
+                "pop"
+            );
 
-        countdownSound();
+            countdownSound();
 
-        vibrate(12);
-
-
-        const interval =
-            setInterval(() => {
-
-                number--;
-
-                if (number > 0) {
-
-                    countdown.textContent =
-                        number;
-
-                    countdown.classList.remove(
-                        "pop"
-                    );
-
-                    void countdown.offsetWidth;
-
-                    countdown.classList.add(
-                        "pop"
-                    );
-
-                    countdownSound();
-
-                    vibrate(12);
-
-                } else {
-
-                    countdown.textContent =
-                        "GO!";
-
-                    countdown.classList.remove(
-                        "pop"
-                    );
-
-                    void countdown.offsetWidth;
-
-                    countdown.classList.add(
-                        "pop"
-                    );
-
-                    goSound();
-
-                    vibrate([
-                        25,
-                        20,
-                        35
-                    ]);
+            vibrate(12);
 
 
-                    setTimeout(() => {
+            const interval =
+                setInterval(() => {
 
-                        countdown.classList.add(
-                            "hidden"
+                    number--;
+
+
+                    if (
+                        number > 0
+                    ) {
+
+                        countdown.textContent =
+                            number;
+
+                        countdown.classList.remove(
+                            "pop"
                         );
 
-                        resolve();
+                        void countdown.offsetWidth;
 
-                    }, 450);
+                        countdown.classList.add(
+                            "pop"
+                        );
+
+                        countdownSound();
+
+                        vibrate(12);
+
+                    } else {
+
+                        countdown.textContent =
+                            "GO!";
+
+                        countdown.classList.remove(
+                            "pop"
+                        );
+
+                        void countdown.offsetWidth;
+
+                        countdown.classList.add(
+                            "pop"
+                        );
+
+                        goSound();
+
+                        vibrate([
+                            25,
+                            20,
+                            35
+                        ]);
 
 
-                    clearInterval(
-                        interval
-                    );
+                        setTimeout(
+                            () => {
 
-                }
+                                countdown.classList.add(
+                                    "hidden"
+                                );
 
-            }, 800);
+                                resolve();
 
-    });
+                            },
+                            450
+                        );
+
+
+                        clearInterval(
+                            interval
+                        );
+
+                    }
+
+                }, 800);
+
+        }
+    );
 
 }
 
@@ -1568,6 +1730,7 @@ async function startGame() {
 
     await startCountdown();
 
+
     if (
         gameOverScreen.classList.contains(
             "hidden"
@@ -1596,16 +1759,13 @@ function startTimer() {
     timer =
         setInterval(() => {
 
-            if (!gameRunning) return;
+            if (!gameRunning)
+                return;
 
             timeLeft--;
 
             updateHUD();
 
-
-            /* =========================================
-               LAST 5 SECOND TICK
-            ========================================= */
 
             if (
                 timeLeft <= 5 &&
@@ -1641,7 +1801,8 @@ function startTimer() {
 
 function endGame() {
 
-    if (!gameRunning) return;
+    if (!gameRunning)
+        return;
 
     gameRunning = false;
 

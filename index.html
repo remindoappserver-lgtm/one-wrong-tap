@@ -631,6 +631,98 @@ body {
 }
 
 /* =====================================================
+   MILESTONE EFFECT
+===================================================== */
+
+.milestone-flash {
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(252, 194, 36, 0.30),
+            rgba(252, 194, 36, 0.08) 35%,
+            rgba(252, 194, 36, 0) 70%
+        );
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 11;
+}
+
+.milestone-flash.show {
+    animation:
+        milestoneFlash 0.55s ease-out;
+}
+
+.milestone-flash.level-2.show {
+    animation:
+        milestoneFlashStrong 0.65s ease-out;
+}
+
+.milestone-flash.level-3.show {
+    animation:
+        milestoneFlashVeryStrong 0.8s ease-out;
+}
+
+@keyframes milestoneFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+@keyframes milestoneFlashStrong {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    25% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+
+}
+
+@keyframes milestoneFlashVeryStrong {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+
+    25% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.08);
+    }
+
+}
+
+/* =====================================================
    RESPONSIVE
 ===================================================== */
 
@@ -852,6 +944,12 @@ body {
 
 
     <div
+        id="milestoneFlash"
+        class="milestone-flash"
+    ></div>
+
+
+    <div
         id="redFlash"
         class="red-flash"
     ></div>
@@ -948,6 +1046,11 @@ const scorePop =
 const combo =
     document.getElementById(
         "combo"
+    );
+
+const milestoneFlash =
+    document.getElementById(
+        "milestoneFlash"
     );
 
 
@@ -1168,6 +1271,118 @@ function goSound() {
         );
 
     }, 90);
+
+}
+
+
+/* =====================================================
+   MILESTONE SOUND
+===================================================== */
+
+function milestoneSound(
+    level
+) {
+
+    if (level === 1) {
+
+        playTone(
+            880,
+            0.08,
+            "sine",
+            0.035
+        );
+
+        setTimeout(() => {
+
+            playTone(
+                1100,
+                0.12,
+                "sine",
+                0.04
+            );
+
+        }, 70);
+
+        return;
+
+    }
+
+
+    if (level === 2) {
+
+        playTone(
+            880,
+            0.08,
+            "sine",
+            0.04
+        );
+
+        setTimeout(() => {
+
+            playTone(
+                1100,
+                0.08,
+                "sine",
+                0.04
+            );
+
+        }, 70);
+
+        setTimeout(() => {
+
+            playTone(
+                1320,
+                0.14,
+                "sine",
+                0.045
+            );
+
+        }, 140);
+
+        return;
+
+    }
+
+
+    playTone(
+        880,
+        0.08,
+        "sine",
+        0.04
+    );
+
+    setTimeout(() => {
+
+        playTone(
+            1100,
+            0.08,
+            "sine",
+            0.04
+        );
+
+    }, 70);
+
+    setTimeout(() => {
+
+        playTone(
+            1320,
+            0.08,
+            "sine",
+            0.045
+        );
+
+    }, 140);
+
+    setTimeout(() => {
+
+        playTone(
+            1760,
+            0.18,
+            "sine",
+            0.05
+        );
+
+    }, 210);
 
 }
 
@@ -1409,6 +1624,124 @@ function getRoundDelay() {
     }
 
     return 70;
+
+}
+
+
+/* =====================================================
+   MILESTONE LEVEL
+===================================================== */
+
+function getMilestoneLevel(
+    milestone
+) {
+
+    if (milestone >= 50) {
+
+        return 3;
+
+    }
+
+    if (milestone >= 30) {
+
+        return 2;
+
+    }
+
+    return 1;
+
+}
+
+
+/* =====================================================
+   SCORE MILESTONE
+===================================================== */
+
+function checkScoreMilestone() {
+
+    const milestones = [
+        10,
+        20,
+        30,
+        50
+    ];
+
+
+    if (
+        !milestones.includes(score)
+    ) {
+
+        return;
+
+    }
+
+
+    const level =
+        getMilestoneLevel(score);
+
+
+    milestoneFlash.classList.remove(
+        "show",
+        "level-2",
+        "level-3"
+    );
+
+
+    if (level === 2) {
+
+        milestoneFlash.classList.add(
+            "level-2"
+        );
+
+    }
+
+    if (level === 3) {
+
+        milestoneFlash.classList.add(
+            "level-3"
+        );
+
+    }
+
+
+    void milestoneFlash.offsetWidth;
+
+
+    milestoneFlash.classList.add(
+        "show"
+    );
+
+
+    milestoneSound(level);
+
+
+    if (level === 1) {
+
+        vibrate([
+            20,
+            25,
+            20
+        ]);
+
+    } else if (level === 2) {
+
+        vibrate([
+            25,
+            25,
+            35
+        ]);
+
+    } else {
+
+        vibrate([
+            30,
+            25,
+            40,
+            25,
+            55
+        ]);
+
+    }
 
 }
 
@@ -1994,6 +2327,9 @@ function handleTargetTap(event) {
         );
 
 
+        checkScoreMilestone();
+
+
         const milestones = [
             5,
             10,
@@ -2223,6 +2559,13 @@ async function startGame() {
     updateHUD();
 
     updateCombo();
+
+
+    milestoneFlash.classList.remove(
+        "show",
+        "level-2",
+        "level-3"
+    );
 
 
     startScreen.classList.add(

@@ -35,7 +35,6 @@ body {
 
     user-select: none;
     -webkit-user-select: none;
-
     -webkit-touch-callout: none;
 }
 
@@ -48,11 +47,9 @@ body {
 #app {
     width: 100%;
     height: 100%;
-
     max-width: 650px;
 
     position: relative;
-
     overflow: hidden;
 
     background:
@@ -84,6 +81,11 @@ body {
 .hidden {
     display: none !important;
 }
+
+
+/* =====================================================
+   START SCREEN
+===================================================== */
 
 .logo {
     font-size:
@@ -180,14 +182,17 @@ body {
     margin-left: 6px;
 }
 
+
+/* =====================================================
+   GAME SCREEN
+===================================================== */
+
 #gameScreen {
 
     position: absolute;
-
     inset: 0;
 
     display: flex;
-
     flex-direction: column;
 }
 
@@ -251,17 +256,14 @@ body {
 }
 
 #timeValue {
-
     color: #fcc224;
 }
 
 #bestValue {
-
     color: #999;
 }
 
 #streakValue {
-
     color: #fcc224;
 }
 
@@ -275,6 +277,126 @@ body {
 
     touch-action: none;
 }
+
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+#countdown {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    z-index: 500;
+
+    pointer-events: none;
+
+    color: #fcc224;
+
+    font-size:
+        clamp(
+            90px,
+            25vw,
+            150px
+        );
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    text-shadow:
+        0 0 40px
+        rgba(
+            252,
+            194,
+            36,
+            .5
+        );
+
+    opacity: 0;
+}
+
+#countdown.show {
+
+    animation:
+        countdownAnimation
+        .8s ease-out;
+}
+
+#countdown.go {
+
+    font-size:
+        clamp(
+            70px,
+            20vw,
+            120px
+        );
+}
+
+@keyframes countdownAnimation {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(.55);
+    }
+
+    25% {
+
+        opacity: 1;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1.12);
+    }
+
+    55% {
+
+        opacity: 1;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1);
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1.25);
+    }
+}
+
+
+/* =====================================================
+   TARGETS
+===================================================== */
 
 .target {
 
@@ -348,6 +470,11 @@ body {
     transform:
         scale(.88);
 }
+
+
+/* =====================================================
+   STREAK
+===================================================== */
 
 #streakMessage {
 
@@ -449,6 +576,11 @@ body {
     }
 }
 
+
+/* =====================================================
+   WRONG FLASH
+===================================================== */
+
 #wrongFlash {
 
     position: absolute;
@@ -487,6 +619,11 @@ body {
         opacity: 0;
     }
 }
+
+
+/* =====================================================
+   GAME OVER
+===================================================== */
 
 #gameOverScreen {
 
@@ -559,20 +696,22 @@ body {
     letter-spacing: 2px;
 }
 
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
 @media (max-width: 380px) {
 
     #hud {
-
         height: 78px;
     }
 
     .hudItem {
-
         min-width: 60px;
     }
 
     .hudValue {
-
         font-size: 23px;
     }
 
@@ -585,11 +724,11 @@ body {
     }
 }
 
+
 @media (orientation: landscape)
        and (max-height: 500px) {
 
     #hud {
-
         height: 65px;
     }
 
@@ -615,7 +754,15 @@ body {
 
 <div id="app">
 
-<section id="startScreen" class="screen">
+
+<!-- =====================================================
+     START SCREEN
+===================================================== -->
+
+<section
+    id="startScreen"
+    class="screen"
+>
 
     <h1 class="logo">
 
@@ -652,7 +799,14 @@ body {
 </section>
 
 
-<section id="gameScreen" class="hidden">
+<!-- =====================================================
+     GAME SCREEN
+===================================================== -->
+
+<section
+    id="gameScreen"
+    class="hidden"
+>
 
     <div id="hud">
 
@@ -728,10 +882,16 @@ body {
 
         <div id="streakMessage"></div>
 
+        <div id="countdown"></div>
+
     </div>
 
 </section>
 
+
+<!-- =====================================================
+     GAME OVER
+===================================================== -->
 
 <section
     id="gameOverScreen"
@@ -872,6 +1032,11 @@ const wrongFlash =
         "wrongFlash"
     );
 
+const countdown =
+    document.getElementById(
+        "countdown"
+    );
+
 
 /* =====================================================
    GAME VARIABLES
@@ -885,7 +1050,11 @@ let timeLeft = 30;
 
 let gameRunning = false;
 
+let countdownRunning = false;
+
 let timer = null;
+
+let countdownTimer = null;
 
 let round = 0;
 
@@ -1032,7 +1201,9 @@ function playTone(
         );
 
         oscillator.stop(
-            startTime + duration + 0.02
+            startTime +
+            duration +
+            0.02
         );
 
     } catch (error) {
@@ -1108,6 +1279,43 @@ function playFinalSecondsSound() {
         520,
         0.045,
         0.025,
+        "sine",
+        0
+    );
+}
+
+
+function playCountdownSound(
+    number
+) {
+
+    if (
+        number === "GO!"
+    ) {
+
+        playTone(
+            880,
+            0.12,
+            0.06,
+            "sine",
+            0
+        );
+
+        playTone(
+            1100,
+            0.15,
+            0.055,
+            "sine",
+            0.09
+        );
+
+        return;
+    }
+
+    playTone(
+        440,
+        0.10,
+        0.045,
         "sine",
         0
     );
@@ -1198,6 +1406,10 @@ function startGame() {
 
     clearInterval(timer);
 
+    clearInterval(
+        countdownTimer
+    );
+
     score = 0;
 
     streak = 0;
@@ -1206,7 +1418,10 @@ function startGame() {
 
     round = 0;
 
-    gameRunning = true;
+    gameRunning = false;
+
+    countdownRunning = true;
+
 
     scoreValue.textContent =
         "0";
@@ -1225,6 +1440,7 @@ function startGame() {
     streakMessage.textContent =
         "";
 
+
     playArea
         .querySelectorAll(
             ".target"
@@ -1236,7 +1452,137 @@ function startGame() {
             }
         );
 
+
     showGameScreen();
+
+
+    startCountdown();
+}
+
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+function startCountdown() {
+
+    let count = 3;
+
+
+    countdown.textContent =
+        count;
+
+    countdown.classList.remove(
+        "show",
+        "go"
+    );
+
+    void countdown.offsetWidth;
+
+    countdown.classList.add(
+        "show"
+    );
+
+    playCountdownSound(
+        String(count)
+    );
+
+
+    countdownTimer =
+        setInterval(
+            function () {
+
+                count--;
+
+
+                if (count > 0) {
+
+                    countdown.textContent =
+                        count;
+
+                    countdown.classList.remove(
+                        "show"
+                    );
+
+                    void countdown.offsetWidth;
+
+                    countdown.classList.add(
+                        "show"
+                    );
+
+                    playCountdownSound(
+                        String(count)
+                    );
+
+                    return;
+                }
+
+
+                if (count === 0) {
+
+                    countdown.textContent =
+                        "GO!";
+
+                    countdown.classList.remove(
+                        "show"
+                    );
+
+                    countdown.classList.add(
+                        "go"
+                    );
+
+                    void countdown.offsetWidth;
+
+                    countdown.classList.add(
+                        "show"
+                    );
+
+                    playCountdownSound(
+                        "GO!"
+                    );
+
+
+                    clearInterval(
+                        countdownTimer
+                    );
+
+
+                    setTimeout(
+                        function () {
+
+                            countdown.classList.remove(
+                                "show"
+                            );
+
+                            countdownRunning =
+                                false;
+
+                            beginActualGame();
+
+                        },
+                        500
+                    );
+                }
+
+            },
+            800
+        );
+}
+
+
+/* =====================================================
+   ACTUAL GAME START
+===================================================== */
+
+function beginActualGame() {
+
+    gameRunning = true;
+
+    timeLeft = 30;
+
+    timeValue.textContent =
+        "30";
+
 
     requestAnimationFrame(
         function () {
@@ -1244,6 +1590,7 @@ function startGame() {
             createRound();
         }
     );
+
 
     timer =
         setInterval(
@@ -1253,13 +1600,12 @@ function startGame() {
                     return;
                 }
 
+
                 timeLeft--;
 
                 timeValue.textContent =
                     timeLeft;
 
-
-                /* FINAL 5 SECONDS */
 
                 if (
                     timeLeft <= 5 &&
@@ -1291,9 +1637,16 @@ function endGame() {
 
     gameRunning = false;
 
+    countdownRunning = false;
+
     clearInterval(timer);
 
+    clearInterval(
+        countdownTimer
+    );
+
     playWrongSound();
+
 
     const oldBest =
         getHighScore();

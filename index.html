@@ -298,6 +298,36 @@ body {
     color: #111;
 }
 
+/* =====================================================
+   DECEPTIVE WRONG TARGET
+===================================================== */
+
+.target.wrong.deceptive {
+    animation:
+        targetAppear 0.18s ease-out,
+        targetFloat 2.8s ease-in-out infinite,
+        deceptiveGlow 0.8s ease-out 0.05s 1;
+}
+
+@keyframes deceptiveGlow {
+
+    0% {
+        box-shadow:
+            0 0 0 rgba(252, 194, 36, 0);
+    }
+
+    30% {
+        box-shadow:
+            0 0 18px rgba(252, 194, 36, 0.16);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 rgba(252, 194, 36, 0);
+    }
+
+}
+
 .target:active {
     transform: scale(0.94);
 }
@@ -723,6 +753,90 @@ body {
 }
 
 /* =====================================================
+   MILESTONE LABEL
+===================================================== */
+
+.milestone-label {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.65);
+
+    text-align: center;
+
+    color: #fcc224;
+
+    font-weight: 900;
+
+    pointer-events: none;
+
+    z-index: 14;
+
+    opacity: 0;
+
+    text-shadow:
+        0 0 25px rgba(252, 194, 36, 0.55),
+        0 0 50px rgba(252, 194, 36, 0.25);
+}
+
+.milestone-label.show {
+    animation:
+        milestoneLabelPop 0.75s ease-out;
+}
+
+.milestone-label-title {
+    font-size: clamp(22px, 6vw, 38px);
+    letter-spacing: 4px;
+}
+
+.milestone-label-score {
+    margin-top: 4px;
+    font-size: clamp(55px, 15vw, 100px);
+    line-height: 0.9;
+    letter-spacing: -2px;
+}
+
+@keyframes milestoneLabelPop {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.55);
+    }
+
+    25% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.15);
+    }
+
+    45% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.08);
+    }
+
+}
+
+/* =====================================================
    RESPONSIVE
 ===================================================== */
 
@@ -950,6 +1064,28 @@ body {
 
 
     <div
+        id="milestoneLabel"
+        class="milestone-label"
+    >
+
+        <div
+            id="milestoneLabelTitle"
+            class="milestone-label-title"
+        >
+            MILESTONE!
+        </div>
+
+        <div
+            id="milestoneLabelScore"
+            class="milestone-label-score"
+        >
+            10
+        </div>
+
+    </div>
+
+
+    <div
         id="redFlash"
         class="red-flash"
     ></div>
@@ -1051,6 +1187,16 @@ const combo =
 const milestoneFlash =
     document.getElementById(
         "milestoneFlash"
+    );
+
+const milestoneLabel =
+    document.getElementById(
+        "milestoneLabel"
+    );
+
+const milestoneLabelScore =
+    document.getElementById(
+        "milestoneLabelScore"
     );
 
 
@@ -1654,6 +1800,28 @@ function getMilestoneLevel(
 
 
 /* =====================================================
+   MILESTONE LABEL
+===================================================== */
+
+function showMilestoneLabel() {
+
+    milestoneLabelScore.textContent =
+        score;
+
+    milestoneLabel.classList.remove(
+        "show"
+    );
+
+    void milestoneLabel.offsetWidth;
+
+    milestoneLabel.classList.add(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
    SCORE MILESTONE
 ===================================================== */
 
@@ -1710,6 +1878,9 @@ function checkScoreMilestone() {
     milestoneFlash.classList.add(
         "show"
     );
+
+
+    showMilestoneLabel();
 
 
     milestoneSound(level);
@@ -2235,6 +2406,17 @@ function createRound() {
                 "wrong"
             );
 
+
+            if (
+                Math.random() < 0.35
+            ) {
+
+                target.classList.add(
+                    "deceptive"
+                );
+
+            }
+
         }
 
 
@@ -2565,6 +2747,10 @@ async function startGame() {
         "show",
         "level-2",
         "level-3"
+    );
+
+    milestoneLabel.classList.remove(
+        "show"
     );
 
 

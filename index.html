@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
->
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
 <title>ONE WRONG TAP</title>
 
@@ -20,22 +20,19 @@
 html,
 body {
     margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-
-    background: #070707;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    touch-action: none;
-
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(
+            circle at center,
+            #222 0%,
+            #111 45%,
+            #050505 100%
+        );
+    color: white;
 }
 
 body {
@@ -44,214 +41,135 @@ body {
     align-items: center;
 }
 
-#app {
+.game {
     width: 100%;
     height: 100%;
-    max-width: 650px;
-
+    max-width: 900px;
     position: relative;
     overflow: hidden;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #202020 0%,
-            #0c0c0c 55%,
-            #050505 100%
-        );
-
-    color: white;
 }
+
+/* =====================================================
+   SCREENS
+===================================================== */
 
 .screen {
     position: absolute;
     inset: 0;
-
-    display: flex;
+    display: none;
     flex-direction: column;
-
-    justify-content: center;
     align-items: center;
-
-    text-align: center;
-
-    padding: 25px;
+    justify-content: center;
 }
 
-.hidden {
-    display: none !important;
+.screen.active {
+    display: flex;
 }
-
 
 /* =====================================================
    START SCREEN
 ===================================================== */
 
 .logo {
-    font-size:
-        clamp(
-            42px,
-            11vw,
-            78px
-        );
-
-    line-height: .9;
-
-    font-weight: 900;
-
-    letter-spacing: -3px;
-
-    margin: 0;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.logo span {
+.logo .one {
+    font-size: clamp(48px, 13vw, 90px);
+    font-weight: 900;
+    letter-spacing: 5px;
+    line-height: 0.9;
+}
+
+.logo .wrong {
+    font-size: clamp(32px, 9vw, 65px);
+    font-weight: 900;
+    letter-spacing: 3px;
     color: #fcc224;
+    line-height: 1;
+}
+
+.logo .tap {
+    font-size: clamp(32px, 9vw, 65px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    line-height: 1;
 }
 
 .tagline {
-    margin-top: 22px;
-
-    color: #aaa;
-
+    margin-top: 15px;
     font-size: 16px;
-
-    letter-spacing: 1px;
-}
-
-.startButton,
-.restartButton {
-
-    margin-top: 42px;
-
-    min-width: 210px;
-    min-height: 62px;
-
-    padding:
-        18px 35px;
-
-    border: 0;
-
-    border-radius: 14px;
-
-    background: #fcc224;
-
-    color: #080808;
-
-    font-size: 18px;
-
-    font-weight: 900;
-
-    letter-spacing: 1px;
-
-    box-shadow:
-        0 8px 30px
-        rgba(
-            252,
-            194,
-            36,
-            .2
-        );
-
-    touch-action: manipulation;
-}
-
-.startButton:active,
-.restartButton:active {
-
-    transform:
-        scale(.95);
-}
-
-.startBest {
-
-    margin-top: 28px;
-
-    color: #777;
-
-    font-size: 12px;
-
-    letter-spacing: 2px;
-}
-
-.startBest strong {
-
-    color: #fcc224;
-
-    font-size: 18px;
-
-    margin-left: 6px;
-}
-
-
-/* =====================================================
-   GAME SCREEN
-===================================================== */
-
-#gameScreen {
-
-    position: absolute;
-    inset: 0;
-
-    display: flex;
-    flex-direction: column;
-}
-
-#hud {
-
-    height: 92px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    justify-content: space-around;
-
-    align-items: center;
-
-    background:
-        rgba(
-            0,
-            0,
-            0,
-            .85
-        );
-
-    border-bottom:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .08
-        );
-
-    z-index: 100;
-}
-
-.hudItem {
-
-    min-width: 70px;
-
+    color: #aaa;
     text-align: center;
 }
 
-.hudLabel {
-
-    display: block;
-
-    color: #777;
-
-    font-size: 11px;
-
-    letter-spacing: 2px;
-
-    margin-bottom: 5px;
+.best-start {
+    margin-top: 25px;
+    font-size: 15px;
+    color: #888;
 }
 
-.hudValue {
+.best-start span {
+    color: #fcc224;
+    font-weight: bold;
+}
 
-    font-size: 29px;
+.start-button,
+.play-again-button {
+    margin-top: 30px;
+    border: none;
+    background: #fcc224;
+    color: #000;
+    font-size: 18px;
+    font-weight: 900;
+    padding: 16px 42px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(252,194,36,0.25);
+    touch-action: manipulation;
+}
 
+.start-button:active,
+.play-again-button:active {
+    transform: scale(0.96);
+}
+
+/* =====================================================
+   HUD
+===================================================== */
+
+.hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    background: rgba(0,0,0,0.35);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    z-index: 10;
+}
+
+.hud-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hud-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #777;
+    margin-bottom: 4px;
+}
+
+.hud-value {
+    font-size: 22px;
     font-weight: 900;
 }
 
@@ -259,147 +177,33 @@ body {
     color: #fcc224;
 }
 
-#bestValue {
-    color: #999;
-}
-
 #streakValue {
     color: #fcc224;
 }
 
-#playArea {
+/* =====================================================
+   PLAY AREA
+===================================================== */
 
-    position: relative;
-
-    flex: 1;
+.play-area {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
     overflow: hidden;
 
     touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
-
 
 /* =====================================================
-   COUNTDOWN
-===================================================== */
-
-#countdown {
-
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(
-            -50%,
-            -50%
-        );
-
-    z-index: 500;
-
-    pointer-events: none;
-
-    color: #fcc224;
-
-    font-size:
-        clamp(
-            90px,
-            25vw,
-            150px
-        );
-
-    font-weight: 900;
-
-    line-height: 1;
-
-    text-shadow:
-        0 0 40px
-        rgba(
-            252,
-            194,
-            36,
-            .5
-        );
-
-    opacity: 0;
-}
-
-#countdown.show {
-
-    animation:
-        countdownAnimation
-        .8s ease-out;
-}
-
-#countdown.go {
-
-    font-size:
-        clamp(
-            70px,
-            20vw,
-            120px
-        );
-}
-
-@keyframes countdownAnimation {
-
-    0% {
-
-        opacity: 0;
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(.55);
-    }
-
-    25% {
-
-        opacity: 1;
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(1.12);
-    }
-
-    55% {
-
-        opacity: 1;
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(1);
-    }
-
-    100% {
-
-        opacity: 0;
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(1.25);
-    }
-}
-
-
-/* =====================================================
-   TARGETS
+   TARGET
 ===================================================== */
 
 .target {
-
     position: absolute;
 
     width: 100px;
@@ -408,343 +212,267 @@ body {
     border-radius: 50%;
 
     display: flex;
-
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
-    font-size: 18px;
-
+    font-size: 12px;
     font-weight: 900;
+    letter-spacing: 1px;
 
-    cursor: pointer;
+    background: white;
+    color: #000;
+
+    box-shadow:
+        0 0 0 2px rgba(255,255,255,0.15),
+        0 8px 25px rgba(0,0,0,0.35);
 
     touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
 
-    transition:
-        transform .08s ease,
-        width .15s ease,
-        height .15s ease;
+    animation: targetAppear 0.18s ease-out;
 }
 
-.correct {
-
+.target.correct {
     background: #fcc224;
-
-    color: #080808;
-
     box-shadow:
-        0 0 0 6px
-        rgba(
-            252,
-            194,
-            36,
-            .12
-        ),
-        0 0 35px
-        rgba(
-            252,
-            194,
-            36,
-            .35
-        );
-}
-
-.wrong {
-
-    background: #eeeeee;
-
-    color: #151515;
-
-    box-shadow:
-        0 0 0 5px
-        rgba(
-            255,
-            255,
-            255,
-            .08
-        );
+        0 0 0 3px rgba(252,194,36,0.2),
+        0 0 30px rgba(252,194,36,0.28),
+        0 8px 25px rgba(0,0,0,0.35);
 }
 
 .target:active {
-
-    transform:
-        scale(.88);
+    transform: scale(0.94);
 }
 
+@keyframes targetAppear {
+
+    from {
+        opacity: 0;
+        transform: scale(0.75);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
 
 /* =====================================================
-   STREAK
+   STREAK MESSAGE
 ===================================================== */
 
-#streakMessage {
-
+.streak-message {
     position: absolute;
-
+    top: 50%;
     left: 50%;
-    top: 28%;
 
-    transform:
-        translate(
-            -50%,
-            -50%
-        );
+    transform: translate(-50%, -50%);
 
-    z-index: 150;
-
-    pointer-events: none;
-
-    opacity: 0;
-
+    font-size: clamp(30px, 8vw, 60px);
+    font-weight: 900;
     color: #fcc224;
 
-    font-size:
-        clamp(
-            30px,
-            8vw,
-            48px
-        );
+    pointer-events: none;
+    z-index: 20;
 
-    font-weight: 900;
-
-    letter-spacing: 3px;
-
-    text-shadow:
-        0 0 25px
-        rgba(
-            252,
-            194,
-            36,
-            .55
-        );
+    opacity: 0;
 }
 
-#streakMessage.show {
-
-    animation:
-        streakAnimation
-        .65s ease-out;
+.streak-message.show {
+    animation: streakPop 0.8s ease-out;
 }
 
-@keyframes streakAnimation {
+@keyframes streakPop {
 
     0% {
-
         opacity: 0;
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(.65);
+        transform: translate(-50%, -50%) scale(0.6);
     }
 
     20% {
-
         opacity: 1;
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(1.15);
+        transform: translate(-50%, -50%) scale(1.15);
     }
 
-    45% {
-
+    70% {
         opacity: 1;
-
-        transform:
-            translate(
-                -50%,
-                -50%
-            )
-            scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
 
     100% {
-
         opacity: 0;
-
-        transform:
-            translate(
-                -50%,
-                -65%
-            )
-            scale(1.05);
+        transform: translate(-50%, -50%) scale(1.05);
     }
-}
 
+}
 
 /* =====================================================
-   WRONG FLASH
+   COUNTDOWN
 ===================================================== */
 
-#wrongFlash {
+.countdown-number {
+    font-size: clamp(80px, 25vw, 180px);
+    font-weight: 900;
+    color: #fcc224;
 
-    position: absolute;
+    text-shadow:
+        0 0 35px rgba(252,194,36,0.25);
 
-    inset: 0;
-
-    background:
-        rgba(
-            255,
-            0,
-            0,
-            .35
-        );
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    z-index: 200;
+    animation: countdownPop 0.8s ease-out;
 }
 
-#wrongFlash.show {
-
-    animation:
-        wrongFlashAnimation
-        .35s ease;
-}
-
-@keyframes wrongFlashAnimation {
+@keyframes countdownPop {
 
     0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    35% {
         opacity: 1;
+        transform: scale(1.1);
     }
 
     100% {
         opacity: 0;
+        transform: scale(1.25);
     }
-}
 
+}
 
 /* =====================================================
    GAME OVER
 ===================================================== */
 
-#gameOverScreen {
-
-    background:
-        radial-gradient(
-            circle at center,
-            #251b1b 0%,
-            #0c0808 55%,
-            #050505 100%
-        );
-}
-
-.gameOverTitle {
-
-    font-size:
-        clamp(
-            44px,
-            12vw,
-            70px
-        );
-
+.game-over-title {
+    font-size: clamp(42px, 12vw, 75px);
     font-weight: 900;
-
-    margin: 0;
-}
-
-.gameOverSub {
-
-    margin-top: 12px;
-
-    color: #999;
-}
-
-.finalScore {
-
-    margin-top: 12px;
-
-    font-size: 86px;
-
-    line-height: 1;
-
-    font-weight: 900;
-
-    color: #fcc224;
-}
-
-.newBest {
-
-    margin-top: 10px;
-
-    min-height: 22px;
-
-    color: #fcc224;
-
-    font-size: 14px;
-
-    font-weight: 900;
-
     letter-spacing: 2px;
 }
 
-.bestResult {
-
-    margin-top: 4px;
-
+.final-label {
+    margin-top: 25px;
+    font-size: 13px;
+    letter-spacing: 2px;
     color: #777;
-
-    font-size: 12px;
-
-    letter-spacing: 2px;
 }
 
+.final-score {
+    margin-top: 5px;
+    font-size: clamp(65px, 18vw, 120px);
+    font-weight: 900;
+    color: #fcc224;
+    line-height: 1;
+}
+
+.new-best {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 900;
+    color: #fcc224;
+    opacity: 0;
+}
+
+.new-best.show {
+    opacity: 1;
+}
+
+.best-final {
+    margin-top: 18px;
+    color: #888;
+    font-size: 14px;
+}
+
+.best-final span {
+    color: white;
+    font-weight: bold;
+}
 
 /* =====================================================
-   RESPONSIVE
+   WRONG TAP FLASH
+===================================================== */
+
+.wrong-flash {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(255,0,0,0.35);
+
+    pointer-events: none;
+
+    opacity: 0;
+    z-index: 50;
+}
+
+.wrong-flash.show {
+    animation: wrongFlash 0.35s ease-out;
+}
+
+@keyframes wrongFlash {
+
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+/* =====================================================
+   SMALL PHONES
 ===================================================== */
 
 @media (max-width: 380px) {
 
-    #hud {
-        height: 78px;
-    }
-
-    .hudItem {
-        min-width: 60px;
-    }
-
-    .hudValue {
-        font-size: 23px;
-    }
-
-    .target {
-
-        width: 82px;
-        height: 82px;
-
-        font-size: 15px;
-    }
-}
-
-
-@media (orientation: landscape)
-       and (max-height: 500px) {
-
-    #hud {
+    .hud {
         height: 65px;
     }
 
+    .play-area {
+        top: 65px;
+    }
+
+    .hud-value {
+        font-size: 19px;
+    }
+
+}
+
+/* =====================================================
+   LANDSCAPE
+===================================================== */
+
+@media (orientation: landscape) and (max-height: 500px) {
+
+    .hud {
+        height: 60px;
+    }
+
+    .play-area {
+        top: 60px;
+    }
+
     .target {
-
-        width: 75px;
-        height: 75px;
-
-        font-size: 14px;
+        width: 80px;
+        height: 80px;
     }
 
-    .startButton,
-    .restartButton {
+}
 
-        margin-top: 22px;
-    }
+/* =====================================================
+   DISABLE CONTEXT MENU
+===================================================== */
+
+body {
+    -webkit-touch-callout: none;
 }
 
 </style>
@@ -752,294 +480,279 @@ body {
 
 <body>
 
-<div id="app">
+<div class="game">
+
+    <!-- =================================================
+         START SCREEN
+    ================================================== -->
+
+    <div id="startScreen" class="screen active">
+
+        <div class="logo">
+
+            <div class="one">
+                ONE
+            </div>
+
+            <div class="wrong">
+                WRONG
+            </div>
+
+            <div class="tap">
+                TAP
+            </div>
+
+        </div>
+
+        <div class="tagline">
+            One wrong tap and it's over.
+        </div>
+
+        <div class="best-start">
+            BEST:
+            <span id="startBest">0</span>
+        </div>
+
+        <button
+            id="startButton"
+            class="start-button"
+            type="button"
+        >
+            START GAME
+        </button>
+
+    </div>
 
 
-<!-- =====================================================
-     START SCREEN
-===================================================== -->
+    <!-- =================================================
+         GAME SCREEN
+    ================================================== -->
 
-<section
-    id="startScreen"
-    class="screen"
->
+    <div id="gameScreen" class="screen">
 
-    <h1 class="logo">
+        <div class="hud">
 
-        ONE<br>
+            <div class="hud-item">
 
-        <span>
-            WRONG TAP
-        </span>
+                <div class="hud-label">
+                    TIME
+                </div>
 
-    </h1>
+                <div
+                    id="timeValue"
+                    class="hud-value"
+                >
+                    30
+                </div>
 
-    <p class="tagline">
-        One wrong tap and it's over.
-    </p>
+            </div>
 
-    <div class="startBest">
 
-        BEST
+            <div class="hud-item">
 
-        <strong id="startBestValue">
+                <div class="hud-label">
+                    SCORE
+                </div>
+
+                <div
+                    id="scoreValue"
+                    class="hud-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="hud-item">
+
+                <div class="hud-label">
+                    BEST
+                </div>
+
+                <div
+                    id="bestValue"
+                    class="hud-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="hud-item">
+
+                <div class="hud-label">
+                    STREAK
+                </div>
+
+                <div
+                    id="streakValue"
+                    class="hud-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="playArea"
+            class="play-area"
+        ></div>
+
+
+        <div
+            id="streakMessage"
+            class="streak-message"
+        ></div>
+
+    </div>
+
+
+    <!-- =================================================
+         COUNTDOWN SCREEN
+    ================================================== -->
+
+    <div
+        id="countdownScreen"
+        class="screen"
+    >
+
+        <div
+            id="countdownNumber"
+            class="countdown-number"
+        >
+            3
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         GAME OVER SCREEN
+    ================================================== -->
+
+    <div
+        id="gameOverScreen"
+        class="screen"
+    >
+
+        <div class="game-over-title">
+            GAME OVER
+        </div>
+
+        <div class="final-label">
+            FINAL SCORE
+        </div>
+
+        <div
+            id="finalScore"
+            class="final-score"
+        >
             0
-        </strong>
-
-    </div>
-
-    <button
-        id="startButton"
-        class="startButton"
-        type="button"
-    >
-        START GAME
-    </button>
-
-</section>
-
-
-<!-- =====================================================
-     GAME SCREEN
-===================================================== -->
-
-<section
-    id="gameScreen"
-    class="hidden"
->
-
-    <div id="hud">
-
-        <div class="hudItem">
-
-            <span class="hudLabel">
-                TIME
-            </span>
-
-            <strong
-                id="timeValue"
-                class="hudValue"
-            >
-                30
-            </strong>
-
         </div>
 
-
-        <div class="hudItem">
-
-            <span class="hudLabel">
-                SCORE
-            </span>
-
-            <strong
-                id="scoreValue"
-                class="hudValue"
-            >
-                0
-            </strong>
-
+        <div
+            id="newBest"
+            class="new-best"
+        >
+            NEW BEST!
         </div>
 
-
-        <div class="hudItem">
-
-            <span class="hudLabel">
-                BEST
-            </span>
-
-            <strong
-                id="bestValue"
-                class="hudValue"
-            >
-                0
-            </strong>
-
+        <div class="best-final">
+            BEST:
+            <span id="finalBest">0</span>
         </div>
 
-
-        <div class="hudItem">
-
-            <span class="hudLabel">
-                STREAK
-            </span>
-
-            <strong
-                id="streakValue"
-                class="hudValue"
-            >
-                0
-            </strong>
-
-        </div>
+        <button
+            id="playAgainButton"
+            class="play-again-button"
+            type="button"
+        >
+            PLAY AGAIN
+        </button>
 
     </div>
 
 
-    <div id="playArea">
-
-        <div id="wrongFlash"></div>
-
-        <div id="streakMessage"></div>
-
-        <div id="countdown"></div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     GAME OVER
-===================================================== -->
-
-<section
-    id="gameOverScreen"
-    class="screen hidden"
->
-
-    <h2 class="gameOverTitle">
-        GAME OVER
-    </h2>
-
-    <p class="gameOverSub">
-        FINAL SCORE
-    </p>
+    <!-- =================================================
+         WRONG FLASH
+    ================================================== -->
 
     <div
-        id="finalScore"
-        class="finalScore"
-    >
-        0
-    </div>
-
-    <div
-        id="newBest"
-        class="newBest"
+        id="wrongFlash"
+        class="wrong-flash"
     ></div>
-
-    <div class="bestResult">
-
-        BEST:
-
-        <span id="finalBest">
-            0
-        </span>
-
-    </div>
-
-    <button
-        id="restartButton"
-        class="restartButton"
-        type="button"
-    >
-        PLAY AGAIN
-    </button>
-
-</section>
 
 </div>
 
 
 <script>
 
-(function () {
-
-"use strict";
-
-
 /* =====================================================
    ELEMENTS
 ===================================================== */
 
 const startScreen =
-    document.getElementById(
-        "startScreen"
-    );
+    document.getElementById("startScreen");
 
 const gameScreen =
-    document.getElementById(
-        "gameScreen"
-    );
+    document.getElementById("gameScreen");
+
+const countdownScreen =
+    document.getElementById("countdownScreen");
 
 const gameOverScreen =
-    document.getElementById(
-        "gameOverScreen"
-    );
+    document.getElementById("gameOverScreen");
 
 const startButton =
-    document.getElementById(
-        "startButton"
-    );
+    document.getElementById("startButton");
 
-const restartButton =
-    document.getElementById(
-        "restartButton"
-    );
+const playAgainButton =
+    document.getElementById("playAgainButton");
 
 const playArea =
-    document.getElementById(
-        "playArea"
-    );
-
-const scoreValue =
-    document.getElementById(
-        "scoreValue"
-    );
+    document.getElementById("playArea");
 
 const timeValue =
-    document.getElementById(
-        "timeValue"
-    );
+    document.getElementById("timeValue");
+
+const scoreValue =
+    document.getElementById("scoreValue");
 
 const bestValue =
-    document.getElementById(
-        "bestValue"
-    );
+    document.getElementById("bestValue");
 
 const streakValue =
-    document.getElementById(
-        "streakValue"
-    );
+    document.getElementById("streakValue");
 
-const startBestValue =
-    document.getElementById(
-        "startBestValue"
-    );
+const startBest =
+    document.getElementById("startBest");
 
 const finalScore =
-    document.getElementById(
-        "finalScore"
-    );
+    document.getElementById("finalScore");
 
 const finalBest =
-    document.getElementById(
-        "finalBest"
-    );
+    document.getElementById("finalBest");
 
 const newBest =
-    document.getElementById(
-        "newBest"
-    );
+    document.getElementById("newBest");
+
+const countdownNumber =
+    document.getElementById("countdownNumber");
 
 const streakMessage =
-    document.getElementById(
-        "streakMessage"
-    );
+    document.getElementById("streakMessage");
 
 const wrongFlash =
-    document.getElementById(
-        "wrongFlash"
-    );
-
-const countdown =
-    document.getElementById(
-        "countdown"
-    );
+    document.getElementById("wrongFlash");
 
 
 /* =====================================================
-   GAME VARIABLES
+   GAME STATE
 ===================================================== */
 
 let score = 0;
@@ -1069,26 +782,10 @@ const HIGH_SCORE_KEY =
 
 function getHighScore() {
 
-    const saved =
-        localStorage.getItem(
-            HIGH_SCORE_KEY
-        );
+    return Number(
+        localStorage.getItem(HIGH_SCORE_KEY) || 0
+    );
 
-    const number =
-        parseInt(
-            saved,
-            10
-        );
-
-    if (
-        Number.isFinite(number) &&
-        number >= 0
-    ) {
-
-        return number;
-    }
-
-    return 0;
 }
 
 
@@ -1098,11 +795,25 @@ function saveHighScore(value) {
         HIGH_SCORE_KEY,
         String(value)
     );
+
+}
+
+
+function updateBestDisplays() {
+
+    const best = getHighScore();
+
+    startBest.textContent = best;
+
+    bestValue.textContent = best;
+
+    finalBest.textContent = best;
+
 }
 
 
 /* =====================================================
-   SOUND SYSTEM
+   AUDIO
 ===================================================== */
 
 let audioContext = null;
@@ -1110,36 +821,30 @@ let audioContext = null;
 
 function initializeAudio() {
 
-    try {
+    if (!audioContext) {
 
-        if (!audioContext) {
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
 
-            const AudioContext =
-                window.AudioContext ||
-                window.webkitAudioContext;
-
-            if (!AudioContext) {
-                return;
-            }
+        if (AudioContext) {
 
             audioContext =
                 new AudioContext();
+
         }
 
-        if (
-            audioContext.state ===
-            "suspended"
-        ) {
-
-            audioContext.resume();
-        }
-
-    } catch (error) {
-
-        console.log(
-            "Audio unavailable"
-        );
     }
+
+    if (
+        audioContext &&
+        audioContext.state === "suspended"
+    ) {
+
+        audioContext.resume();
+
+    }
+
 }
 
 
@@ -1147,252 +852,218 @@ function playTone(
     frequency,
     duration,
     volume,
-    type,
-    delay
+    type = "sine",
+    delay = 0
 ) {
 
     if (!audioContext) {
         return;
     }
 
-    try {
+    const oscillator =
+        audioContext.createOscillator();
 
-        const startTime =
-            audioContext.currentTime +
-            (delay || 0);
+    const gain =
+        audioContext.createGain();
 
-        const oscillator =
-            audioContext.createOscillator();
+    oscillator.type = type;
 
-        const gain =
-            audioContext.createGain();
+    oscillator.frequency.value =
+        frequency;
 
-        oscillator.type =
-            type || "sine";
+    gain.gain.setValueAtTime(
+        0,
+        audioContext.currentTime + delay
+    );
 
-        oscillator.frequency.setValueAtTime(
-            frequency,
-            startTime
-        );
+    gain.gain.linearRampToValueAtTime(
+        volume,
+        audioContext.currentTime + delay + 0.01
+    );
 
-        gain.gain.setValueAtTime(
-            0.0001,
-            startTime
-        );
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime +
+        delay +
+        duration
+    );
 
-        gain.gain.exponentialRampToValueAtTime(
-            volume,
-            startTime + 0.01
-        );
+    oscillator.connect(gain);
 
-        gain.gain.exponentialRampToValueAtTime(
-            0.0001,
-            startTime + duration
-        );
+    gain.connect(audioContext.destination);
 
-        oscillator.connect(gain);
+    oscillator.start(
+        audioContext.currentTime + delay
+    );
 
-        gain.connect(
-            audioContext.destination
-        );
+    oscillator.stop(
+        audioContext.currentTime +
+        delay +
+        duration +
+        0.02
+    );
 
-        oscillator.start(
-            startTime
-        );
-
-        oscillator.stop(
-            startTime +
-            duration +
-            0.02
-        );
-
-    } catch (error) {
-
-        /* Ignore audio errors */
-    }
 }
 
 
 function playCorrectSound() {
 
     playTone(
-        760,
-        0.07,
+        700,
+        0.08,
         0.045,
-        "sine",
-        0
+        "sine"
     );
+
 }
 
 
 function playStreakSound() {
 
     playTone(
-        660,
+        700,
         0.10,
-        0.055,
+        0.04,
         "sine",
         0
     );
 
     playTone(
-        880,
-        0.12,
-        0.06,
+        900,
+        0.10,
+        0.04,
         "sine",
         0.08
     );
 
     playTone(
-        1100,
+        1200,
         0.14,
         0.05,
         "sine",
-        0.17
+        0.16
     );
+
 }
 
 
 function playWrongSound() {
 
     playTone(
-        180,
+        120,
         0.20,
-        0.08,
-        "sawtooth",
-        0
+        0.06,
+        "sawtooth"
     );
 
-    playTone(
-        120,
-        0.28,
-        0.06,
-        "sawtooth",
-        0.08
-    );
 }
 
 
 function playFinalSecondsSound() {
 
     playTone(
-        520,
-        0.045,
+        500,
+        0.05,
         0.025,
-        "sine",
-        0
+        "sine"
     );
+
 }
 
 
-function playCountdownSound(
-    number
-) {
+function playCountdownSound(number) {
 
-    if (
-        number === "GO!"
-    ) {
+    if (number === 0) {
 
         playTone(
-            880,
-            0.12,
-            0.06,
-            "sine",
-            0
-        );
-
-        playTone(
-            1100,
+            1000,
             0.15,
-            0.055,
-            "sine",
-            0.09
+            0.05,
+            "sine"
         );
 
-        return;
+    } else {
+
+        playTone(
+            500,
+            0.10,
+            0.04,
+            "sine"
+        );
+
     }
 
-    playTone(
-        440,
-        0.10,
-        0.045,
-        "sine",
-        0
-    );
 }
 
 
 /* =====================================================
-   BEST DISPLAY
+   HAPTICS
 ===================================================== */
 
-function updateBestDisplays() {
+function vibrate(pattern) {
 
-    const best =
-        getHighScore();
+    if (
+        "vibrate" in navigator
+    ) {
 
-    startBestValue.textContent =
-        best;
+        navigator.vibrate(pattern);
 
-    bestValue.textContent =
-        best;
+    }
 
-    finalBest.textContent =
-        best;
+}
+
+
+function vibrateCorrect() {
+
+    vibrate(8);
+
+}
+
+
+function vibrateStreak() {
+
+    vibrate([18, 25, 18]);
+
+}
+
+
+function vibrateWrong() {
+
+    vibrate([70, 35, 100]);
+
+}
+
+
+function vibrateCountdown() {
+
+    vibrate(12);
+
+}
+
+
+function vibrateGo() {
+
+    vibrate([25, 20, 35]);
+
 }
 
 
 /* =====================================================
-   SCREEN FUNCTIONS
+   SCREEN MANAGEMENT
 ===================================================== */
 
-function showStartScreen() {
+function showScreen(screen) {
 
-    startScreen.classList.remove(
-        "hidden"
-    );
+    startScreen.classList.remove("active");
 
-    gameScreen.classList.add(
-        "hidden"
-    );
+    gameScreen.classList.remove("active");
 
-    gameOverScreen.classList.add(
-        "hidden"
-    );
+    countdownScreen.classList.remove("active");
 
-    updateBestDisplays();
-}
+    gameOverScreen.classList.remove("active");
 
+    screen.classList.add("active");
 
-function showGameScreen() {
-
-    startScreen.classList.add(
-        "hidden"
-    );
-
-    gameScreen.classList.remove(
-        "hidden"
-    );
-
-    gameOverScreen.classList.add(
-        "hidden"
-    );
-}
-
-
-function showGameOverScreen() {
-
-    startScreen.classList.add(
-        "hidden"
-    );
-
-    gameScreen.classList.add(
-        "hidden"
-    );
-
-    gameOverScreen.classList.remove(
-        "hidden"
-    );
 }
 
 
@@ -1404,11 +1075,17 @@ function startGame() {
 
     initializeAudio();
 
-    clearInterval(timer);
+    if (timer) {
 
-    clearInterval(
-        countdownTimer
-    );
+        clearInterval(timer);
+
+    }
+
+    if (countdownTimer) {
+
+        clearInterval(countdownTimer);
+
+    }
 
     score = 0;
 
@@ -1422,41 +1099,18 @@ function startGame() {
 
     countdownRunning = true;
 
+    scoreValue.textContent = "0";
 
-    scoreValue.textContent =
-        "0";
+    streakValue.textContent = "0";
 
-    streakValue.textContent =
-        "0";
+    timeValue.textContent = "30";
 
-    timeValue.textContent =
-        "30";
+    playArea.innerHTML = "";
 
-    updateBestDisplays();
-
-    newBest.textContent =
-        "";
-
-    streakMessage.textContent =
-        "";
-
-
-    playArea
-        .querySelectorAll(
-            ".target"
-        )
-        .forEach(
-            function (element) {
-
-                element.remove();
-            }
-        );
-
-
-    showGameScreen();
-
+    showScreen(countdownScreen);
 
     startCountdown();
+
 }
 
 
@@ -1466,238 +1120,161 @@ function startGame() {
 
 function startCountdown() {
 
-    let count = 3;
+    let number = 3;
 
+    countdownNumber.textContent = number;
 
-    countdown.textContent =
-        count;
+    countdownNumber.style.animation = "none";
 
-    countdown.classList.remove(
-        "show",
-        "go"
-    );
+    void countdownNumber.offsetWidth;
 
-    void countdown.offsetWidth;
+    countdownNumber.style.animation =
+        "countdownPop 0.8s ease-out";
 
-    countdown.classList.add(
-        "show"
-    );
+    playCountdownSound(number);
 
-    playCountdownSound(
-        String(count)
-    );
+    vibrateCountdown();
 
 
     countdownTimer =
-        setInterval(
-            function () {
+        setInterval(function () {
 
-                count--;
+            number--;
 
+            if (number > 0) {
 
-                if (count > 0) {
+                countdownNumber.textContent =
+                    number;
 
-                    countdown.textContent =
-                        count;
+                countdownNumber.style.animation =
+                    "none";
 
-                    countdown.classList.remove(
-                        "show"
-                    );
+                void countdownNumber.offsetWidth;
 
-                    void countdown.offsetWidth;
+                countdownNumber.style.animation =
+                    "countdownPop 0.8s ease-out";
 
-                    countdown.classList.add(
-                        "show"
-                    );
+                playCountdownSound(number);
 
-                    playCountdownSound(
-                        String(count)
-                    );
+                vibrateCountdown();
 
-                    return;
-                }
+            } else {
 
+                clearInterval(countdownTimer);
 
-                if (count === 0) {
+                countdownTimer = null;
 
-                    countdown.textContent =
-                        "GO!";
+                countdownNumber.textContent = "GO";
 
-                    countdown.classList.remove(
-                        "show"
-                    );
+                countdownNumber.style.animation =
+                    "none";
 
-                    countdown.classList.add(
-                        "go"
-                    );
+                void countdownNumber.offsetWidth;
 
-                    void countdown.offsetWidth;
+                countdownNumber.style.animation =
+                    "countdownPop 0.8s ease-out";
 
-                    countdown.classList.add(
-                        "show"
-                    );
+                playCountdownSound(0);
 
-                    playCountdownSound(
-                        "GO!"
-                    );
+                vibrateGo();
 
+                setTimeout(
+                    beginActualGame,
+                    450
+                );
 
-                    clearInterval(
-                        countdownTimer
-                    );
+            }
 
+        }, 850);
 
-                    setTimeout(
-                        function () {
-
-                            countdown.classList.remove(
-                                "show"
-                            );
-
-                            countdownRunning =
-                                false;
-
-                            beginActualGame();
-
-                        },
-                        500
-                    );
-                }
-
-            },
-            800
-        );
 }
 
 
 /* =====================================================
-   ACTUAL GAME START
+   BEGIN ACTUAL GAME
 ===================================================== */
 
 function beginActualGame() {
 
+    countdownRunning = false;
+
     gameRunning = true;
 
-    timeLeft = 30;
+    showScreen(gameScreen);
 
-    timeValue.textContent =
-        "30";
-
-
-    requestAnimationFrame(
-        function () {
-
-            createRound();
-        }
-    );
-
+    createRound();
 
     timer =
-        setInterval(
-            function () {
+        setInterval(function () {
 
-                if (!gameRunning) {
-                    return;
-                }
+            if (!gameRunning) {
+                return;
+            }
 
+            timeLeft--;
 
-                timeLeft--;
+            timeValue.textContent =
+                timeLeft;
 
-                timeValue.textContent =
-                    timeLeft;
+            if (timeLeft <= 5 && timeLeft > 0) {
 
+                playFinalSecondsSound();
 
-                if (
-                    timeLeft <= 5 &&
-                    timeLeft > 0
-                ) {
+            }
 
-                    playFinalSecondsSound();
-                }
+            if (timeLeft <= 0) {
 
+                endGame();
 
-                if (
-                    timeLeft <= 0
-                ) {
+            }
 
-                    endGame();
-                }
+        }, 1000);
 
-            },
-            1000
-        );
 }
 
 
 /* =====================================================
-   GAME OVER
+   END GAME
 ===================================================== */
 
 function endGame() {
 
-    gameRunning = false;
+    if (!gameRunning) {
+        return;
+    }
 
-    countdownRunning = false;
+    gameRunning = false;
 
     clearInterval(timer);
 
-    clearInterval(
-        countdownTimer
-    );
+    timer = null;
+
+    playArea.innerHTML = "";
 
     playWrongSound();
 
+    vibrateWrong();
 
-    const oldBest =
-        getHighScore();
+    finalScore.textContent = score;
 
-    let isNewBest = false;
+    const oldBest = getHighScore();
 
+    if (score > oldBest) {
 
-    if (
-        score > oldBest
-    ) {
+        saveHighScore(score);
 
-        saveHighScore(
-            score
-        );
-
-        isNewBest = true;
-    }
-
-
-    finalScore.textContent =
-        score;
-
-
-    if (isNewBest) {
-
-        newBest.textContent =
-            "NEW BEST!";
+        newBest.classList.add("show");
 
     } else {
 
-        newBest.textContent =
-            "";
-    }
+        newBest.classList.remove("show");
 
+    }
 
     updateBestDisplays();
 
+    showScreen(gameOverScreen);
 
-    playArea
-        .querySelectorAll(
-            ".target"
-        )
-        .forEach(
-            function (element) {
-
-                element.remove();
-            }
-        );
-
-
-    showGameOverScreen();
 }
 
 
@@ -1710,24 +1287,29 @@ function getTargetCount() {
     if (score < 5) {
 
         return 2;
+
     }
 
     if (score < 10) {
 
         return 3;
+
     }
 
     if (score < 20) {
 
         return 4;
+
     }
 
     if (score < 35) {
 
         return 5;
+
     }
 
     return 6;
+
 }
 
 
@@ -1736,24 +1318,29 @@ function getTargetSize() {
     if (score < 5) {
 
         return 100;
+
     }
 
     if (score < 10) {
 
         return 95;
+
     }
 
     if (score < 20) {
 
         return 90;
+
     }
 
     if (score < 35) {
 
         return 85;
+
     }
 
     return 80;
+
 }
 
 
@@ -1763,8 +1350,7 @@ function getTargetSize() {
 
 function showStreakMessage() {
 
-    const streaks = [
-
+    const milestones = [
         5,
         10,
         15,
@@ -1773,38 +1359,265 @@ function showStreakMessage() {
         30,
         40,
         50
-
     ];
 
-
     if (
-        !streaks.includes(
-            streak
-        )
+        milestones.includes(streak)
     ) {
 
+        streakMessage.textContent =
+            streak + " STREAK!";
+
+        streakMessage.classList.remove("show");
+
+        void streakMessage.offsetWidth;
+
+        streakMessage.classList.add("show");
+
+        playStreakSound();
+
+        vibrateStreak();
+
+    }
+
+}
+
+
+/* =====================================================
+   COLLISION CHECK
+===================================================== */
+
+function circlesOverlap(
+    x1,
+    y1,
+    x2,
+    y2,
+    size,
+    gap
+) {
+
+    const center1X =
+        x1 + size / 2;
+
+    const center1Y =
+        y1 + size / 2;
+
+    const center2X =
+        x2 + size / 2;
+
+    const center2Y =
+        y2 + size / 2;
+
+    const dx =
+        center1X - center2X;
+
+    const dy =
+        center1Y - center2Y;
+
+    const distance =
+        Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+    return distance <
+        size + gap;
+
+}
+
+
+/* =====================================================
+   POSITION ALL TARGETS WITHOUT OVERLAP
+===================================================== */
+
+function positionTargetsWithoutOverlap(
+    targets
+) {
+
+    if (!targets.length) {
         return;
     }
 
+    const areaWidth =
+        playArea.clientWidth;
 
-    streakMessage.textContent =
-        streak + " STREAK!";
+    const areaHeight =
+        playArea.clientHeight;
+
+    const targetSize =
+        targets[0].offsetWidth;
+
+    const padding = 12;
+
+    const gap = 10;
+
+    const positions = [];
+
+    targets.forEach(function (target) {
+
+        let placed = false;
+
+        let attempts = 0;
+
+        while (
+            !placed &&
+            attempts < 250
+        ) {
+
+            attempts++;
+
+            const maxX =
+                Math.max(
+                    padding,
+                    areaWidth -
+                    targetSize -
+                    padding
+                );
+
+            const maxY =
+                Math.max(
+                    padding,
+                    areaHeight -
+                    targetSize -
+                    padding
+                );
+
+            const x =
+                padding +
+                Math.random() *
+                Math.max(
+                    1,
+                    maxX - padding
+                );
+
+            const y =
+                padding +
+                Math.random() *
+                Math.max(
+                    1,
+                    maxY - padding
+                );
+
+            let overlaps = false;
+
+            for (
+                let i = 0;
+                i < positions.length;
+                i++
+            ) {
+
+                if (
+                    circlesOverlap(
+                        x,
+                        y,
+                        positions[i].x,
+                        positions[i].y,
+                        targetSize,
+                        gap
+                    )
+                ) {
+
+                    overlaps = true;
+
+                    break;
+
+                }
+
+            }
+
+            if (!overlaps) {
+
+                positions.push({
+                    x: x,
+                    y: y
+                });
+
+                target.style.left =
+                    x + "px";
+
+                target.style.top =
+                    y + "px";
+
+                placed = true;
+
+            }
+
+        }
 
 
-    streakMessage.classList.remove(
-        "show"
-    );
+        /*
+         * Fallback:
+         * If random placement cannot find
+         * enough space, use a simple grid.
+         */
 
+        if (!placed) {
 
-    void streakMessage.offsetWidth;
+            const index =
+                positions.length;
 
+            const columns =
+                Math.max(
+                    1,
+                    Math.floor(
+                        areaWidth /
+                        (targetSize + gap)
+                    )
+                );
 
-    streakMessage.classList.add(
-        "show"
-    );
+            const column =
+                index % columns;
 
+            const row =
+                Math.floor(
+                    index / columns
+                );
 
-    playStreakSound();
+            const x =
+                padding +
+                column *
+                (targetSize + gap);
+
+            const y =
+                padding +
+                row *
+                (targetSize + gap);
+
+            target.style.left =
+                Math.min(
+                    x,
+                    Math.max(
+                        padding,
+                        areaWidth -
+                        targetSize -
+                        padding
+                    )
+                ) + "px";
+
+            target.style.top =
+                Math.min(
+                    y,
+                    Math.max(
+                        padding,
+                        areaHeight -
+                        targetSize -
+                        padding
+                    )
+                ) + "px";
+
+            positions.push({
+                x: parseFloat(
+                    target.style.left
+                ),
+                y: parseFloat(
+                    target.style.top
+                )
+            });
+
+        }
+
+    });
+
 }
 
 
@@ -1815,33 +1628,20 @@ function showStreakMessage() {
 function createRound() {
 
     if (!gameRunning) {
-
         return;
     }
 
-
     round++;
 
-
-    playArea
-        .querySelectorAll(
-            ".target"
-        )
-        .forEach(
-            function (element) {
-
-                element.remove();
-            }
-        );
-
+    playArea.innerHTML = "";
 
     const targetCount =
         getTargetCount();
 
-
     const targetSize =
         getTargetSize();
 
+    const targets = [];
 
     const correctIndex =
         Math.floor(
@@ -1850,6 +1650,12 @@ function createRound() {
         );
 
 
+    /*
+     * First create every target.
+     * We position them only after
+     * all targets exist.
+     */
+
     for (
         let i = 0;
         i < targetCount;
@@ -1857,22 +1663,19 @@ function createRound() {
     ) {
 
         const target =
-            document.createElement(
-                "div"
-            );
-
+            document.createElement("div");
 
         target.className =
             "target";
 
-
         target.style.width =
             targetSize + "px";
-
 
         target.style.height =
             targetSize + "px";
 
+        target.textContent =
+            "TAP";
 
         if (
             i === correctIndex
@@ -1882,106 +1685,34 @@ function createRound() {
                 "correct"
             );
 
-            target.textContent =
-                "TAP";
-
-            target.dataset.correct =
-                "true";
-
-        } else {
-
-            target.classList.add(
-                "wrong"
-            );
-
-            target.textContent =
-                "TAP";
-
-            target.dataset.correct =
-                "false";
         }
 
-
-        playArea.appendChild(
-            target
-        );
-
-
-        positionTarget(
-            target
-        );
-
+        target.dataset.correct =
+            i === correctIndex
+                ? "true"
+                : "false";
 
         target.addEventListener(
             "pointerdown",
-            handleTargetTap,
-            {
-                passive: false
-            }
+            handleTargetTap
         );
+
+        playArea.appendChild(target);
+
+        targets.push(target);
+
     }
-}
 
 
-/* =====================================================
-   TARGET POSITION
-===================================================== */
+    /*
+     * Position the entire group
+     * without overlapping.
+     */
 
-function positionTarget(
-    target
-) {
+    positionTargetsWithoutOverlap(
+        targets
+    );
 
-    const areaWidth =
-        playArea.clientWidth;
-
-
-    const areaHeight =
-        playArea.clientHeight;
-
-
-    const targetSize =
-        target.offsetWidth;
-
-
-    const padding = 15;
-
-
-    const maxX =
-        Math.max(
-            0,
-            areaWidth -
-            targetSize -
-            padding * 2
-        );
-
-
-    const maxY =
-        Math.max(
-            0,
-            areaHeight -
-            targetSize -
-            padding * 2
-        );
-
-
-    const x =
-        padding +
-        Math.random() *
-        maxX;
-
-
-    const y =
-        padding +
-        Math.random() *
-        maxY;
-
-
-    target.style.left =
-        x + "px";
-
-
-    target.style.top =
-        y + "px";
 }
 
 
@@ -1989,164 +1720,120 @@ function positionTarget(
    TARGET TAP
 ===================================================== */
 
-function handleTargetTap(
-    event
-) {
+function handleTargetTap(event) {
 
     event.preventDefault();
 
-    event.stopPropagation();
-
-
     if (!gameRunning) {
-
         return;
     }
 
-
-    const tappedTarget =
+    const target =
         event.currentTarget;
 
+    if (
+        target.dataset.correct === "true"
+    ) {
 
-    const isCorrect =
-        tappedTarget.dataset.correct
-        === "true";
+        score++;
 
+        streak++;
 
-    if (!isCorrect) {
+        scoreValue.textContent =
+            score;
+
+        streakValue.textContent =
+            streak;
+
+        playCorrectSound();
+
+        vibrateCorrect();
+
+        showStreakMessage();
+
+        createRound();
+
+    } else {
 
         streak = 0;
 
         streakValue.textContent =
             "0";
 
-
         wrongFlash.classList.remove(
             "show"
         );
 
-
         void wrongFlash.offsetWidth;
-
 
         wrongFlash.classList.add(
             "show"
         );
 
-
         endGame();
 
-        return;
     }
 
-
-    score++;
-
-    streak++;
-
-
-    scoreValue.textContent =
-        score;
-
-
-    streakValue.textContent =
-        streak;
-
-
-    playCorrectSound();
-
-
-    showStreakMessage();
-
-
-    createRound();
 }
 
 
 /* =====================================================
-   START BUTTON
+   BUTTON EVENTS
 ===================================================== */
 
 startButton.addEventListener(
-
     "pointerdown",
-
     function (event) {
 
         event.preventDefault();
 
-        event.stopPropagation();
+        startGame();
+
+    }
+);
+
+
+playAgainButton.addEventListener(
+    "pointerdown",
+    function (event) {
+
+        event.preventDefault();
 
         startGame();
 
-    },
-
-    {
-        passive: false
     }
 );
 
 
 /* =====================================================
-   RESTART BUTTON
-===================================================== */
-
-restartButton.addEventListener(
-
-    "pointerdown",
-
-    function (event) {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        startGame();
-
-    },
-
-    {
-        passive: false
-    }
-);
-
-
-/* =====================================================
-   TOUCH PROTECTION
+   PREVENT MOBILE GESTURES
 ===================================================== */
 
 document.addEventListener(
-
-    "touchmove",
-
-    function (event) {
-
-        event.preventDefault();
-
-    },
-
-    {
-        passive: false
-    }
-);
-
-
-document.addEventListener(
-
-    "gesturestart",
-
-    function (event) {
-
-        event.preventDefault();
-
-    }
-);
-
-
-document.addEventListener(
-
     "contextmenu",
+    function (event) {
 
+        event.preventDefault();
+
+    }
+);
+
+
+document.addEventListener(
+    "touchmove",
+    function (event) {
+
+        event.preventDefault();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+document.addEventListener(
+    "gesturestart",
     function (event) {
 
         event.preventDefault();
@@ -2156,33 +1843,28 @@ document.addEventListener(
 
 
 /* =====================================================
-   RESIZE
+   RESIZE / ROTATION
 ===================================================== */
 
 window.addEventListener(
-
     "resize",
-
     function () {
 
         if (!gameRunning) {
-
             return;
         }
 
-
-        playArea
-            .querySelectorAll(
-                ".target"
-            )
-            .forEach(
-                function (target) {
-
-                    positionTarget(
-                        target
-                    );
-                }
+        const targets =
+            Array.from(
+                playArea.querySelectorAll(
+                    ".target"
+                )
             );
+
+        positionTargetsWithoutOverlap(
+            targets
+        );
+
     }
 );
 
@@ -2192,10 +1874,6 @@ window.addEventListener(
 ===================================================== */
 
 updateBestDisplays();
-
-showStartScreen();
-
-})();
 
 </script>
 

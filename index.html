@@ -1373,6 +1373,47 @@ function getDifficulty() {
 
 
 /* =====================================================
+   SPEED
+===================================================== */
+
+function getRoundDelay() {
+
+    if (score < 5) {
+
+        return 120;
+
+    }
+
+    if (score < 10) {
+
+        return 110;
+
+    }
+
+    if (score < 20) {
+
+        return 100;
+
+    }
+
+    if (score < 35) {
+
+        return 90;
+
+    }
+
+    if (score < 50) {
+
+        return 80;
+
+    }
+
+    return 70;
+
+}
+
+
+/* =====================================================
    CIRCLE COLLISION
 ===================================================== */
 
@@ -1408,7 +1449,6 @@ function circlesOverlap(
 
 /* =====================================================
    POSITION TARGETS
-   VARIED SCREEN ZONES + NO OVERLAP
 ===================================================== */
 
 function positionTargetsWithoutOverlap(
@@ -1423,13 +1463,6 @@ function positionTargetsWithoutOverlap(
 
     const placed = [];
 
-
-    /*
-     * Divide the play area into 9 zones.
-     *
-     * Each round the zones are shuffled,
-     * giving targets much more variety.
-     */
 
     const zones = [
 
@@ -1447,10 +1480,6 @@ function positionTargetsWithoutOverlap(
 
     ];
 
-
-    /*
-     * Shuffle zones.
-     */
 
     for (
         let i = zones.length - 1;
@@ -1485,10 +1514,6 @@ function positionTargetsWithoutOverlap(
                 false;
 
 
-            /*
-             * Try each screen zone.
-             */
-
             for (
                 const zone of zones
             ) {
@@ -1517,11 +1542,6 @@ function positionTargetsWithoutOverlap(
                     zone.row *
                     zoneHeight;
 
-
-                /*
-                 * Keep the target completely
-                 * inside the play area.
-                 */
 
                 const minX =
                     Math.max(
@@ -1556,11 +1576,6 @@ function positionTargetsWithoutOverlap(
                         radius
                     );
 
-
-                /*
-                 * Try multiple positions
-                 * within this zone.
-                 */
 
                 for (
                     let attempt = 0;
@@ -1643,13 +1658,6 @@ function positionTargetsWithoutOverlap(
 
             }
 
-
-            /*
-             * FALLBACK:
-             * If the zone system cannot find
-             * enough space, use the entire
-             * play area.
-             */
 
             if (
                 !placedSuccessfully
@@ -1738,11 +1746,6 @@ function positionTargetsWithoutOverlap(
 
             }
 
-
-            /*
-             * FINAL SAFETY FALLBACK
-             * For extremely small screens.
-             */
 
             if (
                 !placedSuccessfully
@@ -1952,10 +1955,6 @@ function handleTargetTap(event) {
     }
 
 
-    /* =================================================
-       CORRECT
-    ================================================= */
-
     if (
         target.classList.contains(
             "correct"
@@ -2049,14 +2048,10 @@ function handleTargetTap(event) {
 
             }
 
-        }, 120);
+        }, getRoundDelay());
 
     }
 
-
-    /* =================================================
-       WRONG
-    ================================================= */
 
     else {
 

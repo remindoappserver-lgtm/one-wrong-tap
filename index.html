@@ -2458,16 +2458,26 @@
                     target.dataset.correct =
                         "true";
 
-                } else {
+               } else {
 
-                    target.classList.add(
-                        "wrong"
-                    );
+    target.classList.add(
+        "wrong"
+    );
 
-                    target.dataset.correct =
-                        "false";
+    target.dataset.correct =
+        "false";
 
-                }
+    if (
+        Math.random() < 0.35
+    ) {
+
+        target.classList.add(
+            "deceptive"
+        );
+
+    }
+
+}
 
 
                 target.addEventListener(
